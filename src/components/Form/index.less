@@ -1,0 +1,173 @@
+.wk-form {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: rgba(0,0,0,.85);
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  list-style: none;
+  font-feature-settings: "tnum";
+  &-item {
+    box-sizing: border-box;
+    padding: 0;
+    color: rgba(0,0,0,.85);
+    font-size: 14px;
+    font-variant: tabular-nums;
+    line-height: 1.5715;
+    list-style: none;
+    font-feature-settings: "tnum";
+    margin: 0 0 24px;
+    vertical-align: top;
+    &-label {
+      display: inline-block;
+      -webkit-box-flex: 0;
+      -ms-flex-positive: 0;
+      flex-grow: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-align: right;
+      vertical-align: middle;
+      &-center {
+        text-align: center;
+      }
+      &-left {
+        text-align: left;
+      }
+      >label {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        height: 32px;
+        color: rgba(0,0,0,.85);
+        font-size: 14px;
+      }
+      >label:after {
+        content: ":";
+        position: relative;
+        top: -.5px;
+        margin: 0 8px 0 2px;
+      }
+    }
+    &-control {
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+      flex-grow: 1;
+      &-input {
+        display: flex;
+        align-items: center;
+        min-height: 32px;
+        &-content {
+          -webkit-box-flex: 1;
+          -ms-flex: auto;
+          flex: auto;
+          max-width: 100%;
+        }
+      }
+    }
+    &-with-help {
+      margin-bottom: 0;
+    }
+  }
+  &-inline {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.wk-form-vertical .wk-form-item {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.wk-col-24.wk-form-item-label, .wk-col-xl-24.wk-form-item-label, .wk-form-vertical .wk-form-item-label {
+  padding: 0 0 8px;
+  line-height: 1.5715;
+  white-space: normal;
+  text-align: left;
+}
+
+.wk-form-inline .wk-form-item {
+  flex: none;
+  flex-wrap: nowrap;
+  margin-right: 16px;
+  margin-bottom: 0;
+}
+.wk-form-inline .wk-form-item>.wk-form-item-label {
+  -webkit-box-flex: 0;
+  -ms-flex: none;
+  flex: none;
+}
+.wk-form-inline .wk-form-item>.wk-form-item-control, .wk-form-inline .wk-form-item>.wk-form-item-label {
+  display: inline-block;
+  vertical-align: top;
+}
+.wk-form-inline .wk-form-item-control-input-content {
+  flex: none;
+}
+
+.wk-form-item-explain, .wk-form-item-extra {
+  clear: both;
+  min-height: 24px;
+  color: rgba(0,0,0,.45);
+  font-size: 14px;
+  line-height: 1.5715;
+  -webkit-transition: color .3s cubic-bezier(.215,.61,.355,1);
+  transition: color .3s cubic-bezier(.215,.61,.355,1);
+}
+
+.wk-form-item-explain.wk-form-item-explain-error {
+  color: #ff4d4f;
+}
+
+.wk-form-item-has-error .wk-input, .wk-form-item-has-error .wk-input-affix-wrapper, .wk-form-item-has-error .wk-input-affix-wrapper:hover, .wk-form-item-has-error .wk-input:hover {
+  background-color: #fff;
+  border-color: #ff4d4f;
+}
+
+.wk-form-item-has-error .wk-select-selector {
+  background-color: #fff !important;
+  border-color: #ff4d4f !important;
+}
+
+.wk-form-item-label>label.wk-form-item-required:not(.wk-form-item-required-mark-optional):before {
+  display: inline-block;
+  margin-right: 4px;
+  color: #ff4d4f;
+  font-size: 14px;
+  font-family: SimSun,sans-serif;
+  line-height: 1;
+  content: "*";
+}
+
+.wk-form-horizontal .wk-form-item-label {
+  -webkit-box-flex: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+}
+
+.wk-form-horizontal .wk-form-item-control {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 0;
+  flex: 1 1 0;
+}
+
+.wk-form-small .wk-form-item-label>label {
+  height: 24px;
+}
+.wk-form-large .wk-form-item-control-input {
+  min-height: 24px;
+}
+
+.wk-form-large .wk-form-item-label>label {
+  height: 40px;
+}
+.wk-form-large .wk-form-item-control-input {
+  min-height: 40px;
+}
