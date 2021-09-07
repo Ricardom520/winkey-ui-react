@@ -17,6 +17,7 @@ interface RadioBtnState {
 }
 
 export default class RadioBtn extends React.Component<RadioBtnProps, RadioBtnState> {
+  static winkeyName = 'radioBtn'
   static defaultProps = {
     name: ''
   }

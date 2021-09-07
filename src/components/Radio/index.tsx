@@ -48,6 +48,7 @@ interface RadioState {
 }
 
 class Radio extends Component<RadioProps, RadioState> {
+  static winkeyName = 'radio'
   static Group = RadioGroup
   static Button = RadioBtn
 

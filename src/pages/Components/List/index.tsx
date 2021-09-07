@@ -7,6 +7,7 @@ import IntroduceBox from '../IntroduceBox';
 import ListBaseMd from '@/assets/markdowns/List/base.md';
 import ListMetaMd from '@/assets/markdowns/List/meta.md';
 import ListItemLayoutMd from '@/assets/markdowns/List/itemLayout.md';
+import ListItemRequiredMd from '@/assets/markdowns/List/required.md';
 import ListReadMd from '@/assets/markdowns/List/read.md';
 import "./index.less";
 
@@ -116,11 +117,28 @@ const ListPage: React.FC = () => {
                   />
                 </List.Item>
               )}
-            />,
+            />
           </div>
         }
         markdown={
           <div className="show-html" dangerouslySetInnerHTML={{ __html: ListMetaMd.html }} />
+        }
+      />
+
+      <IntroduceBox
+        height={420}
+        title="requir列表"
+        description="requir列表"
+        demo={
+          <div>
+            <List
+              dataSource={data}
+              renderItem={item => <List.Item required>{item}</List.Item>}
+            />
+          </div>
+        }
+        markdown={
+          <div className="show-html" dangerouslySetInnerHTML={{ __html: ListItemRequiredMd.html }} />
         }
       />
 
@@ -159,7 +177,7 @@ const ListPage: React.FC = () => {
                   {item.content}
                 </List.Item>
               )}
-            />,
+            />
           </div>
         }
         markdown={

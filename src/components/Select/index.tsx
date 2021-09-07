@@ -71,7 +71,7 @@ const whiteList = {
 
 export default class Select extends React.Component<SelectProps, SelectState> {
   private wkSelect;
-
+  static winkeyName = 'select'
   static Option = Option;
 
   static defaultProps = {
@@ -320,7 +320,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
 
     this.setState({
       offsetLeft: wkSelect.offsetLeft,
-      offsetTop: wkSelect.offsetTop + wkSelect.clientHeight + 3,
+      offsetTop: wkSelect.getBoundingClientRect().top + wkSelect.clientHeight + 3,
       width: wkSelect.clientWidth,
       height: wkSelect.clientHeight,
       firstFlag: false

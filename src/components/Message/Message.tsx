@@ -35,7 +35,6 @@ export default class Message extends Component<any, MessageState> {
   async addNotice(notice) {
     const { notices } = this.state;
     notice.key = this.getNoticeKey();
-
     notices.push(notice); // 展示所有的提示
     // notices[0] = notice; // 仅展示最后一个提示
 

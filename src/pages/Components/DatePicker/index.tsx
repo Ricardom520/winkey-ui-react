@@ -11,6 +11,7 @@ import DatePickerSizeMd from '@/assets/markdowns/Datepicker/size.md';
 import DatePickerBorderMd from '@/assets/markdowns/Datepicker/border.md';
 import DatePickerDisabledDateMd from '@/assets/markdowns/Datepicker/disabledDate.md';
 import DatePickerMobileMd from '@/assets/markdowns/Datepicker/mobile.md';
+import DatePickerShowTimeMd from '@/assets/markdowns/Datepicker/showtime.md';
 import DatePickerReadMd from '@/assets/markdowns/Datepicker/read.md';
 
 const DatePickerPage: React.FC = () => {
@@ -131,7 +132,7 @@ const DatePickerPage: React.FC = () => {
             <List>
               <List.Item
                 extra={
-                  <DatePicker isMobile defaultValue={moment('2015-06-06', 'YYYY-MM-DD')}/>
+                  <DatePicker isMobile defaultValue={moment('2015-06-06 ', 'YYYY-MM-DD')}/>
                 }
               >
                 开始时间
@@ -141,6 +142,28 @@ const DatePickerPage: React.FC = () => {
         }
         markdown={
           <div className="show-html" dangerouslySetInnerHTML={{ __html: DatePickerMobileMd.html }} />
+        }
+      />
+
+      <IntroduceBox
+        height={410}
+        title="移动端时间模式"
+        description="精确到时分。"
+        demo={
+          <div style={{paddingBottom: '20px'}}>
+            <List>
+              <List.Item
+                extra={
+                  <DatePicker showTime isMobile defaultValue={moment('2015-06-06 13:15', 'YYYY-MM-DD HH:mm')}/>
+                }
+              >
+                开始时间
+              </List.Item>
+            </List>
+          </div>
+        }
+        markdown={
+          <div className="show-html" dangerouslySetInnerHTML={{ __html: DatePickerShowTimeMd.html }} />
         }
       />
 

@@ -137,7 +137,7 @@ export default class DatePickerPC extends React.Component<DatePickerProps, DateP
     
     this.setState({
       offsetLeft: wkDatePicker.offsetLeft,
-      offsetTop: wkDatePicker.offsetTop + wkDatePicker.clientHeight + 3,
+      offsetTop: wkDatePicker.getBoundingClientRect().top + wkDatePicker.clientHeight + 3,
       width: wkDatePicker.clientWidth,
       open: true
     })
@@ -219,6 +219,7 @@ export default class DatePickerPC extends React.Component<DatePickerProps, DateP
               </span>
             }
             <input 
+              readOnly
               onClick={this.handleClick}
               onFocus={this.handleFocus} 
               onBlur={this.handleBlur}

@@ -13,14 +13,14 @@ const Index: React.SFC = () => {
   const [cards] = useState<any[]>([
     {
       id: 1,
-      url: '/',
+      url: '/guide',
       imgUrl: Guide,
       title: '指南',
       description: '了解设计指南，帮助产品设计人员搭建逻辑清晰、结构合理且高效易用的产品。'
     },
     {
       id: 2,
-      url: '/',
+      url: '/components',
       imgUrl: Component,
       title: '组件',
       description: '使用组件 Demo 快速体验交互细节；使用前端框架封装的代码帮助工程师快速开发。'

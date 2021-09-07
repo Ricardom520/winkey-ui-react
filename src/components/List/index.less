@@ -37,16 +37,16 @@
     // white-space: nowrap;
   }
   &-extra {
-    flex-basis: 36%;
     color: #888;
     font-size: 14px;
     text-align: right;
   }
-  &-require::after {
+  &-required::after {
     position: absolute;
-    top: 40%;
+    top: 50%;
     left: 8px;
     color: red;
+    transform: translateY(-40%);
     content: "*";
   }
   &-arrow {
@@ -74,8 +74,8 @@
   border-bottom: none;
 }
 
-.wk-list-item-require.wk-list-item-col::after {
-  top: 17px;
+.wk-list-item-required.wk-list-item-col::after {
+  top: 23px;
 }
 
 .wk-list-header {

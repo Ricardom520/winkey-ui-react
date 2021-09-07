@@ -39,7 +39,8 @@ interface CheckboxState {
 
 class Checkbox extends Component<CheckboxProps, CheckboxState> {
   static Group = CheckboxGroup
-  
+  static winkeyName = 'checkbox'
+
   constructor(props) {
     super(props)
     

@@ -30,6 +30,7 @@ export interface TimePickerProps {
 }
 
 export default class TimePicker extends React.Component<TimePickerProps> {
+  static winkeyName = 'timepicker'
   static defaultProps = {
     placeholder: '请选择时间',
     format: "HH:mm:ss",

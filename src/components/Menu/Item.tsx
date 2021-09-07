@@ -6,34 +6,41 @@ interface ItemProps {
   selected?: boolean;
   className?: string;
   onClick?: (e: any) => void;
+  danger?: boolean;
+  prefixClassName?: string;
 }
 
 export default class Item extends React.Component<ItemProps> {
+  static defaultProps = {
+    prefixClassName: "wk"
+  }
+
   handleClick = (e) => {
     if (this.props.onClick) {
       this.props.onClick(e);
     }
   }
   render() {
-    const { icon, children, disabled, selected, className } = this.props;
+    const { icon, children, disabled, selected, className, danger, prefixClassName } = this.props;
 
     return (
       <li 
         className={
-          "wk-menu-item" + 
-          (disabled ? ' wk-menu-item-disabled' : '') +
-          (selected ? ' wk-menu-item-selected' : '') + ' ' +
+          `${prefixClassName}-menu-item` + 
+          (disabled ? ` ${prefixClassName}-menu-item-disabled` : '') +
+          (selected ? ` ${prefixClassName}-menu-item-selected` : '') + ' ' +
+          (danger ? ` ${prefixClassName}-menu-item-danger` : '') +
           (className || '')
         }
         onClick={this.handleClick}
       >
         {
           icon && 
-          <span className='wk-menu-item-icon anticon anticon-mail'>
+          <span className={`${prefixClassName}-menu-item-icon anticon anticon-mail`}>
             {icon}
           </span>
         }
-        <span className='wk-menu-title-content'>
+        <span className={`${prefixClassName}-menu-title-content`}>
           {children}
         </span>
       </li>

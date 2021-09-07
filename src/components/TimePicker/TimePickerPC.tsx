@@ -90,7 +90,7 @@ export default class TimePickerPC extends React.Component<TimePickerProps, TimeP
 
     this.setState({
       offsetLeft: wkTimePicker.offsetLeft,
-      offsetTop: wkTimePicker.offsetTop + wkTimePicker.clientHeight + 3,
+      offsetTop: wkTimePicker.getBoundingClientRect().top + wkTimePicker.clientHeight + 3,
       width: wkTimePicker.clientWidth,
       valueString: (value || defaultValue) ? moment((value || defaultValue)).format(format) : ""
     })
@@ -587,7 +587,7 @@ export default class TimePickerPC extends React.Component<TimePickerProps, TimeP
     
     this.setState({
       offsetLeft: wkTimePicker.offsetLeft,
-      offsetTop: wkTimePicker.offsetTop + wkTimePicker.clientHeight + 3,
+      offsetTop: wkTimePicker.getBoundingClientRect().top + wkTimePicker.clientHeight + 3,
       width: wkTimePicker.clientWidth,
       height: wkTimePicker.clientHeight,
       open: true

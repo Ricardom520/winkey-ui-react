@@ -20,6 +20,8 @@ const RadioGroupClass = {
 }
 
 export default class RadioGroup extends Component<RadioGroupProps, RadioGroupState> {
+  static winkeyName = 'radioGroup'
+
   static defaultProps = {
     buttonStyle: "",
     size: ""

@@ -3,6 +3,7 @@ import React from 'react';
 import SubMenu from './SubMenu';
 import ItemGroup from './ItemGroup';
 import Item from './Item';
+import Divider from './Divider';
 import './index.less';
 
 interface MenuProps {
@@ -12,6 +13,8 @@ interface MenuProps {
   mode?: "vertical" | "horizontal" | "inline";
   style?: React.CSSProperties;
   defaultOpenKeys?: string[];
+  className?: string;
+  prefixClassName?: string;
 }
 
 interface MenuState {
@@ -28,9 +31,11 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
   static Item = Item;
   static ItemGroup = ItemGroup;
   static SubMenu = SubMenu;
+  static Divider = Divider;
 
   static defaultProps = {
     mode: "horizontal",
+    prefixClassName: "wk"
   }
 
   constructor(props) {
@@ -43,7 +48,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
 
   componentDidMount() {
     const { selectedKeys, defaultSelectedKeys } = this.props;
-
+    console.log(this.props);
     if (selectedKeys || defaultSelectedKeys) {
       if (typeof selectedKeys === 'object' && selectedKeys.length) {
         this.setState({
@@ -57,6 +62,10 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     }
   }
 
+  UNSAFE_componentWillReceiveProps(nextprops) {
+    console.log(nextprops);
+  }
+
   handleClick = (item, key, keyPath, event) => {
     if (this.props.onClick) {
       this.props.onClick(item, key, keyPath, event);
@@ -68,17 +77,18 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
   }
 
   render() {
-    const { children, mode, style } = this.props;
+    const { children, mode, style, className, prefixClassName } = this.props;
     const { selectedKeys } = this.state;
-
+    console.log(prefixClassName)
     return (
       <ul 
         className={
-          "wk-menu" +
+          `${prefixClassName}-menu` +
           " wk-menu-light" +
-          " wk-menu-root" +
+          ` ${prefixClassName}-menu-root` +
           ' wk-menu-overflow' + 
-          modeClassName[mode]
+          modeClassName[mode] + ' ' +
+          (className || '')
         }
         style={style}
       >
@@ -88,6 +98,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
               selected: selectedKeys.includes(child.key),
               onClick: (e) => this.handleClick(child, child.key, n, e),
               mode,
+              prefixClassName,
             })
           })
         }

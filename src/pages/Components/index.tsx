@@ -30,7 +30,14 @@ import BreadcrumbPage from './Breadcrumb';
 import PageHeaderPage from './PageHeader';
 import MenuPage from './Menu';
 import TabsPage from './Tabs';
+import ToastPage from './Toast';
 import StepsPage from './Steps';
+import SpinPage from './Spin';
+import EditorPage from './Editor';
+import DropdownPage from './Dropdown';
+import UploadPage from './Upload';
+import ModalPage from './Modal';
+import SkeletonPage from './Skeleton';
 import Logo from '@/assets/images/logo.png';
 import Search from '@/assets/icons/search.svg';
 import './index.less';
@@ -120,7 +127,14 @@ const Rooms: React.SFC<RoomsProps> = (props) => {
               <Route exact path="/components/pageheader" component={PageHeaderPage} />
               <Route exact path="/components/menu" component={MenuPage} />
               <Route exact path="/components/tabs" component={TabsPage} />
+              <Route exact path="/components/toast" component={ToastPage} />
               <Route exact path="/components/steps" component={StepsPage} />
+              <Route exact path="/components/spin" component={SpinPage} />
+              <Route exact path="/components/editor" component={EditorPage} />
+              <Route exact path="/components/dropdown" component={DropdownPage} />
+              <Route exact path="/components/upload" component={UploadPage} />
+              <Route exact path="/components/modal" component={ModalPage} />
+              <Route exact path="/components/skeleton" component={SkeletonPage} />
               <Redirect to="/components/button" />
             </Switch>
           </div>

@@ -4,7 +4,7 @@ export const icons = [
     index: 0
   },
   {
-    icon: 'wk-icon-upload',
+    icon: 'wk-icon-uploadcloud',
     index: 1
   },
   {
@@ -322,5 +322,113 @@ export const icons = [
   {
     icon: "wk-icon-back",
     index: 92
+  },
+  {
+    icon: 'wk-icon-upload',
+    index: 93
+  },
+  {
+    icon: 'wk-icon-fontSize',
+    index: 94
+  },
+  {
+    icon: 'wk-icon-italic',
+    index: 95
+  },
+  {
+    icon: 'wk-icon-image',
+    index: 96
+  },
+  {
+    icon: 'wk-icon-unorderedList',
+    index: 97
+  },
+  {
+    icon: 'wk-icon-orderedList',
+    index: 98
+  },
+  {
+    icon: 'wk-icon-reduction',
+    index: 99
+  },
+  {
+    icon: 'wk-icon-withdraw',
+    index: 100
+  },
+  {
+    icon: 'wk-icon-table',
+    index: 101
+  },
+  {
+    icon: 'wk-icon-underline',
+    index: 102
+  },
+  {
+    icon: 'wk-icon-link',
+    index: 103
+  },
+  {
+    icon: 'wk-icon-background',
+    index: 104
+  },
+  {
+    icon: 'wk-icon-color',
+    index: 105
+  },
+  {
+    icon: 'wk-icon-underscore',
+    index: 106
+  },
+  {
+    icon: 'wk-icon-strack',
+    index: 107
+  },
+  {
+    icon: 'wk-icon-title',
+    index: 108
+  },
+  {
+    icon: 'wk-icon-video',
+    index: 109
+  },
+  {
+    icon: 'wk-icon-download',
+    index: 110
+  },
+  {
+    icon: 'wk-icon-doubleQuotes',
+    index: 111
+  },
+  {
+    icon: 'wk-icon-fontWeight',
+    index: 112
+  },
+  {
+    icon: 'wk-icon-textLeft',
+    index: 113
+  },
+  {
+    icon: 'wk-icon-textRight',
+    index: 114
+  },
+  {
+    icon: 'wk-icon-textAlign',
+    index: 115
+  },
+  {
+    icon: 'wk-icon-fontFamily',
+    index: 116
+  },
+  {
+    icon: 'wk-icon-add',
+    index: 117
+  },
+  {
+    icon: 'wk-icon-delete',
+    index: 118
+  },
+  {
+    icon: 'wk-icon-picture',
+    index: 119
   }
 ]

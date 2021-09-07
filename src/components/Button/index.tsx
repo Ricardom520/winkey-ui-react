@@ -9,13 +9,15 @@ interface ButtonProps {
   danger?: boolean;
   disabled?: boolean;
   loading?: boolean;
-  icon?: string;
+  icon?: ReactNode;
   type?: 'default' | 'primary' | 'dashed' | 'text' | 'link';
   shape?: 'circle',
   style?: React.CSSProperties;
   size?: 'large' | 'small' | '';
+  ghost?: boolean;
   onClick?: (EventTarget) => void;
   htmlType?: "button" | "submit" | "reset";
+  href?: string;
 }
 
 const WkBtnClass = {
@@ -35,6 +37,7 @@ const WkBtnClass = {
 }
 
 export default class Button extends React.Component<ButtonProps> {
+  static winkeyName = 'button'
   static defaultProps = {
     type: 'default',
     shape: '',
@@ -50,7 +53,7 @@ export default class Button extends React.Component<ButtonProps> {
   }
 
   render() {
-    const { children, type, shape, icon, block, danger, disabled, style, size, className, loading, htmlType } = this.props;
+    const { children, type, shape, icon, block, danger, disabled, style, size, className, loading, htmlType, ghost, href } = this.props;
 
     return (
       <button 
@@ -66,15 +69,29 @@ export default class Button extends React.Component<ButtonProps> {
           (danger ? 'wk-btn-dangerous ' : '') + 
           (className ? className : '') +
           (loading ? 'wk-btn-loading ' : '') +
+          (ghost? ' wk-btn-background-ghost' : '') +
           WkBtnClass[size]
         }
         onClick={this._onClick}
       >
-        <span className={children && icon && 'wk-btn-animation'}>
-          {icon && !loading && <i className={"iconfont " + icon} />}
-          {loading && <i className={"iconfont wk-icon-loading-line-round wk-btn-loading-icon" + (!children ? " wk-btn-loading-icon-only" : '')} />}
-          {children}
-        </span>
+        {
+          href &&
+          <a href={href}>
+            <span className={children && icon && 'wk-btn-animation'}>
+              {icon && !loading && typeof icon === 'string' ? <i className={"iconfont " + icon} /> : icon}
+              {loading && <i className={"iconfont wk-icon-loading-line-round wk-btn-loading-icon" + (!children ? " wk-btn-loading-icon-only" : '')} />}
+              {children}
+            </span>
+          </a>
+        }
+        {
+          !href &&
+          <span className={children && icon && 'wk-btn-animation'}>
+            {icon && !loading && typeof icon === 'string' ? <i className={"iconfont " + icon} /> : icon}
+            {loading && <i className={"iconfont wk-icon-loading-line-round wk-btn-loading-icon" + (!children ? " wk-btn-loading-icon-only" : '')} />}
+            {children}
+          </span>
+        } 
       </button>
     )
   }

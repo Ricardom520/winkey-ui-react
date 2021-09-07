@@ -16,7 +16,8 @@ export const MonthDays = {
 export const PickerFormatNormal = {
   date: "YYYY-MM-DD",
   month: "YYYY-MM",
-  year: "YYYY"
+  year: "YYYY",
+  showTime: 'YYYY-MM-DD HH:mm'
 }
 
 export const PlaceholderNormal = {

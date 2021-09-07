@@ -45,7 +45,6 @@ export const menus = [
       {
         id: 7,
         url: '/dropdown',
-        hidden: true,
         title: 'Dropdown 下拉菜单'
       },
       {
@@ -128,7 +127,6 @@ export const menus = [
       {
         id: 20,
         url: '/upload',
-        hidden: true,
         title: 'Upload 上传'
       }
     ]
@@ -220,25 +218,21 @@ export const menus = [
       {
         id: 35,
         url: '/modal',
-        hidden: true,
-        title: '/Modal 对话框'
+        title: 'Modal 对话框'
       },
       {
         id: 36,
         url: '/skeleton',
-        hidden: true,
         title: 'Skeleton 骨架屏'
       },
       {
         id: 37,
         url: '/spin',
-        hidden: true,
         title: 'Spin 加载中'
       },
       {
         id: 38,
         url: '/toast',
-        hidden: true,
         title: 'Toast 弹窗'
       },
       {
@@ -246,6 +240,17 @@ export const menus = [
         url: "/popconfirm",
         hidden: true,
         title: "Popconfirm 气泡确认框"
+      }
+    ]
+  },
+  {
+    title: '其他',
+    lists: [
+      {
+        id: 40,
+        url: "/editor",
+        hidden: true,
+        title: "Editor 富文本编译器"
       }
     ]
   }

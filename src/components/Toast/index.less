@@ -1,0 +1,68 @@
+.wk-toast {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+    pointer-events: none;
+    animation: showToast .3s ease-in-out;
+    z-index: 9999;
+    &-notice {
+      display: inline-block;
+      max-width: 65%;
+      text-align: center;
+      padding: 24px 30px;
+      word-break: break-all;
+      background: rgba(0, 0, 0, .8);
+      border-radius: 12px;
+      color: #fff;
+      &-message {
+        display: inline-block;
+        padding: 10px 16px;
+        background: #fff;
+        border-radius: 2px;
+        pointer-events: all;
+      }
+      &-icon {
+        display: inline-block;
+        font-size: 20px;
+        font-style: normal;
+        text-align: center;
+        text-transform: none;
+        text-rendering: optimizeLegibility;
+        margin-right: 8px;
+        margin-bottom: 5px;
+      }
+      &-info {
+        color: #1890FF;
+      }
+      &-loading {
+        color: #1890FF;
+        animation: rotate 1s linear infinite;
+      }
+      &-error {
+        color: #FF4D4F;
+      }
+      &-success {
+        color: #52C41A;
+      }
+    }
+  }
+
+  @keyframes showToast {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }

@@ -1,4 +1,3 @@
-import PageTitle from '@/pages/Components/PageTitle';
 import React, { Component } from 'react';
 
 import { TextareaProps } from './index';
@@ -10,6 +9,7 @@ interface TextareaState {
 }
 
 class Textarea extends Component<TextareaProps, TextareaState> {
+  static winkeyName = 'textarea'
   constructor(props) {
     super(props);
 

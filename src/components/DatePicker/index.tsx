@@ -22,10 +22,13 @@ export interface DatePickerProps {
   okText?: string;
   dismissText?: string;
   title?: string;
+  pickerClassName?: string;
   disabledDate?: (current: Moment) => boolean;
+  showTime?: boolean;
 }
 
 export default class DatePicker extends React.Component<DatePickerProps> {
+  static winkeyName = 'datepicker'
   static defaultProps = {
     bordered: true,
     showSuffixIcon: true,
@@ -57,6 +60,8 @@ export default class DatePicker extends React.Component<DatePickerProps> {
       dismissText,
       onOk,
       disabledDate,
+      showTime,
+      pickerClassName
     } = this.props;
 
     return (
@@ -88,7 +93,11 @@ export default class DatePicker extends React.Component<DatePickerProps> {
             title={title}
             okText={okText}
             dismissText={dismissText}
+            placeholder={placeholder}
             onOk={onOk}
+            className={className}
+            pickerClassName={pickerClassName}
+            showTime={showTime}
           />
         }
       </>

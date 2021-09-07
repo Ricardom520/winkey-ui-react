@@ -27,26 +27,62 @@ export default class TimePickerMobile extends React.Component<DatePickerProps, D
   }
 
   componentDidMount() {
-    const { value, defaultValue, picker, format } = this.props;
+    const { value, defaultValue, picker, format, showTime } = this.props;
 
     if (value || defaultValue) {
-      const date = moment((value || defaultValue)).format(PickerFormatNormal[picker]);
+      const date = moment((value || defaultValue)).format(PickerFormatNormal[showTime ? 'showTime' : picker]);
 
-      this.initValueString(date.split('-'))
+      let dateArrs;
+
+      if (!showTime) {
+        dateArrs = date.split('-');
+      } else {
+        dateArrs = [...date.split(' ')[0].split('-'), ...date.split(' ')[1].split(':')];
+      }
+
+      this.initValueString(dateArrs);
 
       this.setState({
-        value: date.split('-')
+        value: dateArrs
       })
     } else {
       const date = new Date();
-      const monthFormat = (format || PickerFormatNormal[picker]).split('-')[1] || '';
-      const dayFormat = (format || PickerFormatNormal[picker]).split('-')[2] || '';
+      const monthFormat = (format || PickerFormatNormal[showTime ? 'showTime' : picker]).split('-')[1] || '';
+      const dayFormat = (format || PickerFormatNormal[showTime ? 'showTime' : picker]).split('-')[2] || '';
       const year = date.getFullYear();
-      const month = date.getMonth() + 1;
-      const day = date.getDay();
+      let month: number | string = date.getMonth() + 1;
+      let day: number | string = date.getDay();
+      let hour: number | string = date.getHours();
+      let minute: number | string = date.getMinutes();
+
+      if (monthFormat === 'MM') {
+        month = month < 10 ? `0${month}` : `${month}`
+      } else {
+        month = `${month}`
+      }
+
+      if (dayFormat === 'DD') {
+        day = day < 10 ? `0${day}` : `${day}`
+      } else {
+        day = `${day}`
+      }
+
+      if (showTime) {
+        if ((format || PickerFormatNormal['showTime']).indexOf('HH') > -1) {
+          hour = hour < 10 ? `0${hour}` : `${hour}`
+        } else {
+          hour = `${hour}`
+        }
+
+        if ((format || PickerFormatNormal['showTime']).indexOf('mm') > -1) {
+          minute = minute < 10 ? `0${minute}` : `${minute}`
+        } else {
+          minute = `${minute}`
+        }
+      }
 
       this.setState({
-        value: [`${year}`, monthFormat === 'MM' ? month < 10 ? `0${month}` : `${month}` : `${month}`, dayFormat === 'DD' ? day < 10 ? `0${day}` : `${day}` : `${day}`]
+        value: showTime ? [`${year}`, month, day, hour, minute] : [`${year}`, month, day]
       })
     }
 
@@ -101,15 +137,58 @@ export default class TimePickerMobile extends React.Component<DatePickerProps, D
   }
 
   initDate = (month, year) => {
-    const { format, picker } = this.props;
+    const { format, picker, showTime } = this.props;
     const options = [];
     const monthDays = year % 4 === 0 && month === 2 ? 29 : MonthDays[month];
     const dateFormat = (format || PickerFormatNormal[picker]).split('-')[2];
+    let hours;
+
+    if (showTime) {
+      hours = this.initHour();
+    }
 
     for (let i = 1; i <= monthDays; i++) {
       options.push({
         label: `${i}日`,
         value: dateFormat === 'DD' ? i < 10 ? `0${i}` : `${i}` : `${i}`
+      })
+
+      if (showTime) {
+        options[i - 1].children = hours;
+      }
+    }
+
+    return options;
+  }
+
+  initHour = () => {
+    const { format, showTime, picker } = this.props;
+    const options = [];
+    const isHH = (format || PickerFormatNormal[picker]).indexOf('HH') > -1;
+
+    for (let i = 0; i < 24; i++) {
+      options.push({
+        label: `${i}时`,
+        value: isHH ? `0${i}` : `${i}`
+      })
+
+      if (showTime) {
+        options[i].children = this.initMinute();
+      }
+    }
+
+    return options;
+  }
+
+  initMinute = () => {
+    const { format, picker } = this.props;
+    const options = [];
+    const isMM = (format || PickerFormatNormal[picker]).indexOf('mm') > -1;
+
+    for (let i = 0; i < 60; i++) {
+      options.push({
+        label: `${i}分`,
+        value: isMM ? `0${i}` : `${i}`
       })
     }
 
@@ -117,25 +196,40 @@ export default class TimePickerMobile extends React.Component<DatePickerProps, D
   }
 
   initValueString = (date) => {
-    const { format, picker } = this.props;
+    const { format, picker, showTime } = this.props;
     let valueString = '';
+    let format_real = format || PickerFormatNormal[showTime ? 'showTime' : picker]
 
-    date.map((i, n) => {
-      if (n === date.length - 1) {
-        valueString += i
-      } else {
-        valueString += `${i}-`
+    if (showTime) {
+      const len = format_real.split(' ')[0].split('-').length;
+
+      for (let i = 0; i < len; i++) {
+        if (i === len - 1) {
+          valueString += date[i]
+        } else {
+          valueString += `${date[i]}-`
+        }
       }
-    })
 
-    valueString = moment(valueString, (format || PickerFormatNormal[picker])).format(format || PickerFormatNormal[picker])
+      valueString += ` ${date[len]}:${date[len+1]}`
+    } else {
+      date.map((i, n) => {
+        if (n === date.length - 1) {
+          valueString += i
+        } else {
+          valueString += `${i}-`
+        }
+      })
+    }
+
+    valueString = moment(valueString, format_real).format(format_real)
 
     this.setState({
       activeValue: valueString
     })
 
     if (this.props.onOk) {
-      this.props.onOk(moment(valueString, (format || PickerFormatNormal[picker])),valueString)
+      this.props.onOk(moment(valueString, format_real),valueString)
     }
   }
 
@@ -163,7 +257,7 @@ export default class TimePickerMobile extends React.Component<DatePickerProps, D
 
   render() {
     const { datas, visible, value, activeValue } = this.state;
-    const { placeholder, dismissText, title, okText, picker } = this.props;
+    const { placeholder, dismissText, title, okText, picker, className, pickerClassName } = this.props;
 
     return (
       <>
@@ -174,6 +268,7 @@ export default class TimePickerMobile extends React.Component<DatePickerProps, D
           textAlign="right"
           readOnly 
           isMobile 
+          className={className}
           onClick={()=> {
             this.setState({
               visible: true
@@ -181,7 +276,10 @@ export default class TimePickerMobile extends React.Component<DatePickerProps, D
           }} 
         />
         <Mask visible={visible} kind="picker">
-          <div className="wk-picker-container">
+          <div className={
+            "wk-picker-container" +
+            (pickerClassName ? ` ${pickerClassName}` : '')
+          }>
             <div className="wk-picker-header">
               <div className="wk-picker-header-item wk-picker-header-item-left" onClick={this.onCancel}>{dismissText}</div>
               <div className="wk-picker-header-item wk-picker-header-item-title">{title}</div>

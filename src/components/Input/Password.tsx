@@ -25,6 +25,7 @@ interface PasswordState {
 }
 
 export default class Password extends React.Component<PasswordProps, PasswordState> {
+  static winkeyName = 'password'
   static defaultProps = {
     placeholder: "Input your password",
     size: ""

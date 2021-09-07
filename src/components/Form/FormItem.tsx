@@ -299,25 +299,25 @@ export default class FormItem extends React.Component<FormItemProps, FormItemSta
     const { formValues, name, size } = this.props;
 
     const childType = {
-      Button: <Button {...kid.props} key={key} onClick={(e) => this.formButtonClick(e, kid.props)} size={size} />,
-      Select: <Select value={formValues[name] === undefined ? (kid.props.value || kid.props.defaultValue) : formValues[name]} {...kid.props} size={size} key={key} onChange={(e) => this.formSelectChange(e, kid.props)}/>,
-      Input: <Input value={formValues[name] === undefined ? (kid.props.value || kid.props.defaultValue) : formValues[name]} {...kid.props} size={size} key={key} onChange={(e) => this.formInputChange(e, kid.props)} />,
-      Password: <Input value={formValues[name] === undefined ? (kid.props.value || kid.props.defaultValue) : formValues[name]} {...kid.props} size={size} key={key} onChange={(e) => this.formInputChange(e, kid.props)} />,
-      Checkbox: <Checkbox value={formValues[name] === undefined ? (kid.props.value || kid.props.defaultValue) : formValues[name]} {...kid.props} size={size} key={key} onChange={e => this.formCheckBoxChange(e, kid.props)} />,
-      RadioGroup: <Radio.Group value={formValues[name] === undefined ? (kid.props.value || kid.props.defaultValue) : formValues[name]} {...kid.props} size={size} key={key} onChange={e => this.formRadioGroupChange(e, kid.props)} />,
-      DatePicker: <DatePicker value={formValues[name] === undefined ? (kid.props.value || kid.props.defaultValue) : formValues[name]} {...kid.props} size={size} key={key} onChange={e => this.formDatePickerChange(e, kid.props)} />,
-      Switch: <Switch value={formValues[name] === undefined ? (kid.props.value || kid.props.defaultValue) : formValues[name]} {...kid.props} size={size} key={key} onChange={boolean => this.formSwitchChange(boolean, kid.props)} />,
-      TimePicker: <TimePicker value={formValues[name] === undefined ? (kid.props.value || kid.props.defaultValue) : formValues[name]} {...kid.props} size={size} key={key} onChange={e => this.formTimePickerChange(e, kid.props)} />,
-      Radio: <Radio value={formValues[name] === undefined ? (kid.props.value || kid.props.defaultValue) : formValues[name]} {...kid.props} size={size} key={key} onChange={e => this.formRadioChange(e, kid.props)} />, 
-      CheckboxGroup: <Checkbox.Group value={formValues[name] === undefined ? (kid.props.value || kid.props.defaultValue) : formValues[name]} {...kid.props} size={size} key={key} onChange={e => this.formCheckboxGroupChange(e, kid.props)} />
+      button: <Button {...kid.props} key={key} onClick={(e) => this.formButtonClick(e, kid.props)} size={size} />,
+      select: <Select value={formValues[name] === undefined ? (kid.props.value || kid.props.defaultValue) : formValues[name]} {...kid.props} size={size} key={key} onChange={(e) => this.formSelectChange(e, kid.props)}/>,
+      input: <Input value={formValues[name] === undefined ? (kid.props.value || kid.props.defaultValue) : formValues[name]} {...kid.props} size={size} key={key} onChange={(e) => this.formInputChange(e, kid.props)} />,
+      password: <Input value={formValues[name] === undefined ? (kid.props.value || kid.props.defaultValue) : formValues[name]} {...kid.props} size={size} key={key} onChange={(e) => this.formInputChange(e, kid.props)} />,
+      checkbox: <Checkbox value={formValues[name] === undefined ? (kid.props.value || kid.props.defaultValue) : formValues[name]} {...kid.props} size={size} key={key} onChange={e => this.formCheckBoxChange(e, kid.props)} />,
+      radioGroup: <Radio.Group value={formValues[name] === undefined ? (kid.props.value || kid.props.defaultValue) : formValues[name]} {...kid.props} size={size} key={key} onChange={e => this.formRadioGroupChange(e, kid.props)} />,
+      datepicker: <DatePicker value={formValues[name] === undefined ? (kid.props.value || kid.props.defaultValue) : formValues[name]} {...kid.props} size={size} key={key} onChange={e => this.formDatePickerChange(e, kid.props)} />,
+      switch: <Switch value={formValues[name] === undefined ? (kid.props.value || kid.props.defaultValue) : formValues[name]} {...kid.props} size={size} key={key} onChange={boolean => this.formSwitchChange(boolean, kid.props)} />,
+      timepicker: <TimePicker value={formValues[name] === undefined ? (kid.props.value || kid.props.defaultValue) : formValues[name]} {...kid.props} size={size} key={key} onChange={e => this.formTimePickerChange(e, kid.props)} />,
+      radio: <Radio value={formValues[name] === undefined ? (kid.props.value || kid.props.defaultValue) : formValues[name]} {...kid.props} size={size} key={key} onChange={e => this.formRadioChange(e, kid.props)} />, 
+      checkGroup: <Checkbox.Group value={formValues[name] === undefined ? (kid.props.value || kid.props.defaultValue) : formValues[name]} {...kid.props} size={size} key={key} onChange={e => this.formCheckboxGroupChange(e, kid.props)} />
     }
 
-    return childType[kid.type.displayName]
+    return childType[kid.type.winkeyName]
   }
 
   render() {
     const { label, labelCol, formName, children, wrapperCol, rules, isError, labelAlign } = this.props;
-    console.log(labelCol)
+
     return (
       <Row className={
         "wk-form-item" +

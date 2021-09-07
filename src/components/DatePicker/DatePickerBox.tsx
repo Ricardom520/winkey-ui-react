@@ -666,7 +666,7 @@ export default class DatePickerBox extends React.Component<DatePickerBoxProps, D
             {
               activePicker === 'date' &&
               <div className="wk-datepicker-footer">
-                <a href="javascript:void(0)" className="wk-datepicker-today-btn" onClick={this.handleToday}>
+                <a href="#!" className="wk-datepicker-today-btn" onClick={this.handleToday}>
                   今天
                 </a>
               </div>

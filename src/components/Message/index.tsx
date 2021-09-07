@@ -11,7 +11,7 @@ function createNofication() {
   document.body.appendChild(div);
 
   const notification: any = ReactDOM.render(<Message/>, div)
- 
+
   return {
     addNotice(notice) {
       return notification.addNotice(notice);

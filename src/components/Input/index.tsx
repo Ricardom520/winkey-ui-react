@@ -64,6 +64,8 @@ const InputClass = {
 export default class Input extends Component<InputProps, IndexState> {
   static TextArea = Textarea
   static Password = Password
+  static winkeyName = 'input'
+  input: HTMLInputElement;
 
   static defaultProps = {
     placeholder: "input text",
@@ -87,7 +89,7 @@ export default class Input extends Component<InputProps, IndexState> {
 
     return (
       <input
-        ref="input"
+        ref={input=>this.input = input}
         disabled={disabled}
         maxLength={maxLength}
         type={type}
@@ -140,7 +142,7 @@ export default class Input extends Component<InputProps, IndexState> {
     })
 
     if (!addonBefore && !suffix && !prefix && !addonAfter && !allowClear) {
-      const input: any = this.refs.input;
+      const input: any = this.input;
       input.focus();
     }
   }
@@ -164,7 +166,7 @@ export default class Input extends Component<InputProps, IndexState> {
   render() {
     const {  disabled, isMobile,  size,  addonBefore, suffix, prefix, addonAfter, allowClear } = this.props;
     const { focus, indexValue } = this.state;
-    console.log(size)
+
     return (
       <>
         {

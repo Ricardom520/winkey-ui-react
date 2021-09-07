@@ -25,7 +25,16 @@ import Breadcrumb from './Breadcrumb';
 import PageHeader from './PageHeader';
 import Menu from './Menu';
 import Tabs from './Tabs';
+import Toast from './Toast';
 import Steps from './Steps';
+import Spin from './Spin';
+import Editor from './Editor';
+import Dropdown from './Dropdown';
+import Upload from './Upload';
+import Modal from './Modal';
+import Skeleton from './Skeleton';
+
+import "./base.css";
 
 export {
   Button,
@@ -55,5 +64,12 @@ export {
   PageHeader,
   Menu,
   Tabs,
-  Steps
+  Toast,
+  Steps,
+  Spin,
+  Editor,
+  Dropdown,
+  Upload,
+  Modal,
+  Skeleton
 }

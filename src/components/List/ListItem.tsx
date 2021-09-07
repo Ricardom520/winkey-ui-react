@@ -8,14 +8,14 @@ export default class ListItem extends Component<ListItemProps> {
   static Meta = ListItemMeta as React.ClassicComponentClass<ListItemMetaProps>
  
   render() {
-    const { children, extra, require, arrow, flexDirection, onClick, className, name } = this.props;
+    const { children, extra, required, arrow, flexDirection, onClick, className, name } = this.props;
     
     return (
       <div 
         id={name}
         className={
           "wk-list-item" + 
-          (require ? ' wk-list-item-require' : '') + 
+          (required ? ' wk-list-item-required' : '') + 
           (flexDirection === "column" ? " wk-list-item-col" : "") +
           (className ? ' ' + className : '')
         }

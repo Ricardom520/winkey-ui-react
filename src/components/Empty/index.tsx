@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import emptyImage from '@/assets/images/empty.png';
+import emptyImage from '../../assets/images/empty.png';
 import "./index.less";
 
 interface EmptyProps {

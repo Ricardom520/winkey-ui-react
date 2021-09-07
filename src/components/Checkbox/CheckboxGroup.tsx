@@ -13,6 +13,7 @@ interface CheckboxGroupState {
 }
 
 export default class CheckboxGroup extends Component<CheckboxGroupProps, CheckboxGroupState> {
+  static winkeyName = 'checkGroup'
   static defaultProps = {
     defaultValue: []
   }

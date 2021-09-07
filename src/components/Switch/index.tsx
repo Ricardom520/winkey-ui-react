@@ -1,4 +1,3 @@
-import { disable } from 'colors';
 import React, { ReactNode } from 'react';
 
 import "./index.less";
@@ -27,6 +26,7 @@ const switchClass = {
 }
 
 export default class Switch extends React.Component<SwitchProps, SwitchState> {
+  static winkeyName = 'switch'
   static defaultProps = {
     size: ""
   }

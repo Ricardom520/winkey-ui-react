@@ -4,7 +4,6 @@ import { ReactNode } from 'react';
 import ListItem from './ListItem';
 
 import './index.less';
-import { data } from 'autoprefixer';
 
 interface ListProps {
   children?: any;
@@ -21,7 +20,7 @@ interface ListProps {
 export interface ListItemProps {
   children?: ReactNode;
   extra?: ReactNode;
-  require?: boolean;
+  required?: boolean;
   arrow?: boolean;
   flexDirection?: "row" | "column";
   onClick?: (event) => void;
