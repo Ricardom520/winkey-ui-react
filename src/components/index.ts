@@ -33,6 +33,7 @@ import Dropdown from './Dropdown';
 import Upload from './Upload';
 import Modal from './Modal';
 import Skeleton from './Skeleton';
+import Tooltip from './Tooltip';
 
 import "./base.css";
 
@@ -71,5 +72,6 @@ export {
   Dropdown,
   Upload,
   Modal,
-  Skeleton
+  Skeleton,
+  Tooltip
 }

@@ -36,6 +36,7 @@ interface Window {
   ) => void;
   reloadAuthorized: () => void;
   mozRequestAnimationFrame: any;
+  webkitRequestAnimationFrame: any;
 }
 
 declare let ga: Function;

@@ -38,8 +38,8 @@ import DropdownPage from './Dropdown';
 import UploadPage from './Upload';
 import ModalPage from './Modal';
 import SkeletonPage from './Skeleton';
-import Logo from '@/assets/images/logo.png';
-import Search from '@/assets/icons/search.svg';
+import TooltipPage from './Tooltip';
+import Header from '../Header';
 import './index.less';
 
 interface RoomsProps {
@@ -56,20 +56,7 @@ const Rooms: React.SFC<RoomsProps> = (props) => {
   
   return (
     <div className='componentContainer'>
-      <header>
-        <div className='logo'>
-          <Link to='/'>
-            <img src={Logo} alt='logo' />
-          </Link>
-        </div>
-        <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', paddingRight: '100px'}}>
-          <div className='find'>
-            <img src={Search} alt='find' />
-            <input type='text' placeholder='搜索文档' />
-          </div>
-          <ListsMenus/>
-        </div>
-      </header>
+      <Header/>
       <div className='box'>
         <div className='left'>
           <div className='content'>
@@ -135,6 +122,7 @@ const Rooms: React.SFC<RoomsProps> = (props) => {
               <Route exact path="/components/upload" component={UploadPage} />
               <Route exact path="/components/modal" component={ModalPage} />
               <Route exact path="/components/skeleton" component={SkeletonPage} />
+              <Route exact path="/components/tooltip" component={TooltipPage} />
               <Redirect to="/components/button" />
             </Switch>
           </div>

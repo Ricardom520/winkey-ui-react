@@ -196,8 +196,7 @@ export const menus = [
       {
         id: 32,
         url: '/tooltip',
-        hidden: true,
-        title: '/Tooltip 文字提示'
+        title: 'Tooltip 文字提示'
       }
     ]
   },
