@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useRef } from 'react'
+import ReactDOM from 'react-dom'
 
 import { Tooltip, Card } from '@/components'
 import Header from '../Header'
@@ -8,14 +9,31 @@ import { Block } from './Templates'
 import './index.less'
 
 const Design: React.FC = () => {
-  const handleMouseDown = (type: string) => {
-    console.log(type)
+  const BlockRef: any = useRef<HTMLLIElement>()
+  const handleMouseDown = (type: string, e) => {
+    let target: any;
     let copyElement: any;
-
+    console.log(e)
     if (type === 'block') {
-      copyElement = Block()
-      console.log(copyElement)
+      target = BlockRef.current.children[0]
+      copyElement = target.cloneNode(true)
+      
+      copyElement.style.position = "absolute"
+      copyElement.style.top = target.getBoundingClientRect().top + "px"
+      copyElement.style.left = target.getBoundingClientRect().left + "px"
+
       document.body.appendChild(copyElement)
+      console.log('???')
+      window.onmousemove = (moveEvent: MouseEvent) => {
+        console.log(moveEvent)
+        copyElement.style.top = moveEvent.y + 'px'
+        copyElement.style.left = moveEvent.x + 'px'
+        console.log(moveEvent)
+
+        window.onmouseup = () => {
+          window.onmousemove = null
+        }
+      }
     }
   }
 
@@ -32,7 +50,7 @@ const Design: React.FC = () => {
         <div className='container'>
           <div className='left'>
             <ul>
-              <li className='listItem' onMouseDown={() => handleMouseDown('block')}>
+              <li className='listItem' onMouseDown={(e) => handleMouseDown('block', e)} ref={BlockRef}>
                 <Tooltip title='block'>
                   <div> 
                     <Block/>
