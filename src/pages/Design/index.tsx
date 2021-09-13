@@ -1,26 +1,18 @@
-import React, { useRef, useState } from 'react'
-import ReactDOM from 'react-dom'
+import React, { useEffect, useRef, useState } from 'react'
+import { useLocalStore } from 'mobx-react'
 
 import { Tooltip, Card } from '@/components'
 import Header from '../Header'
 import Editor from './Components/Editor'
-import DegisnContext, { DegisnContextProps } from './DesignContext'
+import { ElementStruct } from '@/stores/EditorMange'
 import { Block } from './Templates'
+import store from '@/stores'
 import './index.less'
 
-export interface ElementProps {
-  type: string
-  minWidth: string | number
-  minHeight: string | number
-  backgroundColor: string 
-  children?: {
-    [propsName: string]: string | number
-  }
-}
-
 const Design: React.FC = () => {
+  const localStore = useLocalStore(() => store)
   const BlockRef: any = useRef<HTMLLIElement>()
-  const [datas, setDatas] = useState<ElementProps>()
+  const [datas, setDatas] = useState<ElementStruct>()
 
   const setElement = (e: MouseEvent, type: string) => {
     console.log(type)
@@ -71,44 +63,40 @@ const Design: React.FC = () => {
     }
   }
 
-  const getContext = () => {
-    return {
-
-    }
-  }
+  useEffect(() => {
+    console.log(localStore.editorMange)
+  }, [])
 
   return (
-    <DegisnContext.Provider value={getContext()}>
-      <div className='designContainer'>
-        <Header/>
-        <div className='container'>
-          <div className='left'>
-            <ul>
-              <li className='listItem' onMouseDown={(e) => handleMouseDown('block', e)} ref={BlockRef}>
-                <Tooltip title='block'>
-                  <div> 
-                    <Block/>
-                  </div>
-                </Tooltip>
-              </li>
-              <li className='listItem'>
-                <Tooltip title='Card'>
-                  <div>
-                    <Card title='title' size='small'/>
-                  </div>
-                </Tooltip>
-              </li>
-            </ul>
+    <div className='designContainer'>
+      <Header/>
+      <div className='container'>
+        <div className='left'>
+          <ul>
+            <li className='listItem' onMouseDown={(e) => handleMouseDown('block', e)} ref={BlockRef}>
+              <Tooltip title='block'>
+                <div> 
+                  <Block/>
+                </div>
+              </Tooltip>
+            </li>
+            <li className='listItem'>
+              <Tooltip title='Card'>
+                <div>
+                  <Card title='title' size='small'/>
+                </div>
+              </Tooltip>
+            </li>
+          </ul>
+        </div>
+        <div className='right'>
+          <div className='content'>
+            <Editor datas={datas} />
           </div>
-          <div className='right'>
-            <div className='content'>
-              <Editor datas={datas} />
-            </div>
-            <div></div>
-          </div>
+          <div></div>
         </div>
       </div>
-    </DegisnContext.Provider>
+    </div>
   )
 }
 

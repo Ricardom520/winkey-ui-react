@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { ElementProps } from '../index'
+import { ElementStruct } from '@/stores/EditorMange'
 import BgTable from './BgTable'
 import './index.less'
 
 interface EditorProps {
-  datas: ElementProps
+  datas: ElementStruct
 }
 
 const Editor: React.FC<EditorProps> = (props) => {
