@@ -130,9 +130,9 @@ module.exports = {
           {
             loader: 'postcss-loader',
             options: {
-              plugins: [
-                require("autoprefixer")("last 100 versions")
-              ]
+              // plugins: [
+              //   require("autoprefixer")("last 100 versions")
+              // ]
             }
           },
           {

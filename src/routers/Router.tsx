@@ -7,7 +7,7 @@ import Transition from '@/components/Transition';
 interface IProps extends IRoute {
   transition?: boolean; // 开启跳转动画
   page: {
-    [index: string]: React.ComponentClass<any>;
+    [index: string]: any;
   };
   location: any;
   history: any;

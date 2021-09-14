@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useLocalStore } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 
 import { ElementStruct } from '@/stores/EditorMange'
 import BgTable from './BgTable'
+import store from '@/stores'
 import './index.less'
 
-interface EditorProps {
-  datas: ElementStruct
-}
-
-const Editor: React.FC<EditorProps> = (props) => {
-  const { datas } = props
+const Editor: React.FC = observer((props) => {
+  const localStore = useLocalStore(() => store)
+  const { elementsObj, focusElement } = localStore.editorMange
   const [width, setWidth] = useState<number>(0)
   const [height, setHeight] = useState<number>(0)
 
@@ -18,21 +18,28 @@ const Editor: React.FC<EditorProps> = (props) => {
       return null
     }
 
-    return Object.keys(arr).map((i, n) => {
-      if (i === 'type') {
-        if (arr[i] === 'block') {
-          return <div 
-            style={{
-              minWidth: arr.minWidth, 
-              minHeight: arr.minHeight,
-              backgroundColor: arr.backgroundColor
-            }} 
-            key={`div-${zIndex}-${n}`}></div>
-        }
-      }
+    if (arr.type === 'block') {
+      return <div 
+        className={focusElement ? focusElement.id === arr.id ? 'focusElement' : '' : ''}
+        style={{
+          minWidth: arr.minWidth, 
+          minHeight: arr.minHeight,
+          backgroundColor: arr.backgroundColor
+        }} 
+        key={`block-${zIndex}`}>
+          {arr.children && instantiateElement(arr.children, zIndex + 1)}
+        </div>
+    }
 
-      return null
-    })
+    return null
+  }
+
+  const handleClick = (e) => {
+    console.log(e)
+    if (e.target.dataset.alt.indexOf('bg') > -1) {
+      console.log('????')
+      localStore.editorMange.focusElement = null
+    }
   }
 
   useEffect(() => {
@@ -40,19 +47,18 @@ const Editor: React.FC<EditorProps> = (props) => {
     setHeight(document.getElementById('editorBox').clientHeight)
   }, []) 
 
-  console.log(datas)
   return (
     <div className='editorContainer'>
-      <div id='editorBox' className='editorBox'>
+      <div id='editorBox' className='editorBox' onClick={handleClick}>
         <BgTable width={width} height={height} />
         <div className='elementBox'>
           {
-            instantiateElement(datas, 0)
+            instantiateElement(elementsObj, 0)
           }
         </div>
       </div>
     </div>
   )
-}
+})
 
 export default Editor

@@ -97,7 +97,7 @@ class Radio extends Component<RadioProps, RadioState> {
   render() {
     const { children, disabled, value, name } = this.props;
     const { checked } = this.state;
-  
+
     return (
       <label 
         className={

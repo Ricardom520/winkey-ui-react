@@ -25,7 +25,7 @@ const BgTable: React.SFC<BgTableProps> = (props) => {
                 <tr key={`bg-ul-${n}`}>
                   {
                     new Array(Math.ceil(width / referTo)).fill(null).map((_, m) => {
-                      return <td key={`bg-li-${m}`} style={{ width: `${referTo}px`}}/>
+                      return <td data-alt='bg_td' key={`bg-li-${m}`} style={{ width: `${referTo}px`}}/>
                     })
                   }
                 </tr>

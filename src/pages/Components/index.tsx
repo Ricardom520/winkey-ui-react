@@ -46,7 +46,7 @@ interface RoomsProps {
   history: any;
 }
 
-const Rooms: React.SFC<RoomsProps> = (props) => {
+const Rooms: React.FC<RoomsProps> = (props) => {
   const { history } = props;
   const [type, setType] = useState<string>('');
 

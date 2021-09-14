@@ -76,7 +76,7 @@ export default class index extends React.Component<FormProps, FormState> {
       }
     } else {
       children.forEach(i => {
-        if (i.props.name) {
+        if (i && i.props && i.props.name) {
           formValues[i.props.name] = initialValues[i.props.name] || undefined;
           if (i.props.rules && i.props.rules[0].required) {
             isRequired[i.props.name] = i.props.rules[0]
@@ -103,6 +103,7 @@ export default class index extends React.Component<FormProps, FormState> {
       }>
         {
           children && React.Children.map(children, (child: any) => {
+            if (!child) return null;
             return React.cloneElement(child, {
               formName: name,
               labelCol: child.props.wrapperCol || labelCol,

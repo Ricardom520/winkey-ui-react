@@ -184,8 +184,9 @@ export default class Input extends Component<InputProps, IndexState> {
               {addonBefore && <span className="wk-input-group-addon">{addonBefore}</span>}
               <span className="wk-input-affix-wrapper">
                 {this.initInput()}
-                <span className="wk-input-suffix">{suffix}</span>
+                {suffix && <span className="wk-input-suffix">{suffix}</span>}
               </span>
+              {addonAfter && <span className="wk-input-group-addon">{addonAfter}</span>}
             </span>
           </span>
         }
