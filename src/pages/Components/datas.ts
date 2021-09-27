@@ -220,6 +220,11 @@ export const menus = [
         title: 'Modal 对话框'
       },
       {
+        id: 41,
+        url: '/result',
+        title: 'Result 结果'
+      },
+      {
         id: 36,
         url: '/skeleton',
         title: 'Skeleton 骨架屏'

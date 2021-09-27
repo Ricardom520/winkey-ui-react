@@ -39,6 +39,7 @@ import UploadPage from './Upload';
 import ModalPage from './Modal';
 import SkeletonPage from './Skeleton';
 import TooltipPage from './Tooltip';
+import ResultPage from './Result';
 import Header from '../Header';
 import './index.less';
 
@@ -123,6 +124,7 @@ const Rooms: React.FC<RoomsProps> = (props) => {
               <Route exact path="/components/modal" component={ModalPage} />
               <Route exact path="/components/skeleton" component={SkeletonPage} />
               <Route exact path="/components/tooltip" component={TooltipPage} />
+              <Route exact path="/components/result" component={ResultPage} />
               <Redirect to="/components/button" />
             </Switch>
           </div>
