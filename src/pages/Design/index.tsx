@@ -24,10 +24,7 @@ const Design: React.FC = observer(() => {
     console.log(type)
     console.log(e)
     const target: any = e.target
-    if (target.dataset.alt.indexOf('bg') > -1) {
-      message.warning('有且仅有一个根节点!')
-      return
-    }
+    
     if (!elementsObj) {
       if (type === 'block') {
         localStore.editorMange.setElementsObj({
@@ -44,6 +41,11 @@ const Design: React.FC = observer(() => {
           height: '380px',
           backgroundColor: '#fff'
         })
+      }
+    } else {
+      if (target.dataset.alt.indexOf('bg') > -1) {
+        message.warning('有且仅有一个根节点!')
+        return
       }
     }
   }
