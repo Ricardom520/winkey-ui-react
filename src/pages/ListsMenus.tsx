@@ -11,11 +11,11 @@ const ListsMenus: React.SFC = () => {
           组件
         </Link>
       </li>
-      <li>
+      {/* <li>
         <Link to='/design'>
           设计
         </Link>
-      </li>
+      </li> */}
     </ul>
   )
 }
