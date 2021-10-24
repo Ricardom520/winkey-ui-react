@@ -6,9 +6,18 @@ import { Tooltip, Card, Form, Input, Radio, message } from '@/components'
 import Header from '../Header'
 import Editor from './Components/Editor'
 import { ElementStruct } from '@/stores/EditorMange'
-import { Block } from './Templates'
+import { BlockTml, CardTml } from './Templates'
 import store from '@/stores'
 import './index.less'
+
+type HTMLElementEventStyle = {
+  offsetY: number
+  offsetX: number
+}
+
+type HTMLElementEvent<T extends HTMLElementEventStyle> = Event & {
+  nativeEvent: T
+}
 
 const layout = {
   labelCol: { span: 6 },
@@ -19,8 +28,9 @@ const Design: React.FC = observer(() => {
   const localStore = useLocalStore(() => store)
   const { elementsObj, focusElement } = localStore.editorMange
   const BlockRef: any = useRef<HTMLLIElement>()
+  const CardRef: any = useRef<HTMLElement>()
 
-  const setElement = (e: MouseEvent, type: string) => {
+  const setElement = (e: any, type: string) => {
     console.log(type)
     console.log(e)
     const target: any = e.target
@@ -41,11 +51,28 @@ const Design: React.FC = observer(() => {
           height: '380px',
           backgroundColor: '#fff'
         })
+      } else if (type === 'card') {
+        console.log(e)
       }
     } else {
-      if (target.dataset.alt.indexOf('bg') > -1) {
+      if (target.dataset.alt && target.dataset.alt.indexOf('bg') > -1) {
         message.warning('有且仅有一个根节点!')
         return
+      }
+
+      const index = e.target.dataset.alt
+      
+      if (type === 'card') {
+        console.log(e)
+        console.log(e.target.dataset.alt)
+         localStore.editorMange.children = []
+         localStore.editorMange[index].children.push({
+          id: `${index}_${localStore.editorMange[index].children.length}`,
+          type,
+          width: '100%',
+          height: '380px',
+          backgroundColor: '#fff'
+         })
       }
     }
   }
@@ -58,37 +85,44 @@ const Design: React.FC = observer(() => {
     let target: any;
     let copyElement: any;
 
+    if (type === 'block') {
+      target = BlockRef.current.children[0]
+      copyElement = target.cloneNode(true)
+    } else if (type === 'card'){
+      console.log(e)
+      target = CardRef.current.children[0]
+      copyElement = target.cloneNode(true)
+    }
+
+    handleMove(copyElement, target, type, e)
+  }
+
+  const handleMove: (copyElement: HTMLElement, target: HTMLElement, type: string, event: HTMLElementEvent<HTMLElementEventStyle>) => void = (copyElement, target, type, event) => {
     const getLocation = (event: MouseEvent) => {
       setElement(event, type)
     }
 
-    if (type === 'block') {
-      target = BlockRef.current.children[0]
-      copyElement = target.cloneNode(true)
-      
-      copyElement.style.position = "absolute"
-      copyElement.style.top = target.getBoundingClientRect().top + "px"
-      copyElement.style.left = target.getBoundingClientRect().left + "px"
+    copyElement.style.position = "absolute"
+    copyElement.style.zIndex = '2'
+    copyElement.style.top = target.getBoundingClientRect().top + "px"
+    copyElement.style.left = target.getBoundingClientRect().left + "px"
 
-      document.body.appendChild(copyElement)
-      
-      window.onmousemove = (moveEvent: MouseEvent) => {
-        copyElement.style.top = moveEvent.y - e.nativeEvent.offsetY + 'px'
-        copyElement.style.left = moveEvent.x - e.nativeEvent.offsetX + 'px'
-
-        window.onmouseup = (upEvent: MouseEvent) => {
-          console.log('///')
-          console.log(upEvent)
-          document.body.removeChild(copyElement)
-          document.addEventListener('mousemove', getLocation)
+    document.body.appendChild(copyElement)
     
-          setTimeout(function() {
-            window.onmousemove = null
-            window.onmouseup = null
+    window.onmousemove = (moveEvent: MouseEvent) => {
+      copyElement.style.top = moveEvent.y - event.nativeEvent.offsetY + 'px'
+      copyElement.style.left = moveEvent.x - event.nativeEvent.offsetX + 'px'
 
-            document.removeEventListener('mousemove', getLocation)
-          }, 100)
-        }
+      window.onmouseup = () => {
+        document.body.removeChild(copyElement)
+        document.addEventListener('mousemove', getLocation)
+  
+        setTimeout(function() {
+          window.onmousemove = null
+          window.onmouseup = null
+
+          document.removeEventListener('mousemove', getLocation)
+        }, 100)
       }
     }
   }
@@ -102,14 +136,14 @@ const Design: React.FC = observer(() => {
             <li className='listItem' onMouseDown={(e) => handleMouseDown('block', e)} ref={BlockRef}>
               <Tooltip title='block'>
                 <div> 
-                  <Block/>
+                  <BlockTml/>
                 </div>
               </Tooltip>
             </li>
-            <li className='listItem'>
+            <li className='listItem' onMouseDown={(e) => handleMouseDown('card', e)} ref={CardRef}>
               <Tooltip title='Card'>
                 <div>
-                  <Card title='title' size='small'/>
+                  <CardTml/>
                 </div>
               </Tooltip>
             </li>

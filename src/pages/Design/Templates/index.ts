@@ -1,5 +1,7 @@
-import Block from './Block'
+import BlockTml from './BlockTml'
+import CardTml from './CardTml'
 
 export {
-  Block
+  BlockTml,
+  CardTml
 }

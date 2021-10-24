@@ -14,12 +14,14 @@ const Editor: React.FC = observer((props) => {
   const [height, setHeight] = useState<number>(0)
 
   const instantiateElement = (arr, zIndex) => {
+    console.log(arr)
     if (!arr) {
       return null
     }
 
     if (arr.type === 'block') {
       return <div 
+        data-alt={`${arr.id}`}
         className={focusElement ? focusElement.id === arr.id ? 'focusElement' : '' : ''}
         style={{
           minWidth: arr.minWidth, 
@@ -36,7 +38,7 @@ const Editor: React.FC = observer((props) => {
 
   const handleClick = (e) => {
     console.log(e)
-    if (e.target.dataset.alt.indexOf('bg') > -1) {
+    if (e.target.dataset.alt && e.target.dataset.alt.indexOf('bg') > -1) {
       console.log('????')
       localStore.editorMange.focusElement = null
     }
