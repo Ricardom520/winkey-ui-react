@@ -13,18 +13,7 @@ export interface ElementStruct {
 
 interface FocusElementBaseStruct {
   id: string
-  type: string
-  width?: string
-  height?: string
-  color?: string
-  fontSize?: number
-  fontWeight?: number
-  hasBorder?: number
-  padding?: string
-  margin?: string
-  backgroundColor?: string
-  borderColor?: string
-  borderSize?: string
+  [props: string]: any
 }
 
 class editorMange {
@@ -37,6 +26,7 @@ class editorMange {
   @observable focusElement: FocusElementBaseStruct = null
 
   @action setElementsObj = (val) => {
+    console.log(val)
     this.elementsObj = val
   }
 

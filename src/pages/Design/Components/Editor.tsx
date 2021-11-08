@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { toJS } from 'mobx'
 import { useLocalStore } from 'mobx-react'
 import { observer } from 'mobx-react-lite'
 
@@ -6,6 +7,7 @@ import { ElementStruct } from '@/stores/EditorMange'
 import BgTable from './BgTable'
 import store from '@/stores'
 import './index.less'
+import { Card } from '@/components'
 
 const Editor: React.FC = observer((props) => {
   const localStore = useLocalStore(() => store)
@@ -15,6 +17,7 @@ const Editor: React.FC = observer((props) => {
 
   const instantiateElement = (arr, zIndex) => {
     console.log(arr)
+
     if (!arr) {
       return null
     }
@@ -26,11 +29,22 @@ const Editor: React.FC = observer((props) => {
         style={{
           minWidth: arr.minWidth, 
           minHeight: arr.minHeight,
+          padding: '20px 40px 20px 40px',
           backgroundColor: arr.backgroundColor
         }} 
         key={`block-${zIndex}`}>
-          {arr.children && instantiateElement(arr.children, zIndex + 1)}
+          {
+            arr.children && arr.children.map((item) => {
+              return instantiateElement(item, zIndex + 1)
+            })
+          }
         </div>
+    } else if (arr.type === 'card') {
+      return <div data-alt={`${arr.id}`} key={`card-${zIndex}`} className={focusElement ? focusElement.id === arr.id ? 'focusElement' : '' : ''}>
+        <Card title={arr.title}>
+          {arr.content || <p className="normal_color">展示内容</p>}
+        </Card>
+      </div>
     }
 
     return null
@@ -49,13 +63,17 @@ const Editor: React.FC = observer((props) => {
     setHeight(document.getElementById('editorBox').clientHeight)
   }, []) 
 
+  useEffect(() => {
+    console.log(elementsObj)
+  }, [elementsObj])
+
   return (
     <div className='editorContainer'>
       <div id='editorBox' className='editorBox' onClick={handleClick}>
         <BgTable width={width} height={height} />
         <div className='elementBox'>
           {
-            instantiateElement(elementsObj, 0)
+            instantiateElement(toJS(elementsObj), 0)
           }
         </div>
       </div>

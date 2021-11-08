@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { toJS } from 'mobx'
 import { useLocalStore } from 'mobx-react'
 import { observer } from 'mobx-react-lite'
 
@@ -42,13 +43,16 @@ const Design: React.FC = observer(() => {
           type,
           minWidth: '100%',
           minHeight: '380px',
+          padding: '20px 40px 20px 40px',
           backgroundColor: '#fff',
+          children: []
         })
         localStore.editorMange.setFocusElement({
           id: '0',
           type,
           width: '100%',
           height: '380px',
+          padding: '20px 40px 20px 40px',
           backgroundColor: '#fff'
         })
       } else if (type === 'card') {
@@ -61,18 +65,32 @@ const Design: React.FC = observer(() => {
       }
 
       const index = e.target.dataset.alt
+      const elementsObj_clone = toJS(elementsObj)
+      const id = `${index}_${localStore.editorMange.elementsObj.children.length}`
       
       if (type === 'card') {
-        console.log(e)
-        console.log(e.target.dataset.alt)
-         localStore.editorMange.children = []
-         localStore.editorMange[index].children.push({
-          id: `${index}_${localStore.editorMange[index].children.length}`,
+        console.log(toJS(elementsObj))
+        elementsObj_clone.children.push({
+          id,
           type,
           width: '100%',
           height: '380px',
-          backgroundColor: '#fff'
-         })
+          backgroundColor: '#fff',
+          title: '标题',
+          content: ''
+        })
+
+        localStore.editorMange.setFocusElement({
+          id,
+          type,
+          width: '100%',
+          height: '380px',
+          backgroundColor: '#fff',
+          title: '标题',
+          content: ''
+        })
+
+        localStore.editorMange.setElementsObj(elementsObj_clone)
       }
     }
   }
