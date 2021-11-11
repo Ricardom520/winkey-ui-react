@@ -34,6 +34,7 @@ import Upload from './Upload';
 import Modal from './Modal';
 import Skeleton from './Skeleton';
 import Tooltip from './Tooltip';
+import Table from './Table';
 
 import "./base.css";
 
@@ -73,5 +74,6 @@ export {
   Upload,
   Modal,
   Skeleton,
-  Tooltip
+  Tooltip,
+  Table
 }

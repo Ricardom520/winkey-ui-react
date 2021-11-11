@@ -174,7 +174,6 @@ export const menus = [
       {
         id: 28,
         url: '/table',
-        hidden: true,
         title: 'Table 表格'
       },
       {
