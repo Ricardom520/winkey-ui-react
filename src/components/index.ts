@@ -35,6 +35,7 @@ import Modal from './Modal';
 import Skeleton from './Skeleton';
 import Tooltip from './Tooltip';
 import Table from './Table';
+import Pagination from './Pagination';
 
 import "./base.css";
 
@@ -75,5 +76,6 @@ export {
   Modal,
   Skeleton,
   Tooltip,
-  Table
+  Table,
+  Pagination
 }

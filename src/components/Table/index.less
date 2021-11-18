@@ -1,0 +1,92 @@
+.wk-table {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: #000000d9;
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  list-style: none;
+  font-feature-settings: "tnum";
+  position: relative;
+  font-size: 14px;
+  background: #fff;
+  border-radius: 2px;
+  &-wrapper {
+    clear: both;
+    max-width: 100%;
+  }
+  &-container {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+  }
+  &-container::before, &-container::after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 30px;
+    transition: box-shadow .3s;
+    content: "";
+    pointer-events: none;
+  }
+  &-container::before {
+    left: 0;
+  }
+  &-selection {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+  }
+  table {
+    width: 100%;
+    text-align: left;
+    border-radius: 2px 2px 0 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    th.wk-table-selection-column, td.wk-table-selection-column {
+      padding-right: 8px;
+      padding-left: 8px;
+      text-align: center;
+    }
+    tr:hover {
+      background: #FAFAFA;
+    }
+  }
+}
+
+.wk-table-thead>tr>th, .wk-table-tbody>tr>td, .wk-table tfoot>tr>th, .wk-table tfoot>tr>td {
+  position: relative;
+  padding: 16px;
+  overflow-wrap: break-word;
+}
+
+.wk-table-thead>tr>th {
+  position: relative;
+  color: #000000d9;
+  font-weight: 500;
+  text-align: left;
+  background: #fafafa;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background .3s ease;
+}
+
+.wk-table-container table>thead>tr:first-child th:first-child {
+  border-top-left-radius: 2px;
+}
+
+.wk-table-tbody>tr>td {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background .3s;
+}
+
+.wk-table-thead>tr>th:not(:last-child):not(.wk-table-selection-column):not(.wk-table-row-expand-icon-cell):not([colspan]):before {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 1px;
+  height: 1.6em;
+  background-color: #0000000f;
+  transform: translateY(-50%);
+  transition: background-color .3s;
+  content: "";
+}

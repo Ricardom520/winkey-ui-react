@@ -16,12 +16,16 @@ export interface RadioGroupOptions {
   disabled?: boolean;
 }
 
+interface Target extends EventTarget {
+  value: string
+}
+
 export interface RadioGroupProps {
   children?: RadioGroupChidlren[] | RadioGroupChidlren;
   options?: RadioGroupOptions[] | string[];
   direction?: "row" | "col";
   value?: string | number;
-  onChange?: (value) => void;
+  onChange?: (value, target: Target) => void;
   className?: React.CSSProperties;
   optionType?: "button";
   buttonStyle?: "outline" | "solid";

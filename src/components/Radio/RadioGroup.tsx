@@ -116,7 +116,7 @@ export default class RadioGroup extends Component<RadioGroupProps, RadioGroupSta
     }
 
     if (this.props.onChange) {
-      this.props.onChange(value)
+      this.props.onChange(value, e.target)
     }
   }
 

@@ -25,7 +25,7 @@ class Spin extends Component<SpinProps> {
 
   render() {
     const { size, spinning, children, tip, style, className, wrapperClassName } = this.props;
-
+    console.log(children)
     return (
       <>
         {
@@ -57,28 +57,31 @@ class Spin extends Component<SpinProps> {
             'wk-spin-nested-loading' + ' ' +
             wrapperClassName || ''
           }>
-            <div>
-              <div style={style} className={
-                'wk-spin' + ' ' +
-                sizeClassName[size] + 
-                (spinning ? ' wk-spin-spinning' : '') +
-                (tip ? ' wk-spin-show-text' : '') + ' ' +
-                (className || '')
-              }>
-                <span className='wk-spin-dot wk-spin-dot-spin'>
-                  <i className='wk-spin-dot-item' />
-                  <i className='wk-spin-dot-item' />
-                  <i className='wk-spin-dot-item' />
-                  <i className='wk-spin-dot-item' />
-                </span>
-                {
-                  tip &&
-                  <div className='wk-spin-text'>
-                    {tip}
-                  </div>
-                }
+            {
+              spinning &&
+              <div>
+                <div style={style} className={
+                  'wk-spin' + ' ' +
+                  sizeClassName[size] + 
+                  (spinning ? ' wk-spin-spinning' : '') +
+                  (tip ? ' wk-spin-show-text' : '') + ' ' +
+                  (className || '')
+                }>
+                  <span className='wk-spin-dot wk-spin-dot-spin'>
+                    <i className='wk-spin-dot-item' />
+                    <i className='wk-spin-dot-item' />
+                    <i className='wk-spin-dot-item' />
+                    <i className='wk-spin-dot-item' />
+                  </span>
+                  {
+                    tip &&
+                    <div className='wk-spin-text'>
+                      {tip}
+                    </div>
+                  }
+                </div>
               </div>
-            </div>
+            }
             <div 
               className={
                 'wk-spin-container' +

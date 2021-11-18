@@ -143,7 +143,7 @@ const RadioPage: React.FC = () => {
           </div>
         }
         markdown={
-          <div className="gird-descrition" dangerouslySetInnerHTML={{ __html: RadioGroupMd }} />
+          <div className="gird-descrition" dangerouslySetInnerHTML={{ __html: RadioGroupMd.html }} />
         }
       />  
 

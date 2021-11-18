@@ -1,0 +1,106 @@
+.wk-pagination {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: #000000d9;
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  list-style: none;
+  font-feature-settings: "tnum";
+  &-item {
+    display: inline-block;
+    min-width: 32px;
+    height: 32px;
+    margin-right: 8px;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,apple color emoji,segoe ui emoji,Segoe UI Symbol,noto color emoji;
+    line-height: 30px;
+    text-align: center;
+    vertical-align: middle;
+    list-style: none;
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    outline: 0;
+    cursor: pointer;
+    user-select: none;
+    &-active {
+      color: #1890ff;
+      font-weight: 500;
+      background: #fff;
+      border-color: #1890ff;
+    }
+  }
+  &-item:hover {
+    cursor: pointer;
+  }
+}
+
+.wk-table-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 8px;
+  &-right {
+    justify-content: flex-end;
+  }
+  >* {
+    flex: none;
+  }
+}
+.wk-table-pagination.wk-pagination {
+  margin: 16px 0;
+}
+
+.wk-pagination-prev, .wk-pagination-jump-prev, .wk-pagination-jump-next {
+  margin-right: 8px;
+}
+
+.wk-pagination-prev, .wk-pagination-next, .wk-pagination-jump-prev, .wk-pagination-jump-next {
+  display: inline-block;
+  min-width: 32px;
+  height: 32px;
+  color: #000000d9;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,apple color emoji,segoe ui emoji,Segoe UI Symbol,noto color emoji;
+  line-height: 32px;
+  text-align: center;
+  vertical-align: middle;
+  list-style: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all .3s;
+}
+
+.wk-pagination-prev, .wk-pagination-next {
+  font-family: Arial,Helvetica,sans-serif;
+  outline: 0;
+}
+
+.wk-pagination-disabled, .wk-pagination-disabled:hover, .wk-pagination-disabled:focus-visible {
+  cursor: not-allowed;
+}
+
+.wk-pagination-prev button, .wk-pagination-next button {
+  color: #000000d9;
+  cursor: pointer;
+  user-select: none;
+}
+
+.wk-pagination-prev .wk-pagination-item-link, .wk-pagination-next .wk-pagination-item-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  font-size: 12px;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  outline: none;
+  transition: all .3s;
+}
+
+.wk-pagination-disabled .wk-pagination-item-link, .wk-pagination-disabled:hover .wk-pagination-item-link, .wk-pagination-disabled:focus-visible .wk-pagination-item-link {
+  color: #00000040;
+  border-color: #d9d9d9;
+  cursor: not-allowed;
+}
