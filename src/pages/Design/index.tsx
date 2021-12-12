@@ -7,7 +7,17 @@ import { Tooltip, Card, Form, Input, Radio, message } from '@/components'
 import Header from '../Header'
 import Editor from './Components/Editor'
 import { ElementStruct } from '@/stores/EditorMange'
-import { BlockTml, CardTml } from './Templates'
+import { 
+  BlockTml, 
+  CardTml, 
+  TableTml, 
+  InputTml,
+  ButtonTml,
+  SelectTml,
+  RadioTml,
+  CheckboxTml,
+  DatePickerTml
+} from './Templates'
 import store from '@/stores'
 import './index.less'
 
@@ -30,6 +40,13 @@ const Design: React.FC = observer(() => {
   const { elementsObj, focusElement } = localStore.editorMange
   const BlockRef: any = useRef<HTMLLIElement>()
   const CardRef: any = useRef<HTMLElement>()
+  const TableRef: any = useRef<HTMLElement>()
+  const InputRef: any = useRef<HTMLElement>()
+  const ButtonRef: any = useRef<HTMLElement>()
+  const SelectRef: any = useRef<HTMLElement>()
+  const RadioRef: any = useRef<HTMLElement>()
+  const CheckboxRef: any = useRef<HTMLElement>()
+  const DatePickerRef: any = useRef<HTMLElement>()
 
   const setElement = (e: any, type: string) => {
     console.log(type)
@@ -91,6 +108,22 @@ const Design: React.FC = observer(() => {
         })
 
         localStore.editorMange.setElementsObj(elementsObj_clone)
+      } else {
+        elementsObj_clone.children.push({
+          id,
+          type,
+          width: '100%',
+          height: '380px',
+        })
+
+        localStore.editorMange.setFocusElement({
+          id,
+          type,
+          width: '100%',
+          height: '380px',
+        })
+
+        localStore.editorMange.setElementsObj(elementsObj_clone)
       }
     }
   }
@@ -109,6 +142,9 @@ const Design: React.FC = observer(() => {
     } else if (type === 'card'){
       console.log(e)
       target = CardRef.current.children[0]
+      copyElement = target.cloneNode(true)
+    } else if (type === 'table') {
+      target = TableRef.current.children[0]
       copyElement = target.cloneNode(true)
     }
 
@@ -162,6 +198,55 @@ const Design: React.FC = observer(() => {
               <Tooltip title='Card'>
                 <div>
                   <CardTml/>
+                </div>
+              </Tooltip>
+            </li>
+            <li className='listItem' onMouseDown={(e) => handleMouseDown('table', e)} ref={TableRef}>
+              <Tooltip title='Table'>
+                <div>
+                  <TableTml/>
+                </div>
+              </Tooltip>
+            </li>
+            <li className='listItem' onMouseDown={(e) => handleMouseDown('input', e)} ref={InputRef}>
+              <Tooltip title='Input'>
+                <div>
+                  <InputTml/>
+                </div>
+              </Tooltip>
+            </li>
+            <li className='listItem' onMouseDown={(e) => handleMouseDown('button', e)} ref={ButtonRef}>
+              <Tooltip title='Button'>
+                <div>
+                  <ButtonTml/>
+                </div>
+              </Tooltip>
+            </li>
+            <li className='listItem' onMouseDown={(e) => handleMouseDown('select', e)} ref={SelectRef}>
+              <Tooltip title='Select'>
+                <div>
+                  <SelectTml/>
+                </div>
+              </Tooltip>
+            </li>
+            <li className='listItem' onMouseDown={(e) => handleMouseDown('radio', e)} ref={RadioRef}>
+              <Tooltip title='Radio'>
+                <div>
+                  <RadioTml/>
+                </div>
+              </Tooltip>
+            </li>
+            <li className='listItem' onMouseDown={(e) => handleMouseDown('checkbox', e)} ref={CheckboxRef}>
+              <Tooltip title='Checkbox'>
+                <div>
+                  <CheckboxTml/>
+                </div>
+              </Tooltip>
+            </li>
+            <li className='listItem' onMouseDown={(e) => handleMouseDown('datepicker', e)} ref={DatePickerRef}>
+              <Tooltip title='DatePicker'>
+                <div>
+                  <DatePickerTml/>
                 </div>
               </Tooltip>
             </li>
