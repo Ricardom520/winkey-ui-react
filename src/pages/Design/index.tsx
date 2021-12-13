@@ -181,6 +181,26 @@ const Design: React.FC = observer(() => {
     }
   }
 
+  const handleChangeInput = (e, type: string) => {
+    console.log(e.target.value)
+    console.log(type)
+    console.log(toJS(focusElement))
+    console.log(toJS(elementsObj))
+    const _elementsObj = toJS(elementsObj)
+    const keyPath = toJS(focusElement).id
+    const paths = keyPath.split('_')
+
+    if (paths.length === 1) {
+
+    } else {
+      const deepSetData = (obj, index) => {
+        if (index === paths.length) {
+          
+        }
+      }
+    }
+  }
+
   return (
     <div className='designContainer'>
       <Header/>
@@ -304,6 +324,12 @@ const Design: React.FC = observer(() => {
                       <Form.Item label='边框宽度'>
                         <Input placeholder='请输入边框宽度' value={focusElement.borderSize}/>
                       </Form.Item> 
+                  }
+                  {
+                    focusElement.title &&
+                    <Form.Item label='标题'>
+                      <Input placeholder='请输入标题' value={focusElement.title} onChange={(e) => handleChangeInput(e, 'title')}/>
+                    </Form.Item>
                   }
                 </Form>
               </Card>
