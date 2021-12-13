@@ -102,7 +102,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     const widths = [];
     let widthSum = 0;
     const moreChildren = [];
-    console.log(isMore);
+
     Array.prototype.slice.call(tabPanes).forEach((i, n) => {
       if (isMore) {
         widthSum += i.clientWidth + 32;

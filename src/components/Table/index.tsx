@@ -4,11 +4,11 @@ import { Pagination, Spin, Checkbox, Radio } from '../index'
 
 import './index.less'
 
-const rowSelectionThType = (type) => {
+const rowSelectionThType = (type, func1) => {
   const map = {
     checkbox: <th className='wk-table-cell wk-table-selection-column'>
       <div className='wk-table-selection'>
-        <Checkbox/>
+        <Checkbox onChange={func1} />
       </div>
     </th>,
     radio: <th className='wk-table-cell wk-table-selection-column'></th>
@@ -17,41 +17,100 @@ const rowSelectionThType = (type) => {
   return map[type]
 }
 
-const rowSelectionTdType  = (props, i, func1) => {
+const rowSelectionTdType  = (props, i, n, selectedRowKeys, func1) => {
   const { type, getCheckboxProps } = props
-  console.log(getCheckboxProps)
-  console.log(getCheckboxProps(i))
-  console.log(getCheckboxProps(i).disabled)
+
   const map = {
     checkbox: <td className='wk-table-cell wk-table-selection-column'>
-      <Checkbox disabled={getCheckboxProps(i).disabled} onChange={() => func1(i)} />
+      <Checkbox checked={selectedRowKeys[n] === i.key} disabled={getCheckboxProps(i).disabled} onChange={() => func1(i)} />
     </td>,
     radio: <td className='wk-table-cell wk-table-selection-column'>
-      <Radio disabled={getCheckboxProps(i).disabled} onChange={() => func1(i)}/>
+      <Radio checked={selectedRowKeys[0] === i.key} disabled={getCheckboxProps(i).disabled} onChange={() => func1(i)}/>
     </td>
   }
   return map[type]
 }
 
 class Table extends Component<TableProps, TableState> {
+  static defaultProps = {
+    dataSource: [],
+    columns: []
+  }
+
   constructor(props) {
     super(props)
 
     this.state = {
-  
+      selectedRowKeys: [],
+      selectedRows: [],
+      total: 1
     }
   }
-  componentDidMount() {
 
+  componentDidMount() {
+    const { dataSource } = this.props
+
+    if (dataSource.length) {
+      const total = Math.floor(dataSource.length / 10)
+
+      this.setState({
+        total
+      })
+    }
   }
 
   handleChange = (item: DataSource) => {
-    console.log(item)
+    let { selectedRowKeys, selectedRows } = this.state
+    const { rowSelection: { onChange, type }  } = this.props
+
+    if (type === 'checkbox') {
+      selectedRowKeys.push(item.key)
+
+      selectedRows.push(item)
+    } else {
+      selectedRows = [item]
+      selectedRowKeys = [item.key]
+    }
+
+    if (onChange) {
+      onChange(selectedRowKeys, selectedRows)
+    }
+
+    this.setState({
+      selectedRowKeys,
+      selectedRows
+    })
+  }
+
+  handleAllChange = (e) => {
+    const { dataSource, rowSelection: { onChange } } = this.props
+    let { selectedRowKeys, selectedRows } = this.state
+
+    if (e.target.checked) {
+
+      dataSource.forEach((i: DataSource) => {
+        selectedRowKeys.push(i.key)
+        selectedRows.push(i)
+      })
+    } else {
+      selectedRowKeys = []
+      selectedRows = []
+    }
+
+    if (onChange) {
+      onChange(selectedRowKeys, selectedRows)
+    }
+
+    this.setState({
+      selectedRowKeys,
+      selectedRows
+    })
   }
 
   render() {
-    const { columns = [], dataSource = [], rowSelection } = this.props
-    console.log(rowSelection)
+    const { columns, dataSource, rowSelection } = this.props
+    const { total, selectedRowKeys } = this.state
+
     return (
       <div className='wk-table-wrapper'>
         <Spin spinning={dataSource.length === 0}>
@@ -65,7 +124,7 @@ class Table extends Component<TableProps, TableState> {
                       {
                         rowSelection && 
                         rowSelection.type &&
-                        rowSelectionThType(rowSelection.type)
+                        rowSelectionThType(rowSelection.type, this.handleAllChange)
                       }
                       {
                         columns.map((i: Column, n: number) => {
@@ -84,7 +143,7 @@ class Table extends Component<TableProps, TableState> {
                             {
                               rowSelection &&
                               rowSelection.type &&
-                              rowSelectionTdType(rowSelection, i, this.handleChange)
+                              rowSelectionTdType(rowSelection, i, n, selectedRowKeys, this.handleChange)
                             }
                             {
                               columns.map((j: Column, m: number) => {
@@ -102,6 +161,7 @@ class Table extends Component<TableProps, TableState> {
           </div>
           <Pagination 
             type='table'
+            total={total}
           />
         </Spin>
       </div>
