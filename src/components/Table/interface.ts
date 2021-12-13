@@ -8,12 +8,17 @@ export interface TableProps {
     onChange?: (selectedRowKeys: React.Key[], selectedRows: DataSource[]) => void
     getCheckboxProps?: (record: DataSource) => void
   }
+  pagination?: boolean
+  loading?: boolean
+  showEmpty?: boolean
 }
 
 export interface TableState {
   selectedRowKeys: React.Key[],
   selectedRows: DataSource[],
   total: number
+  currentDataSource: DataSource[]
+  currentPage: number
 }
 
 export interface Column {

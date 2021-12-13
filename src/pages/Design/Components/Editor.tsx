@@ -7,7 +7,7 @@ import { ElementStruct } from '@/stores/EditorMange'
 import BgTable from './BgTable'
 import store from '@/stores'
 import './index.less'
-import { Card } from '@/components'
+import { Card, Table } from '@/components'
 
 const Editor: React.FC = observer((props) => {
   const localStore = useLocalStore(() => store)
@@ -44,6 +44,20 @@ const Editor: React.FC = observer((props) => {
         <Card title={arr.title}>
           {arr.content || <p className="normal_color">展示内容</p>}
         </Card>
+      </div>
+    } else if (arr.type === 'table') {
+      return <div style={{margin: '30px 0 0 0'}} data-alt={`${arr.id}`} key={`table-${zIndex}`} className={focusElement ? focusElement.id === arr.id ? 'focusElement' : '' : ''}>
+        <Table columns={[
+          {
+            title: 'table'
+          },
+          {
+            title: '属性1'
+          },
+          {
+            title: '属性2'
+          }
+        ]} dataSource={[]} />
       </div>
     }
 

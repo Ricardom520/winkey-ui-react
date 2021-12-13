@@ -3,6 +3,7 @@ import { TableProps, TableState, Column, DataSource } from './interface'
 import { Pagination, Spin, Checkbox, Radio } from '../index'
 
 import './index.less'
+import Empty from '../Empty'
 
 const rowSelectionThType = (type, func1) => {
   const map = {
@@ -34,7 +35,10 @@ const rowSelectionTdType  = (props, i, n, selectedRowKeys, func1) => {
 class Table extends Component<TableProps, TableState> {
   static defaultProps = {
     dataSource: [],
-    columns: []
+    columns: [],
+    pagination: true,
+    loading: false,
+    showEmpty: true
   }
 
   constructor(props) {
@@ -43,15 +47,28 @@ class Table extends Component<TableProps, TableState> {
     this.state = {
       selectedRowKeys: [],
       selectedRows: [],
-      total: 1
+      total: 1,
+      currentDataSource: [],
+      currentPage: 1,
     }
   }
 
   componentDidMount() {
-    const { dataSource } = this.props
+    const { dataSource = [] } = this.props
 
     if (dataSource.length) {
       const total = Math.floor(dataSource.length / 10)
+    
+      if (dataSource && dataSource.length > 10) {
+        const datas = dataSource.slice(0, 10)
+        this.setState({
+          currentDataSource: datas
+        })
+      } else {
+        this.setState({
+          currentDataSource: dataSource
+        })
+      }
 
       this.setState({
         total
@@ -107,13 +124,26 @@ class Table extends Component<TableProps, TableState> {
     })
   }
 
+  handleChangePage = (index) => {
+    console.log(index)
+    const { dataSource } = this.props
+    const _start = (index - 1) * 10
+    const _end = dataSource.length - _start > 10 ? 10 : dataSource.length
+    const datas = dataSource.slice(_start, _end)
+      console.log(datas)
+      this.setState({
+        currentDataSource: datas
+      })
+  }
+
   render() {
-    const { columns, dataSource, rowSelection } = this.props
     const { total, selectedRowKeys } = this.state
+    const { columns = [], dataSource = [], rowSelection, pagination, loading, showEmpty } = this.props
+    const { currentDataSource } = this.state
 
     return (
       <div className='wk-table-wrapper'>
-        <Spin spinning={dataSource.length === 0}>
+        <Spin spinning={loading}>
           <div className='wk-table'>
             <div className='wk-table-container'>
               <div className='wk-table-content'>
@@ -137,7 +167,7 @@ class Table extends Component<TableProps, TableState> {
                   </thead>
                   <tbody className='wk-table-tbody'>
                     {
-                      dataSource.map((i: DataSource, n: number) => {
+                      dataSource.length !== 0 && currentDataSource.map((i: DataSource, n: number) => {
                         return (
                           <tr key={`tr_${n}`} className='wk-table-row'>
                             {
@@ -154,15 +184,28 @@ class Table extends Component<TableProps, TableState> {
                         )
                       })
                     }
+                    {
+                      dataSource.length === 0 && showEmpty &&
+                      <tr className='wk-table-row'>
+                        <td colSpan={columns.length} className='wk-table-cell'>
+                          <Empty/>
+                        </td>
+                      </tr>
+                    }
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
-          <Pagination 
-            type='table'
-            total={total}
-          />
+          {
+            pagination && dataSource.length !== 0 &&
+            <Pagination 
+              type='table'
+              pageSize={10}
+              total={dataSource.length}
+              onChange={this.handleChangePage}
+            />
+          }
         </Spin>
       </div>
     )

@@ -1,7 +1,21 @@
 import BlockTml from './BlockTml'
 import CardTml from './CardTml'
+import TableTml from './TableTml'
+import InputTml from './InputTml'
+import ButtonTml from './ButtonTml'
+import SelectTml from './SelectTml'
+import RadioTml from './RadioTml'
+import CheckboxTml from './CheckboxTml'
+import DatePickerTml from './DatePickerTml'
 
 export {
   BlockTml,
-  CardTml
+  CardTml,
+  TableTml,
+  InputTml,
+  ButtonTml,
+  SelectTml,
+  RadioTml,
+  CheckboxTml,
+  DatePickerTml
 }

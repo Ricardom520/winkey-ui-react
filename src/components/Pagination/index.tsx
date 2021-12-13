@@ -42,9 +42,42 @@ class Pagination extends Component<PaginationProps, PaginationState> {
     })
   }
 
+  handleClickPrev = (disable: boolean) => {
+    if (disable) return
+
+    const { current, pageSize } = this.state
+    const { onChange } = this.props
+    const n = current - 1
+
+    if (onChange) {
+      onChange(n, pageSize)
+    }
+
+    this.setState({
+      current: n
+    })
+  }
+
+  handleClickNext = (disable: boolean) => {
+    if (disable) return
+
+    const { current, pageSize } = this.state
+    const { onChange } = this.props
+    const n = current + 1
+
+    if (onChange) {
+      onChange(n, pageSize)
+    }
+
+    this.setState({
+      current: n
+    })
+  }
+
   render() {
-    const { type, total } = this.props
+    const { type, total, pageSize } = this.props
     const { current } = this.state
+    const page = total ? Math.ceil(total / pageSize) : 1
     console.log(current)
     return (
       <ul 
@@ -59,12 +92,12 @@ class Pagination extends Component<PaginationProps, PaginationState> {
             (current === 1 ? ' wk-pagination-disabled' : '')
           }
         >
-          <button className='wk-pagination-item-link'>
+          <button className='wk-pagination-item-link' onClick={() => this.handleClickPrev(current === 1)}>
             <i className="iconfont wk-icon-arrow-left"/>
           </button>
         </li>
         {
-          new Array(total || 1).fill(0).map((_, n: number) => {
+          new Array(page).fill(0).map((_, n: number) => {
             const index = n + 1
             return (
               <li 
@@ -84,10 +117,10 @@ class Pagination extends Component<PaginationProps, PaginationState> {
         <li 
           className={
             'wk-pagination-next' +
-            (current === (total || 1) ? ' wk-pagination-disabled' : '')
+            (current === page ? ' wk-pagination-disabled' : '')
           }
         >
-          <button className='wk-pagination-item-link'>
+          <button className='wk-pagination-item-link' onClick={() => this.handleClickNext(current === page)}>
             <i className="iconfont wk-icon-arrow-right"/>
           </button>
         </li>

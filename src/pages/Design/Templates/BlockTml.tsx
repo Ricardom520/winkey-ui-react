@@ -4,7 +4,7 @@ import '../index.less'
 
 const Block = () => {
   return (
-    <div className='block_demo'/>
+    <div className='base_demo'/>
   )
 }
 
