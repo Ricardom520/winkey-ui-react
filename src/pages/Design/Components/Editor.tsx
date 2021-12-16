@@ -15,6 +15,10 @@ const Editor: React.FC = observer((props) => {
   const [width, setWidth] = useState<number>(0)
   const [height, setHeight] = useState<number>(0)
 
+  const handleFocusClick = (item: ElementStruct) => {
+    localStore.editorMange.setFocusElement(item)
+  }
+
   const instantiateElement = (arr, zIndex) => {
     console.log(arr)
 
@@ -40,25 +44,40 @@ const Editor: React.FC = observer((props) => {
           }
         </div>
     } else if (arr.type === 'card') {
-      return <div data-alt={`${arr.id}`} key={`card-${zIndex}`} className={focusElement ? focusElement.id === arr.id ? 'focusElement' : '' : ''}>
-        <Card title={arr.title}>
-          {arr.content || <p className="normal_color">展示内容</p>}
-        </Card>
-      </div>
+      return (
+        <div 
+          data-alt={`${arr.id}`} 
+          key={`card-${zIndex}`} 
+          className={focusElement ? focusElement.id === arr.id ? 'focusElement' : '' : ''}
+          onDoubleClick={() => handleFocusClick(arr)}
+        >
+          <Card title={arr.title}>
+            {arr.content || <p className="normal_color">展示内容</p>}
+          </Card>
+        </div>
+      )
     } else if (arr.type === 'table') {
-      return <div style={{margin: '30px 0 0 0'}} data-alt={`${arr.id}`} key={`table-${zIndex}`} className={focusElement ? focusElement.id === arr.id ? 'focusElement' : '' : ''}>
-        <Table columns={[
-          {
-            title: 'table'
-          },
-          {
-            title: '属性1'
-          },
-          {
-            title: '属性2'
-          }
-        ]} dataSource={[]} />
-      </div>
+      return (
+        <div 
+          style={{margin: '30px 0 0 0'}} 
+          data-alt={`${arr.id}`} 
+          key={`table-${zIndex}`} 
+          className={focusElement ? focusElement.id === arr.id ? 'focusElement' : '' : ''}
+          onDoubleClick={() => handleFocusClick(arr)}
+        >
+          <Table columns={[
+            {
+              title: 'table'
+            },
+            {
+              title: '属性1'
+            },
+            {
+              title: '属性2'
+            }
+          ]} dataSource={[]} />
+        </div>
+      )
     }
 
     return null

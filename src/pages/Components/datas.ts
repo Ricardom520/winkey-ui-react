@@ -196,6 +196,11 @@ export const menus = [
         id: 32,
         url: '/tooltip',
         title: 'Tooltip 文字提示'
+      },
+      {
+        id: 42,
+        url: '/tree',
+        title: 'Tree 树形控件'
       }
     ]
   },

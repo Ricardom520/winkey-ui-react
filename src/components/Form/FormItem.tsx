@@ -312,7 +312,7 @@ export default class FormItem extends React.Component<FormItemProps, FormItemSta
       checkGroup: <Checkbox.Group value={formValues[name] === undefined ? (kid.props.value || kid.props.defaultValue) : formValues[name]} {...kid.props} size={size} key={key} onChange={e => this.formCheckboxGroupChange(e, kid.props)} />
     }
 
-    return childType[kid.type.winkeyName]
+    return childType[kid.type.winkeyName] || kid
   }
 
   render() {
