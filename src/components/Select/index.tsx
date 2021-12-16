@@ -24,7 +24,6 @@ interface SelectProps {
   disabled?: boolean;
   loading?: boolean;
   allowClear?: boolean;
-  children?: ReactNode;
   placeholder?: string;
   showSearch?: boolean;
   optionFilterProp?: "children";
@@ -36,7 +35,7 @@ interface SelectProps {
 }
 
 interface SelectState {
-  children: ReactNode;
+  children: ReactNode | ReactNode[];
   focus: boolean;
   open: boolean;
   offsetTop: number;
@@ -103,10 +102,19 @@ export default class Select extends React.Component<SelectProps, SelectState> {
 
   componentDidMount() {
     const { value, defaultValue, children } = this.props;
+    let copyChildren: any = children
+
+    if (copyChildren && copyChildren.length) {
+      copyChildren = copyChildren.filter((item: ReactNode) => {
+        return item
+      })
+
+      copyChildren = Object.assign([], copyChildren)
+    }
     
     this.setState({
       value: value || defaultValue || [],
-      children: children
+      children: copyChildren
     })
 
     this.initLabelAndValue(this.props)
@@ -132,7 +140,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
   }
 
   UNSAFE_componentWillReceiveProps(next) {
-    const { value } = next;
+    const { value, children } = next;
 
     if (value === undefined) {
       this.setState({
@@ -144,8 +152,18 @@ export default class Select extends React.Component<SelectProps, SelectState> {
 
     this.initLabelAndValue(next)
 
+    let copyChildren: any = children
+
+    if (copyChildren && copyChildren.length) {
+      copyChildren = copyChildren.filter((item: ReactNode) => {
+        return item
+      })
+
+      copyChildren = Object.assign([], copyChildren)
+    }
+
     this.setState({
-      children: next.children
+      children: copyChildren
     })
   }
 
@@ -157,7 +175,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
 
       if ((typeof value !== 'object') && (typeof defaultValue !== 'object')) {
         toArrayChildren.forEach(i => {
-          if (i.props.value === (value || defaultValue)) {
+          if (i && i.props && i.props.value === (value || defaultValue)) {
             this.setState({
               label: i.props.children
             })

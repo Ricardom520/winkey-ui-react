@@ -19,12 +19,12 @@ const getLessLoaderOptions = function({ cssModules = false }) {
         sourceMap: true
       }
     },
-    {
-      loader: 'postcss-loader',
-      options: {
-        sourceMap: true
-      }
-    },
+    // {
+    //   loader: 'postcss-loader',
+    //   options: {
+    //     sourceMap: true
+    //   }
+    // },
     {
       loader: 'less-loader',
       options: {
@@ -108,12 +108,12 @@ module.exports = {
               sourceMap: true
             }
           },
-          {
-            loader: 'postcss-loader',
-            options: {
-              sourceMap: true
-            }
-          }
+          // {
+          //   loader: 'postcss-loader',
+          //   options: {
+          //     sourceMap: true
+          //   }
+          // }
         ]
       },
       {
@@ -127,14 +127,14 @@ module.exports = {
               importLoaders: 2,
             }
           },
-          {
-            loader: 'postcss-loader',
-            options: {
-              // plugins: [
-              //   require("autoprefixer")("last 100 versions")
-              // ]
-            }
-          },
+          // {
+          //   loader: 'postcss-loader',
+          //   options: {
+          //     // plugins: [
+          //     //   require("autoprefixer")("last 100 versions")
+          //     // ]
+          //   }
+          // },
           {
             loader: 'less-loader',
             options: {

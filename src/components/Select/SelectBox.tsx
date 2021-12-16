@@ -72,6 +72,7 @@ class SelectBox extends React.Component<SelectBoxProps> {
                     <div className="wk-virtual-list-holder-inner" style={{display: 'flex', flexDirection: 'column'}}>
                       {
                         React.Children.map(children, (child: any) => {
+                          if (!child) return null
                           return React.cloneElement(child, {
                             onClick: this.handleClick,
                             checked: typeof value === 'object' ?
