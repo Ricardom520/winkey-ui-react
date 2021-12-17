@@ -48,9 +48,16 @@
       border-right: 4px solid transparent;
       border-bottom: 4px solid transparent;
       border-left: 4px solid #2E2E2E;
+      transition: all ease-in-out .1s;
+      transform-origin: center left;
     }
     &-noop {
       cursor: default;
+    }
+    &_open {
+      .wk-tree-switcher-icon {
+        transform: rotate(90deg) translateY(-2px) translateX(-2px);
+      }
     }
   }
   &-checkbox {
@@ -154,4 +161,21 @@
   border-color: #00000040;
   -webkit-animation-name: none;
   animation-name: none;
+}
+
+.wk-tree-checkbox-indeterminate .wk-tree-checkbox-inner {
+  background-color: #fff;
+  border-color: #d9d9d9;
+}
+
+.wk-tree-checkbox-indeterminate .wk-tree-checkbox-inner:after {
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background-color: #1890ff;
+  border: 0;
+  transform: translate(-50%,-50%) scale(1);
+  opacity: 1;
+  content: " ";
 }

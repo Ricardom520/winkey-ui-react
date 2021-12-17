@@ -8,12 +8,19 @@ export interface TreeDataStruce {
   children?: TreeDataStruce[]
 }
 
+export interface TreeDataPrivateStruce extends TreeDataStruce {
+  checked?: boolean
+  indeterminate?: boolean
+  expanded?: boolean
+}
+
 export interface TreeProps {
   checkable?: boolean
   defaultExpandedKeys?: any[]
   defaultSelectedKeys?: any[]
   defaultCheckedKeys?: any[]
   checkedKeys?: any[]
+  expandedKeys?: any[]
   onSelect?: (selectedKeys: React.Key[], info: any) => void
   onCheck?: (selectedKeys: React.Key[], info: any) => void
   treeData?: TreeDataStruce[]
@@ -21,4 +28,6 @@ export interface TreeProps {
 
 export interface TreeState {
   checkedKeys: any[]
+  expandedKeys: any[]
+  treeData: TreeDataPrivateStruce[]
 }

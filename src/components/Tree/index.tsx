@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 
-import { TreeProps, TreeDataStruce, TreeState } from './interface'
+import { TreeProps, TreeDataStruce, TreeState, TreeDataPrivateStruce } from './interface'
 import './index.less'
+import Item from '../Menu/Item'
 
 class Tree extends Component<TreeProps, TreeState> {
   static defaultProps = {
@@ -12,35 +13,139 @@ class Tree extends Component<TreeProps, TreeState> {
     super(props)
 
     this.state = {
-      checkedKeys: []
+      checkedKeys: [],
+      treeData: [],
+      expandedKeys: []
     }
   }
 
   componentDidMount() {
-    const { defaultCheckedKeys, checkedKeys } = this.props
+    const { defaultCheckedKeys, checkedKeys, treeData, defaultExpandedKeys, expandedKeys } = this.props
 
     if (defaultCheckedKeys || checkedKeys) {
       this.setState({
-        checkedKeys: checkedKeys || defaultCheckedKeys
+        checkedKeys: checkedKeys || defaultCheckedKeys,
       })
     }
+
+    if (defaultCheckedKeys || expandedKeys) {
+      this.setState({
+        expandedKeys: expandedKeys || defaultCheckedKeys
+      })
+    }
+
+    this.initTreeData(treeData)
   }
 
   componentWillReceiveProps(next) {
-    const { defaultCheckedKeys, checkedKeys } = next
+    const { defaultCheckedKeys, checkedKeys, treeData, defaultExpandedKeys, expandedKeys } = next
 
     if (defaultCheckedKeys || checkedKeys) {
       this.setState({
-        checkedKeys: checkedKeys || defaultCheckedKeys
+        checkedKeys: checkedKeys || defaultCheckedKeys,
+      })
+    }
+
+    if (defaultCheckedKeys || expandedKeys) {
+      this.setState({
+        expandedKeys: expandedKeys || defaultCheckedKeys
+      })
+    }
+
+    this.initTreeData(treeData)
+  }
+
+  initTreeData = (treeData) => {
+    if (treeData && treeData.length) {
+      this.setState({
+        treeData
+      }, () => {
+        treeData.forEach((item: TreeDataPrivateStruce) => {
+          this.deepTreeData(item)
+        })
       })
     }
   }
 
-  initTreeItem = (arr: TreeDataStruce[], index: number) => {
+  deepTreeData = (info: TreeDataPrivateStruce) => {
+    const { checkedKeys, treeData, expandedKeys } = this.state
+    let checkedNums = 0
+    let expandedNums = 0
+
+    if (info.children) {
+      info.children.forEach((item: TreeDataPrivateStruce) => {
+        if (checkedKeys.includes(item.key) && !item.disabled) {
+          checkedNums++
+        }
+        if (item.disabled) {
+          checkedNums--
+        }
+        if (expandedKeys.includes(item.key)) {
+          expandedNums++
+        }
+  
+        this.deepTreeData(item)
+      })
+
+      if (checkedNums === info.children.length) {
+        checkedKeys.push(info.key)
+        info.checked = true
+        info.indeterminate = false
+      } else if (checkedNums > 0) {
+        info.checked = false
+        info.indeterminate = true
+      } else {
+        info.checked = checkedKeys.includes(info.key) || false
+        info.indeterminate = false
+      }
+    }
+
+    info.expanded = expandedKeys.includes(info.key) || expandedNums > 0
+    console.log(info)
+    this.setState({
+      treeData: Object.assign([], treeData),
+      checkedKeys
+    })
+  }
+
+  handleClickSwitcher = (info: TreeDataPrivateStruce) => {
+    const { treeData }  = this.state
+    info.expanded = !info.expanded
+
+    this.setState({
+      treeData
+    })
+  }
+
+  handleClickCheckbox = (info: TreeDataPrivateStruce) => {
+    const { onCheck } = this.props
+    let { treeData, checkedKeys } = this.state
+
+    info.checked = !info.checked
+
+    if (checkedKeys.includes(info.key)) {
+      checkedKeys = checkedKeys.filter((key: React.Key) => {
+        return key !== info.key
+      })
+    } else {
+      checkedKeys.push(info.key)
+    }
+
+    if (onCheck) {
+      onCheck(checkedKeys, info)
+    }
+
+    this.setState({
+      treeData,
+      checkedKeys
+    })
+  }
+
+  initTreeItem = (arr: TreeDataPrivateStruce[], index: number, checked?: boolean) => {
     const { checkedKeys } = this.state
-    console.log(checkedKeys)
+
     return (
-      arr.map((item: TreeDataStruce) => {
+      arr.map((item: TreeDataPrivateStruce) => {
         return (
           <>
             <div 
@@ -70,8 +175,9 @@ class Tree extends Component<TreeProps, TreeState> {
                 className={
                   'wk-tree-switcher' +
                   (item.children && item.children.length !== 0 ? '' : ' wk-tree-switcher-noop') +
-                  ' wk-tree-switcher_open'
+                  (item.expanded ? ' wk-tree-switcher_open' : '')
                 }
+                onClick={() => this.handleClickSwitcher(item)}
               >
                 {
                   item.children && item.children.length !== 0 && <i className='wk-tree-switcher-icon' />
@@ -80,9 +186,12 @@ class Tree extends Component<TreeProps, TreeState> {
               <span 
                 className={
                   'wk-tree-checkbox' +
-                  (checkedKeys.includes(item.key) ? ' wk-tree-checkbox-checked' : '') +
-                  (item.disabled ? ' wk-tree-checkbox-disabled' : '')
+                  // ((checkedKeys.includes(item.key) || item.checked) ? ' wk-tree-checkbox-checked' : '') +
+                  (item.checked ? ' wk-tree-checkbox-checked' : '') +
+                  (item.indeterminate ? ' wk-tree-checkbox-indeterminate' : '') +
+                  (item.disabled || item.disableCheckbox ? ' wk-tree-checkbox-disabled' : '')
                 }
+                onClick={() => this.handleClickCheckbox(item)}
               >
                 <span className='wk-tree-checkbox-inner'></span>
               </span>
@@ -96,8 +205,8 @@ class Tree extends Component<TreeProps, TreeState> {
               </span>
             </div>
             {
-              item.children &&
-              this.initTreeItem(item.children, index + 1)
+              item.children && item.expanded &&
+              this.initTreeItem(item.children, index + 1, checkedKeys.includes(item.key) && !item.disabled)
             }
           </>
         )
@@ -106,7 +215,7 @@ class Tree extends Component<TreeProps, TreeState> {
   }
 
   render() {
-    const { treeData } = this.props
+    const { treeData } = this.state
     console.log(treeData)
     return (
       <div 
