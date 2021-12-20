@@ -42,3 +42,25 @@
 .normal_color {
   color: #B8B8B8;
 }
+
+.inputControl {
+  display: flex;
+  align-items: center;
+  &-value {
+    color: #B8B8B8;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  &-btn {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    i {
+      color: #888;
+    }
+    i:first-child {
+      margin-right: 5px;
+    }
+  }
+}

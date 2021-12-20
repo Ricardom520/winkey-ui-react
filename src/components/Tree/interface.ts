@@ -12,6 +12,7 @@ export interface TreeDataPrivateStruce extends TreeDataStruce {
   checked?: boolean
   indeterminate?: boolean
   expanded?: boolean
+  parent?: TreeDataPrivateStruce
 }
 
 export interface TreeProps {

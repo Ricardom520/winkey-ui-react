@@ -130,13 +130,16 @@ const Design: React.FC = observer(() => {
           height: '380px',
           columns: [
             {
-              title: 'table'
+              title: 'table',
+              dataIndex: 'table'
             },
             {
-              title: '属性1'
+              title: '属性1',
+              dataIndex: '属性1'
             },
             {
-              title: '属性2'
+              title: '属性2',
+              dataIndex: '属性2'
             }
           ]
         })

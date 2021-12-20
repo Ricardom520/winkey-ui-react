@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite'
 
 import store from '@/stores'
 import { Card, Form, Input, Radio } from '@/components'
+import TreeData from './TreeData'
  
 const layout = {
   labelCol: { span: 6 },
@@ -44,6 +45,10 @@ const Control: React.FC = observer(() => {
 
       deepSetData(_elementsObj, 1)
     }
+  }
+
+  const hanleChangeTree = (val) => {
+    console.log(val)
   }
 
   return (
@@ -104,7 +109,7 @@ const Control: React.FC = observer(() => {
             focusElement.columns &&
             <Form.Item label='列属性'>
               <div>
-                columns
+                <TreeData data={toJS(focusElement.columns)} onChange={hanleChangeTree} />
               </div>
             </Form.Item>
           }

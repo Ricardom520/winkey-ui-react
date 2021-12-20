@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 
-import { TreeProps, TreeDataStruce, TreeState, TreeDataPrivateStruce } from './interface'
+import { TreeProps, TreeState, TreeDataPrivateStruce } from './interface'
 import './index.less'
-import Item from '../Menu/Item'
 
 class Tree extends Component<TreeProps, TreeState> {
   static defaultProps = {
@@ -72,13 +71,17 @@ class Tree extends Component<TreeProps, TreeState> {
     let checkedNums = 0
     let expandedNums = 0
 
+    info.checked = info.checked || checkedKeys.includes(info.key) || false
+
     if (info.children) {
       info.children.forEach((item: TreeDataPrivateStruce) => {
-        if (checkedKeys.includes(item.key) && !item.disabled) {
-          checkedNums++
+        item.parent = info
+        if (info.checked && !info.disabled) {
+          item.checked = true
         }
-        if (item.disabled) {
-          checkedNums--
+
+        if (checkedKeys.includes(item.key)) {
+          checkedNums++
         }
         if (expandedKeys.includes(item.key)) {
           expandedNums++
@@ -95,13 +98,12 @@ class Tree extends Component<TreeProps, TreeState> {
         info.checked = false
         info.indeterminate = true
       } else {
-        info.checked = checkedKeys.includes(info.key) || false
         info.indeterminate = false
       }
     }
 
     info.expanded = expandedKeys.includes(info.key) || expandedNums > 0
-    console.log(info)
+
     this.setState({
       treeData: Object.assign([], treeData),
       checkedKeys
@@ -123,7 +125,68 @@ class Tree extends Component<TreeProps, TreeState> {
 
     info.checked = !info.checked
 
-    if (checkedKeys.includes(info.key)) {
+    const initParent = (data: TreeDataPrivateStruce) => {
+      if (data.parent) {
+        const parent = data.parent
+        let childrenCheckedNums = 0
+        let childrenDisabledNums = 0
+
+        parent.children.forEach((item: TreeDataPrivateStruce) => {
+          if (item.checked && !item.disabled) {
+            childrenCheckedNums++
+          }
+          if (item.disabled) {
+            childrenDisabledNums++
+          }
+        })
+
+        if (childrenCheckedNums === parent.children.length - childrenDisabledNums) {
+          checkedKeys.push(parent.key)
+          parent.checked = true
+          parent.indeterminate = false
+        } else if (childrenCheckedNums > 0) {
+          parent.checked = false
+          parent.indeterminate = true
+        } else {
+          parent.checked = false
+          parent.indeterminate = false
+
+          checkedKeys = checkedKeys.filter((key: React.Key) => {
+            return key !== parent.key
+          })
+        }
+
+        initParent(parent)
+      }
+
+      return
+    }
+
+    initParent(info)
+
+    const initChilren = (data: TreeDataPrivateStruce) => {
+      if (data.children) {
+        data.children.forEach((item: TreeDataPrivateStruce) => {
+          if (!item.disabled) {
+            item.checked = data.checked
+            
+            if (item.checked) {
+              checkedKeys.push(item.key)
+            } else {
+              checkedKeys = checkedKeys.filter((key: React.Key) => {
+                return key !== item.key
+              })
+            }
+
+            initChilren(item)
+          }
+        })
+      }
+    }
+
+    initChilren(info)
+
+    if (!info.checked) {
       checkedKeys = checkedKeys.filter((key: React.Key) => {
         return key !== info.key
       })
@@ -143,11 +206,12 @@ class Tree extends Component<TreeProps, TreeState> {
 
   initTreeItem = (arr: TreeDataPrivateStruce[], index: number, checked?: boolean) => {
     const { checkedKeys } = this.state
+    const { checkable } = this.props
 
     return (
       arr.map((item: TreeDataPrivateStruce) => {
         return (
-          <>
+          <React.Fragment key={item.key}>
             <div 
               className={
                 'wk-tree-treenode' +
@@ -162,6 +226,7 @@ class Tree extends Component<TreeProps, TreeState> {
                   new Array(index).fill(0).map((_, n: number) => {
                     return (
                       <span
+                        key={`${item.key}_wk-tree-indent_${n}`}
                         className={
                           'wk-tree-indent-unit wk-tree-indent-unit-start' + 
                           (n === index - 1 ? ' wk-tree-indent-unit-end' : '')
@@ -183,18 +248,20 @@ class Tree extends Component<TreeProps, TreeState> {
                   item.children && item.children.length !== 0 && <i className='wk-tree-switcher-icon' />
                 }
               </span>
-              <span 
-                className={
-                  'wk-tree-checkbox' +
-                  // ((checkedKeys.includes(item.key) || item.checked) ? ' wk-tree-checkbox-checked' : '') +
-                  (item.checked ? ' wk-tree-checkbox-checked' : '') +
-                  (item.indeterminate ? ' wk-tree-checkbox-indeterminate' : '') +
-                  (item.disabled || item.disableCheckbox ? ' wk-tree-checkbox-disabled' : '')
-                }
-                onClick={() => this.handleClickCheckbox(item)}
-              >
-                <span className='wk-tree-checkbox-inner'></span>
-              </span>
+              {
+                checkable && 
+                <span 
+                  className={
+                    'wk-tree-checkbox' +
+                    (item.checked ? ' wk-tree-checkbox-checked' : '') +
+                    (item.indeterminate ? ' wk-tree-checkbox-indeterminate' : '') +
+                    (item.disabled || item.disableCheckbox ? ' wk-tree-checkbox-disabled' : '')
+                  }
+                  onClick={() => this.handleClickCheckbox(item)}
+                >
+                  <span className='wk-tree-checkbox-inner'></span>
+                </span>
+              }
               <span
                 className={
                   'wk-tree-node-content-wrapper' +
@@ -208,7 +275,7 @@ class Tree extends Component<TreeProps, TreeState> {
               item.children && item.expanded &&
               this.initTreeItem(item.children, index + 1, checkedKeys.includes(item.key) && !item.disabled)
             }
-          </>
+          </React.Fragment>
         )
       })
     )
@@ -216,7 +283,7 @@ class Tree extends Component<TreeProps, TreeState> {
 
   render() {
     const { treeData } = this.state
-    console.log(treeData)
+
     return (
       <div 
         className={
