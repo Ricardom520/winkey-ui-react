@@ -19,9 +19,7 @@ const Editor: React.FC = observer((props) => {
     localStore.editorMange.setFocusElement(item)
   }
 
-  const instantiateElement = (arr, zIndex) => {
-    console.log(arr)
-
+  const instantiateElement = (arr: ElementStruct, zIndex) => {
     if (!arr) {
       return null
     }
@@ -38,7 +36,7 @@ const Editor: React.FC = observer((props) => {
         }} 
         key={`block-${zIndex}`}>
           {
-            arr.children && arr.children.map((item) => {
+            arr.children && arr.children.map((item: ElementStruct) => {
               return instantiateElement(item, zIndex + 1)
             })
           }
@@ -59,23 +57,13 @@ const Editor: React.FC = observer((props) => {
     } else if (arr.type === 'table') {
       return (
         <div 
-          style={{margin: '30px 0 0 0'}} 
+          style={{margin: arr.margin}} 
           data-alt={`${arr.id}`} 
           key={`table-${zIndex}`} 
           className={focusElement ? focusElement.id === arr.id ? 'focusElement' : '' : ''}
           onDoubleClick={() => handleFocusClick(arr)}
         >
-          <Table columns={[
-            {
-              title: 'table'
-            },
-            {
-              title: '属性1'
-            },
-            {
-              title: '属性2'
-            }
-          ]} dataSource={[]} />
+          <Table columns={arr.columns} dataSource={[]} />
         </div>
       )
     }
@@ -84,9 +72,7 @@ const Editor: React.FC = observer((props) => {
   }
 
   const handleClick = (e) => {
-    console.log(e)
     if (e.target.dataset.alt && e.target.dataset.alt.indexOf('bg') > -1) {
-      console.log('????')
       localStore.editorMange.focusElement = null
     }
   }
@@ -94,11 +80,7 @@ const Editor: React.FC = observer((props) => {
   useEffect(() => {
     setWidth(document.getElementById('editorBox').clientWidth)
     setHeight(document.getElementById('editorBox').clientHeight)
-  }, []) 
-
-  useEffect(() => {
-    console.log(elementsObj)
-  }, [elementsObj])
+  }, [])
 
   return (
     <div className='editorContainer'>

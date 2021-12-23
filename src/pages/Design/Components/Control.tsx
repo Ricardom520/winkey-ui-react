@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { toJS } from 'mobx'
 import { useLocalStore } from 'mobx-react'
 import { observer } from 'mobx-react-lite'
 
 import store from '@/stores'
+import { ElementStruct } from '@/stores/EditorMange'
 import { Card, Form, Input, Radio } from '@/components'
 import TreeData from './TreeData'
  
@@ -15,6 +16,7 @@ const layout = {
 const Control: React.FC = observer(() => {
   const localStore = useLocalStore(() => store)
   const { elementsObj, focusElement } = localStore.editorMange
+  const [_elementsObj, setElementsObj] = useState<ElementStruct>()
 
   const handleChangeHasBorder = (val) => {
     focusElement.hasBorder = val
@@ -22,7 +24,6 @@ const Control: React.FC = observer(() => {
 
   const handleChangeInput = (e, type: string) => {
     const value = e.target.value
-    const _elementsObj = toJS(elementsObj)
     const _focusElement = toJS(focusElement)
     const keyPath = _focusElement.id
     const paths = keyPath.split('_')
@@ -48,8 +49,37 @@ const Control: React.FC = observer(() => {
   }
 
   const hanleChangeTree = (val) => {
-    console.log(val)
+    handleData(val, 'columns')
   }
+
+  const handleData = (val: any, type: string) => {
+    const _focusElement = toJS(focusElement)
+    const keyPath = _focusElement.id
+    const paths = keyPath.split('_')
+
+    if (paths.length === 1) {
+
+    } else {
+      const deepSetData = (obj, index) => {
+        if (index === paths.length) {
+          obj[type] = val
+
+          _focusElement[type] = val
+          localStore.editorMange.setElementsObj(_elementsObj)
+          localStore.editorMange.setFocusElement(_focusElement)
+          return
+        }
+
+        deepSetData(obj.children[paths[index]], index + 1)
+      }
+
+      deepSetData(_elementsObj, 1)
+    }
+  }
+
+  useEffect(() => {
+    setElementsObj(toJS(elementsObj))
+  }, [elementsObj])
 
   return (
     <div className='controls'>
@@ -109,7 +139,7 @@ const Control: React.FC = observer(() => {
             focusElement.columns &&
             <Form.Item label='列属性'>
               <div>
-                <TreeData data={toJS(focusElement.columns)} onChange={hanleChangeTree} />
+                <TreeData data={toJS(focusElement.columns)} onChange={(val) => hanleChangeTree(val)} />
               </div>
             </Form.Item>
           }

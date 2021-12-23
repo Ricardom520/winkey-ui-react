@@ -125,15 +125,14 @@ class Table extends Component<TableProps, TableState> {
   }
 
   handleChangePage = (index) => {
-    console.log(index)
     const { dataSource } = this.props
     const _start = (index - 1) * 10
     const _end = dataSource.length - _start > 10 ? 10 : dataSource.length
     const datas = dataSource.slice(_start, _end)
-      console.log(datas)
-      this.setState({
-        currentDataSource: datas
-      })
+
+    this.setState({
+      currentDataSource: datas
+    })
   }
 
   render() {

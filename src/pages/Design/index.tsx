@@ -45,8 +45,6 @@ const Design: React.FC = observer(() => {
   const DatePickerRef: any = useRef<HTMLElement>()
 
   const setElement = (e: any, type: string) => {
-    console.log(type)
-    console.log(e)
     const target: any = e.target
     
     if (!elementsObj) {
@@ -69,7 +67,7 @@ const Design: React.FC = observer(() => {
           backgroundColor: '#fff'
         })
       } else if (type === 'card') {
-        console.log(e)
+
       }
     } else {
       if (target.dataset.alt && target.dataset.alt.indexOf('bg') > -1) {
@@ -82,7 +80,6 @@ const Design: React.FC = observer(() => {
       const id = `${index}_${localStore.editorMange.elementsObj.children.length}`
       
       if (type === 'card') {
-        console.log(toJS(elementsObj))
         elementsObj_clone.children.push({
           id,
           type,
@@ -110,15 +107,19 @@ const Design: React.FC = observer(() => {
           type,
           width: '100%',
           height: '380px',
+          margin: elementsObj_clone.children.length ? '30px 0 0 0' : '',
           columns: [
             {
-              title: 'table'
+              title: 'table',
+              dataIndex: 'table'
             },
             {
-              title: '属性1'
+              title: '属性1',
+              dataIndex: '属性1'
             },
             {
-              title: '属性2'
+              title: '属性2',
+              dataIndex: '属性2'
             }
           ]
         })
@@ -143,7 +144,6 @@ const Design: React.FC = observer(() => {
             }
           ]
         })
-
         localStore.editorMange.setElementsObj(elementsObj_clone)
       }
     }
@@ -157,7 +157,6 @@ const Design: React.FC = observer(() => {
       target = BlockRef.current.children[0]
       copyElement = target.cloneNode(true)
     } else if (type === 'card'){
-      console.log(e)
       target = CardRef.current.children[0]
       copyElement = target.cloneNode(true)
     } else if (type === 'table') {
