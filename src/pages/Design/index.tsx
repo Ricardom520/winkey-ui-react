@@ -19,6 +19,7 @@ import {
   DatePickerTml
 } from './Templates'
 import store from '@/stores'
+import ColorInput from './ColorInput'
 import './index.less'
 
 type HTMLElementEventStyle = {
@@ -268,7 +269,8 @@ const Design: React.FC = observer(() => {
                     <Input placeholder='请输入高度' value={focusElement.height ? `${focusElement.height}` : 'auto'} addonAfter='PX' />
                   </Form.Item>
                   <Form.Item label='字体颜色'>
-                    <Input placeholder='请输入宽度' value={focusElement.color || '#000'}/>
+                    <ColorInput value={focusElement.color || '#000'} />
+                    {/* <Input placeholder='请输入宽度' value={focusElement.color || '#000'}/> */}
                   </Form.Item>
                   <Form.Item label='字体大小'>
                     <Input placeholder='请输入字体大小' value={focusElement.fontSize ? `${focusElement.fontSize}` : '16'} addonAfter='PX' />
