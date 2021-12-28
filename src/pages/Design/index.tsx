@@ -77,7 +77,8 @@ const Design: React.FC = observer(() => {
 
       const index = e.target.dataset.alt
       const elementsObj_clone = toJS(elementsObj)
-      const id = `${index}_${localStore.editorMange.elementsObj.children.length}`
+      const len = localStore.editorMange.elementsObj.children.length
+      const id = `${index}_${len}`
       
       if (type === 'card') {
         elementsObj_clone.children.push({
@@ -89,6 +90,22 @@ const Design: React.FC = observer(() => {
           title: '标题',
           content: ''
         })
+
+        if (elementsObj_clone.children.length === 1) {
+          elementsObj_clone.children.push({
+            id: `placeholder_2_1`,
+            type: 'placeholder'
+          })
+          elementsObj_clone.children.unshift({
+            id: `placeholder_2_0`,
+            type: 'placeholder'
+          })
+        } else {
+          elementsObj_clone.children.push({
+            id: `placeholder_2_2`,
+            type: 'placeholder'
+          })
+        }
 
         localStore.editorMange.setFocusElement({
           id,

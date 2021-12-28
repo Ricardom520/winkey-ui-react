@@ -8,6 +8,7 @@ import BgTable from './BgTable'
 import store from '@/stores'
 import './index.less'
 import { Card, Table } from '@/components'
+import EmptyPlaceholder from './EmplyPlaceholder'
 
 const Editor: React.FC = observer((props) => {
   const localStore = useLocalStore(() => store)
@@ -18,6 +19,8 @@ const Editor: React.FC = observer((props) => {
   const handleFocusClick = (item: ElementStruct) => {
     localStore.editorMange.setFocusElement(item)
   }
+
+  
 
   const instantiateElement = (arr: ElementStruct, zIndex) => {
     if (!arr) {
@@ -66,6 +69,8 @@ const Editor: React.FC = observer((props) => {
           <Table columns={arr.columns} dataSource={[]} />
         </div>
       )
+    } else {
+      return <EmptyPlaceholder id={arr.id} />
     }
 
     return null
