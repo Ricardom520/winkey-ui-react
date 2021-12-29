@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
+import DegisnContext, { DegisnContextProps } from '../DegisnContext'
 
 interface EmptyPlaceholderProps {
   id: string
@@ -6,25 +7,58 @@ interface EmptyPlaceholderProps {
 
 const EmptyPlaceholder: React.SFC<EmptyPlaceholderProps> = (props) => {
   const { id } = props
-  const [showEmptyPlaceholder, setShowEmptyPlaceholder] = useState<boolean>(false)
+  const self: any = useRef<HTMLLIElement>()
+  const [height, setHeight] = useState<number>(0) 
 
-  const handleEnter = () => {
-    console.log('???')
-    setShowEmptyPlaceholder(true)
-  }
+  useEffect(() => {
+    const index = parseInt(id.split('_')[2])
+    const parent = self.current.parentNode
+    const childNodes = parent.childNodes
+    const parentHeight = parent.clientHeight
+    let _height: number = 0
 
-  const handleLeave = () => {
-    setShowEmptyPlaceholder(false)
-  }
+    if (index === 0) {
+      // 第一个元素
+      _height = parent.childNodes[1].offsetTop / 2
+      setHeight(_height)
+    } else {
+      let sum = 0 // 子元素的高度和上边距和
+      const _index = 2 * index + 1
+
+      for (let i = 1; i < childNodes.length; i = i + 2) {
+        sum += childNodes[i].clientHeight + parseInt(getComputedStyle(childNodes[i]).marginTop)
+      }
+      
+      if (parent.childNodes.length === _index) {
+        // 最后一个元素
+        _height = (parentHeight - sum) / 2
+      } else {
+        _height = (parentHeight - sum + parseInt(getComputedStyle(childNodes[_index]).marginTop)) / 5
+      }
+
+      setHeight(_height)
+    }
+  })
 
   return (
-    <div 
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
-      data-alt={id} 
-      key={id} 
-      className={`empty_placeholder ${showEmptyPlaceholder ? 'show' : ''}`}
-    />
+    <DegisnContext.Consumer>
+      {
+        (props: DegisnContextProps) => {
+          const { isMovingDom } = props
+          return (
+            <div 
+              ref={self}
+              style={{height: `${height}px`, lineHeight: `${height}px`}}
+              data-alt={id} 
+              key={id} 
+              className={`empty_placeholder ${isMovingDom ? 'show' : ''}`}
+            >
+              + 拖放到此处
+            </div>
+          )
+        }
+      }
+    </DegisnContext.Consumer>
   )
 }
 

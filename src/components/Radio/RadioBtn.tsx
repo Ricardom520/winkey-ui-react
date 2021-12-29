@@ -50,6 +50,7 @@ export default class RadioBtn extends React.Component<RadioBtnProps, RadioBtnSta
 
     return (
       <label 
+        htmlFor={name || ''}
         className={
           "wk-radio-button-wrapper" +
           (checked ? " wk-radio-button-wrapper-checked" : "") +

@@ -6,7 +6,7 @@ import '../index.less'
 const RadioTml = () => {
   return (
     <div className='base_demo nobordered'>
-      <Radio>Radio</Radio>
+      <Radio name='radio_tml'>Radio</Radio>
     </div>
   )
 }

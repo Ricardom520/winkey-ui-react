@@ -3,11 +3,12 @@ import { toJS } from 'mobx'
 import { useLocalStore } from 'mobx-react'
 import { observer } from 'mobx-react-lite'
 
-import { Tooltip, Card, Form, Input, Radio, message } from '@/components'
+import { Tooltip, message } from '@/components'
 import Header from '../Header'
 import Editor from './Components/Editor'
 import { ElementStruct } from '@/stores/EditorMange'
 import Control from './Components/Control'
+import DegisnContext from './DegisnContext'
 import { 
   BlockTml, 
   CardTml, 
@@ -43,10 +44,35 @@ const Design: React.FC = observer(() => {
   const RadioRef: any = useRef<HTMLElement>()
   const CheckboxRef: any = useRef<HTMLElement>()
   const DatePickerRef: any = useRef<HTMLElement>()
+  const [isMovingDom, setIsMovingDOM] = useState<boolean>(false)
+
+  const getContext = () => {
+    return {
+      isMovingDom
+    }
+  }
+
+  const addPlaceholder = (obj: ElementStruct) => {
+    if (obj.children.length === 1) {
+      obj.children.push({
+        id: `placeholder_2_1`,
+        type: 'placeholder'
+      })
+      obj.children.unshift({
+        id: `placeholder_2_0`,
+        type: 'placeholder'
+      })
+    } else {
+      obj.children.push({
+        id: `placeholder_2_${obj.children.length / 2}`,
+        type: 'placeholder'
+      })
+    }
+  }
 
   const setElement = (e: any, type: string) => {
     const target: any = e.target
-    
+
     if (!elementsObj) {
       if (type === 'block') {
         localStore.editorMange.setElementsObj({
@@ -75,11 +101,10 @@ const Design: React.FC = observer(() => {
         return
       }
 
-      const index = e.target.dataset.alt
       const elementsObj_clone = toJS(elementsObj)
       const len = localStore.editorMange.elementsObj.children.length
-      const id = `${index}_${len}`
-      
+      const id = `${type}_${len}`
+      console.log(target.dataset.alt)
       if (type === 'card') {
         elementsObj_clone.children.push({
           id,
@@ -91,21 +116,7 @@ const Design: React.FC = observer(() => {
           content: ''
         })
 
-        if (elementsObj_clone.children.length === 1) {
-          elementsObj_clone.children.push({
-            id: `placeholder_2_1`,
-            type: 'placeholder'
-          })
-          elementsObj_clone.children.unshift({
-            id: `placeholder_2_0`,
-            type: 'placeholder'
-          })
-        } else {
-          elementsObj_clone.children.push({
-            id: `placeholder_2_2`,
-            type: 'placeholder'
-          })
-        }
+        addPlaceholder(elementsObj_clone)
 
         localStore.editorMange.setFocusElement({
           id,
@@ -140,6 +151,8 @@ const Design: React.FC = observer(() => {
             }
           ]
         })
+
+        addPlaceholder(elementsObj_clone)
 
         localStore.editorMange.setFocusElement({
           id,
@@ -182,6 +195,7 @@ const Design: React.FC = observer(() => {
     }
 
     handleMove(copyElement, target, type, e)
+    setIsMovingDOM(true)
   }
 
   const handleMove: (copyElement: HTMLElement, target: HTMLElement, type: string, event: HTMLElementEvent<HTMLElementEventStyle>) => void = (copyElement, target, type, event) => {
@@ -203,7 +217,7 @@ const Design: React.FC = observer(() => {
       window.onmouseup = () => {
         document.body.removeChild(copyElement)
         document.addEventListener('mousemove', getLocation)
-  
+        setIsMovingDOM(false)
         setTimeout(function() {
           window.onmousemove = null
           window.onmouseup = null
@@ -215,87 +229,89 @@ const Design: React.FC = observer(() => {
   }
 
   return (
-    <div className='designContainer'>
-      <Header/>
-      <div className='container'>
-        <div className='left'>
-          <ul>
-            <li className='listItem' onMouseDown={(e) => handleMouseDown('block', e)} ref={BlockRef}>
-              <Tooltip title='block'>
-                <div> 
-                  <BlockTml/>
-                </div>
-              </Tooltip>
-            </li>
-            <li className='listItem' onMouseDown={(e) => handleMouseDown('card', e)} ref={CardRef}>
-              <Tooltip title='Card'>
-                <div>
-                  <CardTml/>
-                </div>
-              </Tooltip>
-            </li>
-            <li className='listItem' onMouseDown={(e) => handleMouseDown('table', e)} ref={TableRef}>
-              <Tooltip title='Table'>
-                <div>
-                  <TableTml/>
-                </div>
-              </Tooltip>
-            </li>
-            <li className='listItem' onMouseDown={(e) => handleMouseDown('input', e)} ref={InputRef}>
-              <Tooltip title='Input'>
-                <div>
-                  <InputTml/>
-                </div>
-              </Tooltip>
-            </li>
-            <li className='listItem' onMouseDown={(e) => handleMouseDown('button', e)} ref={ButtonRef}>
-              <Tooltip title='Button'>
-                <div>
-                  <ButtonTml/>
-                </div>
-              </Tooltip>
-            </li>
-            <li className='listItem' onMouseDown={(e) => handleMouseDown('select', e)} ref={SelectRef}>
-              <Tooltip title='Select'>
-                <div>
-                  <SelectTml/>
-                </div>
-              </Tooltip>
-            </li>
-            <li className='listItem' onMouseDown={(e) => handleMouseDown('radio', e)} ref={RadioRef}>
-              <Tooltip title='Radio'>
-                <div>
-                  <RadioTml/>
-                </div>
-              </Tooltip>
-            </li>
-            <li className='listItem' onMouseDown={(e) => handleMouseDown('checkbox', e)} ref={CheckboxRef}>
-              <Tooltip title='Checkbox'>
-                <div>
-                  <CheckboxTml/>
-                </div>
-              </Tooltip>
-            </li>
-            <li className='listItem' onMouseDown={(e) => handleMouseDown('datepicker', e)} ref={DatePickerRef}>
-              <Tooltip title='DatePicker'>
-                <div>
-                  <DatePickerTml/>
-                </div>
-              </Tooltip>
-            </li>
-          </ul>
-        </div>
-        <div className='right'>
-          <div className='content'>
-            <Editor />
+    <DegisnContext.Provider value={getContext()}>
+        <div className='designContainer'>
+        <Header/>
+        <div className='container'>
+          <div className='left'>
+            <ul>
+              <li className='listItem' onMouseDown={(e) => handleMouseDown('block', e)} ref={BlockRef}>
+                <Tooltip title='block'>
+                  <div> 
+                    <BlockTml/>
+                  </div>
+                </Tooltip>
+              </li>
+              <li className='listItem' onMouseDown={(e) => handleMouseDown('card', e)} ref={CardRef}>
+                <Tooltip title='Card'>
+                  <div>
+                    <CardTml/>
+                  </div>
+                </Tooltip>
+              </li>
+              <li className='listItem' onMouseDown={(e) => handleMouseDown('table', e)} ref={TableRef}>
+                <Tooltip title='Table'>
+                  <div>
+                    <TableTml/>
+                  </div>
+                </Tooltip>
+              </li>
+              <li className='listItem' onMouseDown={(e) => handleMouseDown('input', e)} ref={InputRef}>
+                <Tooltip title='Input'>
+                  <div>
+                    <InputTml/>
+                  </div>
+                </Tooltip>
+              </li>
+              <li className='listItem' onMouseDown={(e) => handleMouseDown('button', e)} ref={ButtonRef}>
+                <Tooltip title='Button'>
+                  <div>
+                    <ButtonTml/>
+                  </div>
+                </Tooltip>
+              </li>
+              <li className='listItem' onMouseDown={(e) => handleMouseDown('select', e)} ref={SelectRef}>
+                <Tooltip title='Select'>
+                  <div>
+                    <SelectTml/>
+                  </div>
+                </Tooltip>
+              </li>
+              <li className='listItem' onMouseDown={(e) => handleMouseDown('radio', e)} ref={RadioRef}>
+                <Tooltip title='Radio'>
+                  <div>
+                    <RadioTml/>
+                  </div>
+                </Tooltip>
+              </li>
+              <li className='listItem' onMouseDown={(e) => handleMouseDown('checkbox', e)} ref={CheckboxRef}>
+                <Tooltip title='Checkbox'>
+                  <div>
+                    <CheckboxTml/>
+                  </div>
+                </Tooltip>
+              </li>
+              <li className='listItem' onMouseDown={(e) => handleMouseDown('datepicker', e)} ref={DatePickerRef}>
+                <Tooltip title='DatePicker'>
+                  <div>
+                    <DatePickerTml/>
+                  </div>
+                </Tooltip>
+              </li>
+            </ul>
           </div>
-          {
-            focusElement &&
-            <Control/>
-          }
+          <div className='right'>
+            <div className='content'>
+              <Editor />
+            </div>
+            {
+              focusElement &&
+              <Control/>
+            }
+          </div>
         </div>
       </div>
-    </div>
+    </DegisnContext.Provider>
   )
 })
 
