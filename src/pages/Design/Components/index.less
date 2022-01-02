@@ -66,3 +66,30 @@
     }
   }
 }
+
+.empty_placeholder {
+  position: absolute;
+  left: 50%;
+  right: 0;
+  width: 90%;
+  height: 30px;
+  line-height: 30px;
+  margin: 10px 0;
+  text-align: center;
+  background-color: #e0e0e0;
+  // border-top: 1px solid #B8B8B8;
+  // border-bottom: 1px solid #B8B8B8;
+  box-shadow: 1px 1px 5px #B8B8B8;
+  transform: translateX(-50%);
+  opacity: 0;
+}
+.empty_placeholder:first-child {
+  margin-top: -15px;
+}
+// .empty_placeholder:last-child {
+//   position: relative;
+//   width: 100%;
+// }
+.empty_placeholder.show {
+  opacity: 1;
+}

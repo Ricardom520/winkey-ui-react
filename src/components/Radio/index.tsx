@@ -104,6 +104,7 @@ class Radio extends Component<RadioProps, RadioState> {
 
     return (
       <label 
+        htmlFor={name || ''}
         className={
           "wk-radio-wrapper" + 
           (disabled ? " wk-radio-wrapper-disabled" : "")

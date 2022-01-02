@@ -3,11 +3,12 @@ import { toJS } from 'mobx'
 import { useLocalStore } from 'mobx-react'
 import { observer } from 'mobx-react-lite'
 
-import { Tooltip, Card, Form, Input, Radio, message } from '@/components'
+import { Tooltip, message } from '@/components'
 import Header from '../Header'
 import Editor from './Components/Editor'
 import { ElementStruct } from '@/stores/EditorMange'
 import Control from './Components/Control'
+import DegisnContext from './DegisnContext'
 import { 
   BlockTml, 
   CardTml, 
@@ -44,10 +45,35 @@ const Design: React.FC = observer(() => {
   const RadioRef: any = useRef<HTMLElement>()
   const CheckboxRef: any = useRef<HTMLElement>()
   const DatePickerRef: any = useRef<HTMLElement>()
+  const [isMovingDom, setIsMovingDOM] = useState<boolean>(false)
+
+  const getContext = () => {
+    return {
+      isMovingDom
+    }
+  }
+
+  const addPlaceholder = (obj: ElementStruct) => {
+    if (obj.children.length === 1) {
+      obj.children.push({
+        id: `placeholder_2_1`,
+        type: 'placeholder'
+      })
+      obj.children.unshift({
+        id: `placeholder_2_0`,
+        type: 'placeholder'
+      })
+    } else {
+      obj.children.push({
+        id: `placeholder_2_${obj.children.length / 2}`,
+        type: 'placeholder'
+      })
+    }
+  }
 
   const setElement = (e: any, type: string) => {
     const target: any = e.target
-    
+
     if (!elementsObj) {
       if (type === 'block') {
         localStore.editorMange.setElementsObj({
@@ -76,10 +102,10 @@ const Design: React.FC = observer(() => {
         return
       }
 
-      const index = e.target.dataset.alt
       const elementsObj_clone = toJS(elementsObj)
-      const id = `${index}_${localStore.editorMange.elementsObj.children.length}`
-      
+      const len = localStore.editorMange.elementsObj.children.length
+      const id = `${type}_${len}`
+      console.log(target.dataset.alt)
       if (type === 'card') {
         elementsObj_clone.children.push({
           id,
@@ -90,6 +116,8 @@ const Design: React.FC = observer(() => {
           title: '标题',
           content: ''
         })
+
+        addPlaceholder(elementsObj_clone)
 
         localStore.editorMange.setFocusElement({
           id,
@@ -124,6 +152,8 @@ const Design: React.FC = observer(() => {
             }
           ]
         })
+
+        addPlaceholder(elementsObj_clone)
 
         localStore.editorMange.setFocusElement({
           id,
@@ -166,6 +196,7 @@ const Design: React.FC = observer(() => {
     }
 
     handleMove(copyElement, target, type, e)
+    setIsMovingDOM(true)
   }
 
   const handleMove: (copyElement: HTMLElement, target: HTMLElement, type: string, event: HTMLElementEvent<HTMLElementEventStyle>) => void = (copyElement, target, type, event) => {
@@ -187,7 +218,7 @@ const Design: React.FC = observer(() => {
       window.onmouseup = () => {
         document.body.removeChild(copyElement)
         document.addEventListener('mousemove', getLocation)
-  
+        setIsMovingDOM(false)
         setTimeout(function() {
           window.onmousemove = null
           window.onmouseup = null
@@ -199,140 +230,89 @@ const Design: React.FC = observer(() => {
   }
 
   return (
-    <div className='designContainer'>
-      <Header/>
-      <div className='container'>
-        <div className='left'>
-          <ul>
-            <li className='listItem' onMouseDown={(e) => handleMouseDown('block', e)} ref={BlockRef}>
-              <Tooltip title='block'>
-                <div> 
-                  <BlockTml/>
-                </div>
-              </Tooltip>
-            </li>
-            <li className='listItem' onMouseDown={(e) => handleMouseDown('card', e)} ref={CardRef}>
-              <Tooltip title='Card'>
-                <div>
-                  <CardTml/>
-                </div>
-              </Tooltip>
-            </li>
-            <li className='listItem' onMouseDown={(e) => handleMouseDown('table', e)} ref={TableRef}>
-              <Tooltip title='Table'>
-                <div>
-                  <TableTml/>
-                </div>
-              </Tooltip>
-            </li>
-            <li className='listItem' onMouseDown={(e) => handleMouseDown('input', e)} ref={InputRef}>
-              <Tooltip title='Input'>
-                <div>
-                  <InputTml/>
-                </div>
-              </Tooltip>
-            </li>
-            <li className='listItem' onMouseDown={(e) => handleMouseDown('button', e)} ref={ButtonRef}>
-              <Tooltip title='Button'>
-                <div>
-                  <ButtonTml/>
-                </div>
-              </Tooltip>
-            </li>
-            <li className='listItem' onMouseDown={(e) => handleMouseDown('select', e)} ref={SelectRef}>
-              <Tooltip title='Select'>
-                <div>
-                  <SelectTml/>
-                </div>
-              </Tooltip>
-            </li>
-            <li className='listItem' onMouseDown={(e) => handleMouseDown('radio', e)} ref={RadioRef}>
-              <Tooltip title='Radio'>
-                <div>
-                  <RadioTml/>
-                </div>
-              </Tooltip>
-            </li>
-            <li className='listItem' onMouseDown={(e) => handleMouseDown('checkbox', e)} ref={CheckboxRef}>
-              <Tooltip title='Checkbox'>
-                <div>
-                  <CheckboxTml/>
-                </div>
-              </Tooltip>
-            </li>
-            <li className='listItem' onMouseDown={(e) => handleMouseDown('datepicker', e)} ref={DatePickerRef}>
-              <Tooltip title='DatePicker'>
-                <div>
-                  <DatePickerTml/>
-                </div>
-              </Tooltip>
-            </li>
-          </ul>
-        </div>
-        <div className='right'>
-          <div className='content'>
-            <Editor />
+    <DegisnContext.Provider value={getContext()}>
+        <div className='designContainer'>
+        <Header/>
+        <div className='container'>
+          <div className='left'>
+            <ul>
+              <li className='listItem' onMouseDown={(e) => handleMouseDown('block', e)} ref={BlockRef}>
+                <Tooltip title='block'>
+                  <div> 
+                    <BlockTml/>
+                  </div>
+                </Tooltip>
+              </li>
+              <li className='listItem' onMouseDown={(e) => handleMouseDown('card', e)} ref={CardRef}>
+                <Tooltip title='Card'>
+                  <div>
+                    <CardTml/>
+                  </div>
+                </Tooltip>
+              </li>
+              <li className='listItem' onMouseDown={(e) => handleMouseDown('table', e)} ref={TableRef}>
+                <Tooltip title='Table'>
+                  <div>
+                    <TableTml/>
+                  </div>
+                </Tooltip>
+              </li>
+              <li className='listItem' onMouseDown={(e) => handleMouseDown('input', e)} ref={InputRef}>
+                <Tooltip title='Input'>
+                  <div>
+                    <InputTml/>
+                  </div>
+                </Tooltip>
+              </li>
+              <li className='listItem' onMouseDown={(e) => handleMouseDown('button', e)} ref={ButtonRef}>
+                <Tooltip title='Button'>
+                  <div>
+                    <ButtonTml/>
+                  </div>
+                </Tooltip>
+              </li>
+              <li className='listItem' onMouseDown={(e) => handleMouseDown('select', e)} ref={SelectRef}>
+                <Tooltip title='Select'>
+                  <div>
+                    <SelectTml/>
+                  </div>
+                </Tooltip>
+              </li>
+              <li className='listItem' onMouseDown={(e) => handleMouseDown('radio', e)} ref={RadioRef}>
+                <Tooltip title='Radio'>
+                  <div>
+                    <RadioTml/>
+                  </div>
+                </Tooltip>
+              </li>
+              <li className='listItem' onMouseDown={(e) => handleMouseDown('checkbox', e)} ref={CheckboxRef}>
+                <Tooltip title='Checkbox'>
+                  <div>
+                    <CheckboxTml/>
+                  </div>
+                </Tooltip>
+              </li>
+              <li className='listItem' onMouseDown={(e) => handleMouseDown('datepicker', e)} ref={DatePickerRef}>
+                <Tooltip title='DatePicker'>
+                  <div>
+                    <DatePickerTml/>
+                  </div>
+                </Tooltip>
+              </li>
+            </ul>
           </div>
-          {
-            focusElement &&
-            <>
-              <div className='controls'>
-                <Card title='属性' bordered={false}>
-                  <Form {...layout}>
-                    <Form.Item label='宽度'>
-                      <Input placeholder='请输入宽度' value={focusElement.width ? `${focusElement.width}` : 'auto'} addonAfter='PX' />
-                    </Form.Item>
-                    <Form.Item label='高度'>
-                      <Input placeholder='请输入高度' value={focusElement.height ? `${focusElement.height}` : 'auto'} addonAfter='PX' />
-                    </Form.Item>
-                    <Form.Item label='字体颜色'>
-                      <ColorInput value={focusElement.color || '#000'} />
-                      {/* <Input placeholder='请输入宽度' value={focusElement.color || '#000'}/> */}
-                    </Form.Item>
-                    <Form.Item label='字体大小'>
-                      <Input placeholder='请输入字体大小' value={focusElement.fontSize ? `${focusElement.fontSize}` : '16'} addonAfter='PX' />
-                    </Form.Item>
-                    <Form.Item label='是否加粗'>
-                      <Radio.Group value={focusElement.fontWeight || 0}>
-                        <Radio value={1}>是</Radio>
-                        <Radio value={0}>否</Radio>
-                      </Radio.Group>
-                    </Form.Item>
-                    <Form.Item label='背景色'>
-                      <Input placeholder='请输入宽度' value={focusElement.backgroundColor || '#fff'}/>
-                    </Form.Item>
-                    <Form.Item label='内边距'>
-                      <Input placeholder='格式如：上 右 下 左' value={focusElement.padding} addonAfter='PX' />
-                    </Form.Item>
-                    <Form.Item label='外边距'>
-                      <Input placeholder='格式如：上 右 下 左' value={focusElement.margin} addonAfter='PX'/>
-                    </Form.Item>
-                    <Form.Item label='是否边框'>
-                      <Radio.Group value={focusElement.hasBorder || 0} onChange={handleChangeHasBorder}>
-                        <Radio value={1}>是</Radio>
-                        <Radio value={0}>否</Radio>
-                      </Radio.Group>
-                    </Form.Item>
-                    {
-                      focusElement.hasBorder && <Form.Item label='边框颜色'>
-                      <Input placeholder='请输入外边距' value={focusElement.borderColor}/>
-                    </Form.Item>
-                    }
-                    {
-                      focusElement.hasBorder &&
-                        <Form.Item label='边框宽度'>
-                          <Input placeholder='请输入边框宽度' value={focusElement.borderSize}/>
-                        </Form.Item> 
-                    }
-                  </Form>
-                </Card>
-              </div>
+          <div className='right'>
+            <div className='content'>
+              <Editor />
+            </div>
+            {
+              focusElement &&
               <Control/>
-            </>
-          }
+            }
+          </div>
         </div>
       </div>
-    </div>
+    </DegisnContext.Provider>
   )
 })
 
