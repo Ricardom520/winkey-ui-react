@@ -41,6 +41,7 @@ import SkeletonPage from './Skeleton';
 import TooltipPage from './Tooltip';
 import ResultPage from './Result';
 import TablePage from './Table';
+import TreePage from './Tree';
 import Header from '../Header';
 import './index.less';
 
@@ -127,6 +128,7 @@ const Rooms: React.FC<RoomsProps> = (props) => {
               <Route exact path="/components/tooltip" component={TooltipPage} />
               <Route exact path="/components/result" component={ResultPage} />
               <Route exact path="/components/table" component={TablePage} />
+              <Route exact path="/components/tree" component={TreePage} />
               <Redirect to="/components/button" />
             </Switch>
           </div>

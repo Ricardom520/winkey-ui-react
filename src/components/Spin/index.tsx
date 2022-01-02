@@ -25,7 +25,7 @@ class Spin extends Component<SpinProps> {
 
   render() {
     const { size, spinning, children, tip, style, className, wrapperClassName } = this.props;
-    console.log(children)
+
     return (
       <>
         {

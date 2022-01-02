@@ -16,3 +16,7 @@ a {
 a:hover {
   color: #40a9ff;
 }
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}

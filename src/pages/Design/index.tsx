@@ -7,6 +7,7 @@ import { Tooltip, Card, Form, Input, Radio, message } from '@/components'
 import Header from '../Header'
 import Editor from './Components/Editor'
 import { ElementStruct } from '@/stores/EditorMange'
+import Control from './Components/Control'
 import { 
   BlockTml, 
   CardTml, 
@@ -31,11 +32,6 @@ type HTMLElementEvent<T extends HTMLElementEventStyle> = Event & {
   nativeEvent: T
 }
 
-const layout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 18 },
-};
-
 const Design: React.FC = observer(() => {
   const localStore = useLocalStore(() => store)
   const { elementsObj, focusElement } = localStore.editorMange
@@ -50,8 +46,6 @@ const Design: React.FC = observer(() => {
   const DatePickerRef: any = useRef<HTMLElement>()
 
   const setElement = (e: any, type: string) => {
-    console.log(type)
-    console.log(e)
     const target: any = e.target
     
     if (!elementsObj) {
@@ -74,7 +68,7 @@ const Design: React.FC = observer(() => {
           backgroundColor: '#fff'
         })
       } else if (type === 'card') {
-        console.log(e)
+
       }
     } else {
       if (target.dataset.alt && target.dataset.alt.indexOf('bg') > -1) {
@@ -87,7 +81,6 @@ const Design: React.FC = observer(() => {
       const id = `${index}_${localStore.editorMange.elementsObj.children.length}`
       
       if (type === 'card') {
-        console.log(toJS(elementsObj))
         elementsObj_clone.children.push({
           id,
           type,
@@ -109,12 +102,27 @@ const Design: React.FC = observer(() => {
         })
 
         localStore.editorMange.setElementsObj(elementsObj_clone)
-      } else {
+      } else if (type === 'table') {
         elementsObj_clone.children.push({
           id,
           type,
           width: '100%',
           height: '380px',
+          margin: elementsObj_clone.children.length ? '30px 0 0 0' : '',
+          columns: [
+            {
+              title: 'table',
+              dataIndex: 'table'
+            },
+            {
+              title: '属性1',
+              dataIndex: '属性1'
+            },
+            {
+              title: '属性2',
+              dataIndex: '属性2'
+            }
+          ]
         })
 
         localStore.editorMange.setFocusElement({
@@ -122,15 +130,24 @@ const Design: React.FC = observer(() => {
           type,
           width: '100%',
           height: '380px',
+          columns: [
+            {
+              title: 'table',
+              dataIndex: 'table'
+            },
+            {
+              title: '属性1',
+              dataIndex: '属性1'
+            },
+            {
+              title: '属性2',
+              dataIndex: '属性2'
+            }
+          ]
         })
-
         localStore.editorMange.setElementsObj(elementsObj_clone)
       }
     }
-  }
-
-  const handleChangeHasBorder = (val) => {
-    focusElement.hasBorder = val
   }
 
   const handleMouseDown = (type: string, e) => {
@@ -141,7 +158,6 @@ const Design: React.FC = observer(() => {
       target = BlockRef.current.children[0]
       copyElement = target.cloneNode(true)
     } else if (type === 'card'){
-      console.log(e)
       target = CardRef.current.children[0]
       copyElement = target.cloneNode(true)
     } else if (type === 'table') {
@@ -259,57 +275,60 @@ const Design: React.FC = observer(() => {
           </div>
           {
             focusElement &&
-            <div className='controls'>
-              <Card title='属性' bordered={false}>
-                <Form {...layout}>
-                  <Form.Item label='宽度'>
-                    <Input placeholder='请输入宽度' value={focusElement.width ? `${focusElement.width}` : 'auto'} addonAfter='PX' />
-                  </Form.Item>
-                  <Form.Item label='高度'>
-                    <Input placeholder='请输入高度' value={focusElement.height ? `${focusElement.height}` : 'auto'} addonAfter='PX' />
-                  </Form.Item>
-                  <Form.Item label='字体颜色'>
-                    <ColorInput value={focusElement.color || '#000'} />
-                    {/* <Input placeholder='请输入宽度' value={focusElement.color || '#000'}/> */}
-                  </Form.Item>
-                  <Form.Item label='字体大小'>
-                    <Input placeholder='请输入字体大小' value={focusElement.fontSize ? `${focusElement.fontSize}` : '16'} addonAfter='PX' />
-                  </Form.Item>
-                  <Form.Item label='是否加粗'>
-                    <Radio.Group value={focusElement.fontWeight || 0}>
-                      <Radio value={1}>是</Radio>
-                      <Radio value={0}>否</Radio>
-                    </Radio.Group>
-                  </Form.Item>
-                  <Form.Item label='背景色'>
-                    <Input placeholder='请输入宽度' value={focusElement.backgroundColor || '#fff'}/>
-                  </Form.Item>
-                  <Form.Item label='内边距'>
-                    <Input placeholder='格式如：上 右 下 左' value={focusElement.padding} addonAfter='PX' />
-                  </Form.Item>
-                  <Form.Item label='外边距'>
-                    <Input placeholder='格式如：上 右 下 左' value={focusElement.margin} addonAfter='PX'/>
-                  </Form.Item>
-                  <Form.Item label='是否边框'>
-                    <Radio.Group value={focusElement.hasBorder || 0} onChange={handleChangeHasBorder}>
-                      <Radio value={1}>是</Radio>
-                      <Radio value={0}>否</Radio>
-                    </Radio.Group>
-                  </Form.Item>
-                  {
-                    focusElement.hasBorder && <Form.Item label='边框颜色'>
-                    <Input placeholder='请输入外边距' value={focusElement.borderColor}/>
-                  </Form.Item>
-                  }
-                  {
-                    focusElement.hasBorder &&
-                      <Form.Item label='边框宽度'>
-                        <Input placeholder='请输入边框宽度' value={focusElement.borderSize}/>
-                      </Form.Item> 
-                  }
-                </Form>
-              </Card>
-            </div>
+            <>
+              <div className='controls'>
+                <Card title='属性' bordered={false}>
+                  <Form {...layout}>
+                    <Form.Item label='宽度'>
+                      <Input placeholder='请输入宽度' value={focusElement.width ? `${focusElement.width}` : 'auto'} addonAfter='PX' />
+                    </Form.Item>
+                    <Form.Item label='高度'>
+                      <Input placeholder='请输入高度' value={focusElement.height ? `${focusElement.height}` : 'auto'} addonAfter='PX' />
+                    </Form.Item>
+                    <Form.Item label='字体颜色'>
+                      <ColorInput value={focusElement.color || '#000'} />
+                      {/* <Input placeholder='请输入宽度' value={focusElement.color || '#000'}/> */}
+                    </Form.Item>
+                    <Form.Item label='字体大小'>
+                      <Input placeholder='请输入字体大小' value={focusElement.fontSize ? `${focusElement.fontSize}` : '16'} addonAfter='PX' />
+                    </Form.Item>
+                    <Form.Item label='是否加粗'>
+                      <Radio.Group value={focusElement.fontWeight || 0}>
+                        <Radio value={1}>是</Radio>
+                        <Radio value={0}>否</Radio>
+                      </Radio.Group>
+                    </Form.Item>
+                    <Form.Item label='背景色'>
+                      <Input placeholder='请输入宽度' value={focusElement.backgroundColor || '#fff'}/>
+                    </Form.Item>
+                    <Form.Item label='内边距'>
+                      <Input placeholder='格式如：上 右 下 左' value={focusElement.padding} addonAfter='PX' />
+                    </Form.Item>
+                    <Form.Item label='外边距'>
+                      <Input placeholder='格式如：上 右 下 左' value={focusElement.margin} addonAfter='PX'/>
+                    </Form.Item>
+                    <Form.Item label='是否边框'>
+                      <Radio.Group value={focusElement.hasBorder || 0} onChange={handleChangeHasBorder}>
+                        <Radio value={1}>是</Radio>
+                        <Radio value={0}>否</Radio>
+                      </Radio.Group>
+                    </Form.Item>
+                    {
+                      focusElement.hasBorder && <Form.Item label='边框颜色'>
+                      <Input placeholder='请输入外边距' value={focusElement.borderColor}/>
+                    </Form.Item>
+                    }
+                    {
+                      focusElement.hasBorder &&
+                        <Form.Item label='边框宽度'>
+                          <Input placeholder='请输入边框宽度' value={focusElement.borderSize}/>
+                        </Form.Item> 
+                    }
+                  </Form>
+                </Card>
+              </div>
+              <Control/>
+            </>
           }
         </div>
       </div>

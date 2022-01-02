@@ -36,6 +36,7 @@ import Skeleton from './Skeleton';
 import Tooltip from './Tooltip';
 import Table from './Table';
 import Pagination from './Pagination';
+import Tree from './Tree'
 
 import "./base.css";
 
@@ -77,5 +78,6 @@ export {
   Skeleton,
   Tooltip,
   Table,
-  Pagination
+  Pagination,
+  Tree
 }

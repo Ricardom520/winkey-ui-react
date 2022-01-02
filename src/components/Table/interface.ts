@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 export interface TableProps {
   columns: Column[]
@@ -14,8 +14,11 @@ export interface TableProps {
 }
 
 export interface TableState {
- currentDataSource: DataSource[]
- currentPage: number
+  selectedRowKeys: React.Key[],
+  selectedRows: DataSource[],
+  total: number
+  currentDataSource: DataSource[]
+  currentPage: number
 }
 
 export interface Column {
