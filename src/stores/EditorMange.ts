@@ -11,7 +11,10 @@ export interface ElementStruct {
   children?: {
     id: string
     type: string
-    [propsName: string]: string | number
+    [propsName: string]: string | number | {
+      title: string
+      dataIndex: string
+    }[]
   }[]
   title?: string
   content?: string | ReactNode
@@ -32,11 +35,11 @@ class editorMange {
   }
 
   @observable test: number = 0
-  @observable elementsObj = null
+  @observable elements: ElementStruct[] = null
   @observable focusElement: FocusElementBaseStruct = null
 
   @action setElementsObj = (val) => {
-    this.elementsObj = val
+    this.elements = val
   }
 
   @action setFocusElement = (val: FocusElementBaseStruct) => {

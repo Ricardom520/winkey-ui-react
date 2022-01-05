@@ -15,8 +15,8 @@ const layout = {
 
 const Control: React.FC = observer(() => {
   const localStore = useLocalStore(() => store)
-  const { elementsObj, focusElement } = localStore.editorMange
-  const [_elementsObj, setElementsObj] = useState<ElementStruct>()
+  const { elements, focusElement } = localStore.editorMange
+  const [_elementsObj, setElementsObj] = useState<ElementStruct[]>()
 
   const handleChangeHasBorder = (val) => {
     focusElement.hasBorder = val
@@ -78,50 +78,78 @@ const Control: React.FC = observer(() => {
   }
 
   useEffect(() => {
-    setElementsObj(toJS(elementsObj))
-  }, [elementsObj])
+    setElementsObj(toJS(elements))
+  }, [elements])
 
   return (
     <div className='controls'>
       <Card title='属性' bordered={false}>
         <Form {...layout}>
-          <Form.Item label='宽度'>
-            <Input placeholder='请输入宽度' value={focusElement.width ? `${focusElement.width}` : 'auto'} addonAfter='PX' />
-          </Form.Item>
-          <Form.Item label='高度'>
-            <Input placeholder='请输入高度' value={focusElement.height ? `${focusElement.height}` : 'auto'} addonAfter='PX' />
-          </Form.Item>
-          <Form.Item label='字体颜色'>
-            <Input placeholder='请输入字体颜色' value={focusElement.color || '#000'} onChange={(e) => handleChangeInput(e, 'color')} />
-          </Form.Item>
-          <Form.Item label='字体大小'>
-            <Input placeholder='请输入字体大小' value={focusElement.fontSize ? `${focusElement.fontSize}` : '16'} addonAfter='PX' />
-          </Form.Item>
-          <Form.Item label='是否加粗'>
-            <Radio.Group value={focusElement.fontWeight || 0}>
-              <Radio value={1}>是</Radio>
-              <Radio value={0}>否</Radio>
-            </Radio.Group>
-          </Form.Item>
-          <Form.Item label='背景色'>
-            <Input placeholder='请输入宽度' value={focusElement.backgroundColor || '#fff'}/>
-          </Form.Item>
-          <Form.Item label='内边距'>
-            <Input placeholder='格式如：上 右 下 左' value={focusElement.padding} addonAfter='PX' />
-          </Form.Item>
-          <Form.Item label='外边距'>
-            <Input placeholder='格式如：上 右 下 左' value={focusElement.margin} addonAfter='PX'/>
-          </Form.Item>
-          <Form.Item label='是否边框'>
-            <Radio.Group value={focusElement.hasBorder || 0} onChange={handleChangeHasBorder}>
-              <Radio value={1}>是</Radio>
-              <Radio value={0}>否</Radio>
-            </Radio.Group>
-          </Form.Item>
           {
-            focusElement.hasBorder && <Form.Item label='边框颜色'>
-            <Input placeholder='请输入外边距' value={focusElement.borderColor}/>
-          </Form.Item>
+            focusElement.width &&
+            <Form.Item label='宽度'>
+              <Input placeholder='请输入宽度' value={focusElement.width || 'auto'} addonAfter='PX' />
+            </Form.Item>
+          }
+          {
+            focusElement.height &&
+            <Form.Item label='高度'>
+              <Input placeholder='请输入高度' value={focusElement.height || 'auto'} addonAfter='PX' />
+            </Form.Item>
+          }
+          {
+            focusElement.color && 
+            <Form.Item label='字体颜色'>
+              <Input placeholder='请输入字体颜色' value={focusElement.color || '#000'} onChange={(e) => handleChangeInput(e, 'color')} />
+            </Form.Item>
+          }
+          {
+            focusElement.fontSize &&
+            <Form.Item label='字体大小'>
+              <Input placeholder='请输入字体大小' value={focusElement.fontSize || '16'} addonAfter='PX' />
+            </Form.Item>
+          }
+          {
+            focusElement.fontWeight &&
+            <Form.Item label='是否加粗'>
+              <Radio.Group value={focusElement.fontWeight || 0}>
+                <Radio value={1}>是</Radio>
+                <Radio value={0}>否</Radio>
+              </Radio.Group>
+            </Form.Item>
+          }
+          {
+            focusElement.backgroundColor &&
+            <Form.Item label='背景色'>
+              <Input placeholder='请输入宽度' value={focusElement.backgroundColor || '#fff'}/>
+            </Form.Item>
+          }
+          {
+            focusElement.padding !== undefined &&
+            <Form.Item label='内边距'>
+              <Input placeholder='格式如：上 右 下 左' value={focusElement.padding || ''} addonAfter='PX' />
+            </Form.Item>
+          }
+          {
+            focusElement.margin !== undefined &&
+            <Form.Item label='外边距'>
+              <Input placeholder='格式如：上 右 下 左' value={focusElement.margin || ''} addonAfter='PX'/>
+            </Form.Item>
+          }
+          {
+            focusElement.hasBorder !== undefined &&
+            <Form.Item label='是否边框'>
+              <Radio.Group value={focusElement.hasBorder || 0} onChange={handleChangeHasBorder}>
+                <Radio value={1}>是</Radio>
+                <Radio value={0}>否</Radio>
+              </Radio.Group>
+            </Form.Item>
+          }
+          {
+            focusElement.hasBorder && 
+            <Form.Item label='边框颜色'>
+              <Input placeholder='请输入外边距' value={focusElement.borderColor}/>
+            </Form.Item>
           }
           {
             focusElement.hasBorder &&

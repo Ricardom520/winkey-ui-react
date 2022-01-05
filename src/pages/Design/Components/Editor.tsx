@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite'
 
 import { ElementStruct } from '@/stores/EditorMange'
 import BgTable from './BgTable'
+import AdditionalTool from './AdditionalTool'
 import store from '@/stores'
 import './index.less'
 import { Card, Table } from '@/components'
@@ -12,15 +13,44 @@ import EmptyPlaceholder from './EmplyPlaceholder'
 
 const Editor: React.FC = observer((props) => {
   const localStore = useLocalStore(() => store)
-  const { elementsObj, focusElement } = localStore.editorMange
+  const { elements, focusElement } = localStore.editorMange
   const [width, setWidth] = useState<number>(0)
   const [height, setHeight] = useState<number>(0)
+  const [elementsObjClone, setElementsObjClone] = useState<ElementStruct[]>()
 
   const handleFocusClick = (item: ElementStruct) => {
     localStore.editorMange.setFocusElement(item)
   }
 
-  
+  const handleDeleteItem = (id: string) => {
+    console.log(id)
+    console.log(elementsObjClone)
+    const paths = id.split('_')
+    const _zIndex: number = paths.length - 2
+    const _index: number = parseInt(paths[paths.length - 1])
+
+    const deepTreeData = (arr: ElementStruct, zIndex: number) => {
+      if (zIndex === _zIndex) {
+        console.log('1')
+        console.log(_index)
+        if (_index === 0) {
+          // 如果只有一个元素，则清空children
+          arr.children = []
+          console.log(elementsObjClone)
+          localStore.editorMange.setElementsObj(elementsObjClone)
+          localStore.editorMange.setFocusElement(null)
+        }
+        console.log(arr)
+        return
+      }
+      console.log(arr)
+      console.log(paths)
+      console.log(paths[zIndex + 1])
+      deepTreeData(arr[paths[zIndex]], zIndex + 1)
+    }
+
+    deepTreeData(elementsObjClone[paths[1]], 1)
+  }
 
   const instantiateElement = (arr: ElementStruct, zIndex) => {
     if (!arr) {
@@ -37,7 +67,7 @@ const Editor: React.FC = observer((props) => {
           padding: '20px 40px 20px 40px',
           backgroundColor: arr.backgroundColor
         }} 
-        key={`block-${zIndex}`}>
+        key={arr.id}>
           {
             arr.children && arr.children.map((item: ElementStruct) => {
               return instantiateElement(item, zIndex + 1)
@@ -48,10 +78,13 @@ const Editor: React.FC = observer((props) => {
       return (
         <div 
           data-alt={`${arr.id}`} 
-          key={`card-${zIndex}`} 
+          key={arr.id} 
           className={focusElement ? focusElement.id === arr.id ? 'focusElement' : '' : ''}
           onDoubleClick={() => handleFocusClick(arr)}
         >
+          {
+            focusElement && focusElement.id === arr.id && <AdditionalTool id={arr.id} onDelete={handleDeleteItem} />
+          }
           <Card title={arr.title}>
             {arr.content || <p className="normal_color">展示内容</p>}
           </Card>
@@ -62,18 +95,21 @@ const Editor: React.FC = observer((props) => {
         <div 
           style={{margin: arr.margin}} 
           data-alt={`${arr.id}`} 
-          key={`table-${zIndex}`} 
+          key={arr.id} 
           className={focusElement ? focusElement.id === arr.id ? 'focusElement' : '' : ''}
           onDoubleClick={() => handleFocusClick(arr)}
         >
+          {
+            focusElement && focusElement.id === arr.id && <AdditionalTool id={arr.id} onDelete={handleDeleteItem} />
+          }
           <Table columns={arr.columns} dataSource={[]} />
         </div>
       )
     } else {
-      return <EmptyPlaceholder id={arr.id} />
+      return <React.Fragment key={arr.id}>
+        <EmptyPlaceholder id={arr.id} />
+      </React.Fragment>
     }
-
-    return null
   }
 
   const handleClick = (e) => {
@@ -87,13 +123,17 @@ const Editor: React.FC = observer((props) => {
     setHeight(document.getElementById('editorBox').clientHeight)
   }, [])
 
+  useEffect(() => {
+    setElementsObjClone(toJS(elements))
+  }, [elements])
+
   return (
     <div className='editorContainer'>
       <div id='editorBox' className='editorBox' onClick={handleClick}>
-        <BgTable width={width} height={height} />
+        <BgTable />
         <div className='elementBox'>
           {
-            instantiateElement(toJS(elementsObj), 0)
+            elementsObjClone && instantiateElement(elementsObjClone[0], 0)
           }
         </div>
       </div>
