@@ -21,6 +21,7 @@ import {
   DatePickerTml
 } from './Templates'
 import store from '@/stores'
+import ColorInput from './ColorInput'
 import './index.less'
 
 type HTMLElementEventStyle = {
