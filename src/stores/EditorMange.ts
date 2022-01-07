@@ -38,7 +38,7 @@ class editorMange {
   @observable elements: ElementStruct[] = null
   @observable focusElement: FocusElementBaseStruct = null
 
-  @action setElementsObj = (val) => {
+  @action.bound setElementsObj = (val) => {
     this.elements = val
   }
 

@@ -10,6 +10,7 @@ import store from '@/stores'
 import './index.less'
 import { Card, Table } from '@/components'
 import EmptyPlaceholder from './EmplyPlaceholder'
+import { HandleNextNodeId } from '@/tool/utils'
 
 const Editor: React.FC = observer((props) => {
   const localStore = useLocalStore(() => store)
@@ -22,34 +23,53 @@ const Editor: React.FC = observer((props) => {
     localStore.editorMange.setFocusElement(item)
   }
 
-  const handleDeleteItem = (id: string) => {
-    console.log(id)
-    console.log(elementsObjClone)
+  const handleDeleteItem = async (id: string) => {
     const paths = id.split('_')
     const _zIndex: number = paths.length - 2
     const _index: number = parseInt(paths[paths.length - 1])
 
     const deepTreeData = (arr: ElementStruct, zIndex: number) => {
       if (zIndex === _zIndex) {
-        console.log('1')
-        console.log(_index)
         if (_index === 0) {
           // 如果只有一个元素，则清空children
           arr.children = []
-          console.log(elementsObjClone)
-          localStore.editorMange.setElementsObj(elementsObjClone)
-          localStore.editorMange.setFocusElement(null)
+        } else {
+          const __index = 2 * _index + 1
+          arr.children.splice(__index, 2)
+
+          HandleNextNodeId(__index, arr.children, false)
         }
-        console.log(arr)
+
+        localStore.editorMange.setElementsObj(elementsObjClone)
+        localStore.editorMange.setFocusElement(null)
         return
       }
-      console.log(arr)
-      console.log(paths)
-      console.log(paths[zIndex + 1])
+
       deepTreeData(arr[paths[zIndex]], zIndex + 1)
     }
 
     deepTreeData(elementsObjClone[paths[1]], 1)
+  }
+
+  const handleMoveItem = (id: string, event: MouseEvent) => {
+    const target = document.getElementById(id)
+    const copyElement: any = target.cloneNode(true)
+
+    copyElement.style.position = "absolute"
+    copyElement.style.zIndex = '2'
+    copyElement.style.width = target.clientWidth + 'px'
+    copyElement.style.top = event.clientY - 36 + "px"
+    copyElement.style.left = event.clientX + 12 + "px"
+    copyElement.style.pointerEvents = "none"
+
+    document.body.appendChild(copyElement)
+
+    window.onmousemove = (e) => {
+      copyElement.style.top = e.clientY - 36 + "px"
+      copyElement.style.left = e.clientX + 12 + "px"
+    }
+
+    handleDeleteItem(id)
   }
 
   const instantiateElement = (arr: ElementStruct, zIndex) => {
@@ -59,6 +79,7 @@ const Editor: React.FC = observer((props) => {
 
     if (arr.type === 'block') {
       return <div 
+        id={arr.id}
         data-alt={`${arr.id}`}
         className={focusElement ? focusElement.id === arr.id ? 'focusElement' : '' : ''}
         style={{
@@ -77,22 +98,32 @@ const Editor: React.FC = observer((props) => {
     } else if (arr.type === 'card') {
       return (
         <div 
+          id={arr.id}
           data-alt={`${arr.id}`} 
           key={arr.id} 
           className={focusElement ? focusElement.id === arr.id ? 'focusElement' : '' : ''}
           onDoubleClick={() => handleFocusClick(arr)}
         >
           {
-            focusElement && focusElement.id === arr.id && <AdditionalTool id={arr.id} onDelete={handleDeleteItem} />
+            focusElement && focusElement.id === arr.id && <AdditionalTool id={arr.id} onDelete={handleDeleteItem} onMove={handleMoveItem} />
           }
           <Card title={arr.title}>
-            {arr.content || <p className="normal_color">展示内容</p>}
+            {/* <div> */}
+            {/* {arr.content || <p className="normal_color">展示内容</p>} */}
+              {
+                arr.children && 
+                arr.children.map((item) => {
+                  return instantiateElement(item, zIndex + 1)
+                })
+              }
+            {/* </div> */}
           </Card>
         </div>
       )
     } else if (arr.type === 'table') {
       return (
         <div 
+          id={arr.id}
           style={{margin: arr.margin}} 
           data-alt={`${arr.id}`} 
           key={arr.id} 
@@ -100,7 +131,7 @@ const Editor: React.FC = observer((props) => {
           onDoubleClick={() => handleFocusClick(arr)}
         >
           {
-            focusElement && focusElement.id === arr.id && <AdditionalTool id={arr.id} onDelete={handleDeleteItem} />
+            focusElement && focusElement.id === arr.id && <AdditionalTool id={arr.id} onDelete={handleDeleteItem} onMove={handleMoveItem} />
           }
           <Table columns={arr.columns} dataSource={[]} />
         </div>

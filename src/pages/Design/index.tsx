@@ -22,6 +22,7 @@ import {
 } from './Templates'
 import store from '@/stores'
 import ColorInput from './ColorInput'
+import { HandleNextNodeId } from '@/tool/utils'
 import './index.less'
 
 type HTMLElementEventStyle = {
@@ -49,7 +50,9 @@ const Design: React.FC = observer(() => {
 
   const getContext = () => {
     return {
-      isMovingDom
+      isMovingDom,
+      setIsMovingDom: (val) => setIsMovingDOM(val),
+      setElement
     }
   }
 
@@ -78,27 +81,28 @@ const Design: React.FC = observer(() => {
         id: `placeholder_${paths.join('_')}`,
         type: 'placeholder'
       })
-    } else {
+    } else if (index === 0) {
       // 在前面插入
       children.splice(index + 1, 0, obj, {
         id: `placeholder_${paths.join('_')}`,
         type: 'placeholder'
       })
 
-      for (let i = 2; i < children.length; i = i + 2) {
-        const _id = children[i].id
-        const _paths = _id.split('_')
-        const _index = _paths[len - 1]
-        _paths[len - 1] = `${parseInt(_index) + 1}`
+      HandleNextNodeId(index + 2, children, true)
+    } else {
+      // 在中间插入
+      children.splice(index + 2, 0, obj, {
+        id: `placeholder_${paths.join('_')}`,
+        type: 'placeholder'
+      })
 
-        children[i].id = _paths.join('_')
-      }
-    } 
+      HandleNextNodeId(index + 3, children, true)
+    }
   }
 
   const setElement = (e: any, type: string) => {
     const target: any = e.target
-
+  
     if (!elements) {
       if (type === 'block') {
         localStore.editorMange.setElementsObj([{
@@ -129,10 +133,10 @@ const Design: React.FC = observer(() => {
         message.warning('有且仅有一个根节点!')
         return
       }
- 
+      
       if (!target.dataset.alt) return
 
-      const elementsObj_clone = toJS(elements)
+      const elementsObj_clone = toJS(localStore.editorMange.elements)
       const arrs = target.dataset.alt.split('_')
 
       arrs.splice(0, 1)
@@ -141,7 +145,7 @@ const Design: React.FC = observer(() => {
       const id = `${type}_${suffix}`
       const index = parseInt(arrs[arrs.length - 1])
       let obj = null
-
+      console.log(suffix)
       switch (type) {
         case 'card':
           obj = {
@@ -150,7 +154,13 @@ const Design: React.FC = observer(() => {
             width: '100%',
             height: '380px',
             title: '标题',
-            content: ''
+            content: '',
+            children: [
+              {
+                id: `placeholder_${suffix}_0`,
+                type: 'placeholder'
+              }
+            ]
           }
 
           break
@@ -178,12 +188,10 @@ const Design: React.FC = observer(() => {
           }
           break
       }
-      console.log(arrs)
 
       const deepTreeData = (children: ElementStruct[], zIndex: number) => {
         if (zIndex === arrs.length - 2) {
           addChilren(children[arrs[zIndex]], index, arrs, obj)
-
           localStore.editorMange.setFocusElement(obj)
           localStore.editorMange.setElementsObj(elementsObj_clone)
           return

@@ -32,8 +32,8 @@ const Control: React.FC = observer(() => {
 
     } else {
       const deepSetData = (obj, index) => {
-        if (index === paths.length) {
-          obj[type] = value
+        if (index === paths.length -1) {
+          obj[parseInt(paths[index]) * 2 + 1][type] = value
 
           _focusElement[type] = value
           localStore.editorMange.setElementsObj(_elementsObj)
@@ -41,7 +41,7 @@ const Control: React.FC = observer(() => {
           return
         }
 
-        deepSetData(obj.children[paths[index]], index + 1)
+        deepSetData(obj[paths[index]].children, index + 1)
       }
 
       deepSetData(_elementsObj, 1)
@@ -61,8 +61,8 @@ const Control: React.FC = observer(() => {
 
     } else {
       const deepSetData = (obj, index) => {
-        if (index === paths.length) {
-          obj[type] = val
+        if (index === paths.length - 1) {
+          obj[parseInt(paths[index]) * 2 + 1][type] = val
 
           _focusElement[type] = val
           localStore.editorMange.setElementsObj(_elementsObj)
@@ -70,7 +70,7 @@ const Control: React.FC = observer(() => {
           return
         }
 
-        deepSetData(obj.children[paths[index]], index + 1)
+        deepSetData(obj[paths[index]].children, index + 1)
       }
 
       deepSetData(_elementsObj, 1)
