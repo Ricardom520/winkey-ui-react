@@ -37,6 +37,7 @@ import Tooltip from './Tooltip';
 import Table from './Table';
 import Pagination from './Pagination';
 import Tree from './Tree'
+import InputNumber from './InputNumber'
 
 import "./base.css";
 
@@ -79,5 +80,6 @@ export {
   Tooltip,
   Table,
   Pagination,
-  Tree
+  Tree,
+  InputNumber
 }

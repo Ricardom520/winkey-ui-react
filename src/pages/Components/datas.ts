@@ -95,6 +95,11 @@ export const menus = [
         title: 'Input 输入框'
       },
       {
+        id: 43,
+        url: '/inputnumber',
+        title: 'InputNumber 数字输入框'
+      },
+      {
         id: 16,
         url: '/radio',
         title: 'Radio 单选框'
@@ -224,7 +229,7 @@ export const menus = [
         title: 'Modal 对话框'
       },
       {
-        id: 41,
+        id: 42,
         url: '/result',
         title: 'Result 结果'
       },

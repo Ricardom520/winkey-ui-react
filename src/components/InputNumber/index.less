@@ -1,0 +1,87 @@
+.wk-input-number {
+  box-sizing: border-box;
+  font-variant: tabular-nums;
+  list-style: none;
+  font-feature-settings: "tnum";
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  color: #000000d9;
+  font-size: 14px;
+  line-height: 1.5715;
+  background-color: #fff;
+  background-image: none;
+  transition: all .3s;
+  display: inline-block;
+  width: 90px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  &-handler {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 50%;
+    overflow: hidden;
+    color: #00000073;
+    font-weight: 700;
+    text-align: center;
+    border-left: 1px solid #d9d9d9;
+    transition: all .1s linear;
+    i {
+      display: block;
+      font-size: 10px;
+    }
+    &-up {
+      i {
+        transform: rotate(90deg);
+      }
+    }
+    &-down {
+      border-top: 1px solid #d9d9d9;
+      border-bottom-right-radius: 2px;
+      i {
+        transform: rotate(-90deg) translateY(7.55%) translateX(10%);
+      }
+    }
+    &-wrap {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 22px;
+      height: 100%;
+      background: #fff;
+      border-radius: 0 2px 2px 0;
+      opacity: 1;
+      transition: opacity .24s linear .1s;
+    }
+  }
+  &-handler:hover {
+    background-color: #000;
+    cursor: pointer;
+    i {
+      color: #1890ff;
+    }
+  }
+  &-input {
+    width: 100%;
+    height: 30px;
+    padding: 0 11px;
+    text-align: left;
+    background-color: transparent;
+    border: 0;
+    border-radius: 2px;
+    outline: 0;
+    transition: all .3s linear;
+    appearance: textfield!important;
+    touch-action: manipulation;
+  }
+}
+.wk-input-number:hover {
+  border: 1px solid #1890ff;
+  box-shadow: 0 0 5px #1890ff;
+  .wk-input-number-handler-wrap {
+    opacity: 1;
+  }
+}
