@@ -52,9 +52,11 @@ class Checkbox extends Component<CheckboxProps, CheckboxState> {
   componentDidMount() {
     const { defaultChecked, checked } = this.props;
 
-    this.setState({
-      checked: checked || defaultChecked
-    })
+    if (checked !== undefined && defaultChecked !== undefined) {
+      this.setState({
+        checked: checked || defaultChecked
+      })
+    }
   }
 
   UNSAFE_componentWillReceiveProps(next) {
@@ -83,7 +85,7 @@ class Checkbox extends Component<CheckboxProps, CheckboxState> {
   render() {
     const { children, disabled } = this.props;
     const { checked } = this.state;
-    
+
     return (
       <label 
         className={

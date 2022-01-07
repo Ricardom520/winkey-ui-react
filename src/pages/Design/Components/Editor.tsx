@@ -5,22 +5,72 @@ import { observer } from 'mobx-react-lite'
 
 import { ElementStruct } from '@/stores/EditorMange'
 import BgTable from './BgTable'
+import AdditionalTool from './AdditionalTool'
 import store from '@/stores'
 import './index.less'
 import { Card, Table } from '@/components'
 import EmptyPlaceholder from './EmplyPlaceholder'
+import { HandleNextNodeId } from '@/tool/utils'
 
 const Editor: React.FC = observer((props) => {
   const localStore = useLocalStore(() => store)
-  const { elementsObj, focusElement } = localStore.editorMange
+  const { elements, focusElement } = localStore.editorMange
   const [width, setWidth] = useState<number>(0)
   const [height, setHeight] = useState<number>(0)
+  const [elementsObjClone, setElementsObjClone] = useState<ElementStruct[]>()
 
   const handleFocusClick = (item: ElementStruct) => {
     localStore.editorMange.setFocusElement(item)
   }
 
-  
+  const handleDeleteItem = async (id: string) => {
+    const paths = id.split('_')
+    const _zIndex: number = paths.length - 2
+    const _index: number = parseInt(paths[paths.length - 1])
+
+    const deepTreeData = (arr: ElementStruct, zIndex: number) => {
+      if (zIndex === _zIndex) {
+        if (_index === 0) {
+          // 如果只有一个元素，则清空children
+          arr.children = []
+        } else {
+          const __index = 2 * _index + 1
+          arr.children.splice(__index, 2)
+
+          HandleNextNodeId(__index, arr.children, false)
+        }
+
+        localStore.editorMange.setElementsObj(elementsObjClone)
+        localStore.editorMange.setFocusElement(null)
+        return
+      }
+
+      deepTreeData(arr[paths[zIndex]], zIndex + 1)
+    }
+
+    deepTreeData(elementsObjClone[paths[1]], 1)
+  }
+
+  const handleMoveItem = (id: string, event: MouseEvent) => {
+    const target = document.getElementById(id)
+    const copyElement: any = target.cloneNode(true)
+
+    copyElement.style.position = "absolute"
+    copyElement.style.zIndex = '2'
+    copyElement.style.width = target.clientWidth + 'px'
+    copyElement.style.top = event.clientY - 36 + "px"
+    copyElement.style.left = event.clientX + 12 + "px"
+    copyElement.style.pointerEvents = "none"
+
+    document.body.appendChild(copyElement)
+
+    window.onmousemove = (e) => {
+      copyElement.style.top = e.clientY - 36 + "px"
+      copyElement.style.left = e.clientX + 12 + "px"
+    }
+
+    handleDeleteItem(id)
+  }
 
   const instantiateElement = (arr: ElementStruct, zIndex) => {
     if (!arr) {
@@ -29,6 +79,7 @@ const Editor: React.FC = observer((props) => {
 
     if (arr.type === 'block') {
       return <div 
+        id={arr.id}
         data-alt={`${arr.id}`}
         className={focusElement ? focusElement.id === arr.id ? 'focusElement' : '' : ''}
         style={{
@@ -37,7 +88,7 @@ const Editor: React.FC = observer((props) => {
           padding: '20px 40px 20px 40px',
           backgroundColor: arr.backgroundColor
         }} 
-        key={`block-${zIndex}`}>
+        key={arr.id}>
           {
             arr.children && arr.children.map((item: ElementStruct) => {
               return instantiateElement(item, zIndex + 1)
@@ -47,33 +98,49 @@ const Editor: React.FC = observer((props) => {
     } else if (arr.type === 'card') {
       return (
         <div 
+          id={arr.id}
           data-alt={`${arr.id}`} 
-          key={`card-${zIndex}`} 
+          key={arr.id} 
           className={focusElement ? focusElement.id === arr.id ? 'focusElement' : '' : ''}
           onDoubleClick={() => handleFocusClick(arr)}
         >
+          {
+            focusElement && focusElement.id === arr.id && <AdditionalTool id={arr.id} onDelete={handleDeleteItem} onMove={handleMoveItem} />
+          }
           <Card title={arr.title}>
-            {arr.content || <p className="normal_color">展示内容</p>}
+            {/* <div> */}
+            {/* {arr.content || <p className="normal_color">展示内容</p>} */}
+              {
+                arr.children && 
+                arr.children.map((item) => {
+                  return instantiateElement(item, zIndex + 1)
+                })
+              }
+            {/* </div> */}
           </Card>
         </div>
       )
     } else if (arr.type === 'table') {
       return (
         <div 
+          id={arr.id}
           style={{margin: arr.margin}} 
           data-alt={`${arr.id}`} 
-          key={`table-${zIndex}`} 
+          key={arr.id} 
           className={focusElement ? focusElement.id === arr.id ? 'focusElement' : '' : ''}
           onDoubleClick={() => handleFocusClick(arr)}
         >
+          {
+            focusElement && focusElement.id === arr.id && <AdditionalTool id={arr.id} onDelete={handleDeleteItem} onMove={handleMoveItem} />
+          }
           <Table columns={arr.columns} dataSource={[]} />
         </div>
       )
     } else {
-      return <EmptyPlaceholder id={arr.id} />
+      return <React.Fragment key={arr.id}>
+        <EmptyPlaceholder id={arr.id} />
+      </React.Fragment>
     }
-
-    return null
   }
 
   const handleClick = (e) => {
@@ -87,13 +154,17 @@ const Editor: React.FC = observer((props) => {
     setHeight(document.getElementById('editorBox').clientHeight)
   }, [])
 
+  useEffect(() => {
+    setElementsObjClone(toJS(elements))
+  }, [elements])
+
   return (
     <div className='editorContainer'>
       <div id='editorBox' className='editorBox' onClick={handleClick}>
-        <BgTable width={width} height={height} />
+        <BgTable />
         <div className='elementBox'>
           {
-            instantiateElement(toJS(elementsObj), 0)
+            elementsObjClone && instantiateElement(elementsObjClone[0], 0)
           }
         </div>
       </div>

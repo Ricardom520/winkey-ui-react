@@ -22,6 +22,7 @@ import {
 } from './Templates'
 import store from '@/stores'
 import ColorInput from './ColorInput'
+import { HandleNextNodeId } from '@/tool/utils'
 import './index.less'
 
 type HTMLElementEventStyle = {
@@ -35,7 +36,7 @@ type HTMLElementEvent<T extends HTMLElementEventStyle> = Event & {
 
 const Design: React.FC = observer(() => {
   const localStore = useLocalStore(() => store)
-  const { elementsObj, focusElement } = localStore.editorMange
+  const { elements, focusElement } = localStore.editorMange
   const BlockRef: any = useRef<HTMLLIElement>()
   const CardRef: any = useRef<HTMLElement>()
   const TableRef: any = useRef<HTMLElement>()
@@ -49,42 +50,73 @@ const Design: React.FC = observer(() => {
 
   const getContext = () => {
     return {
-      isMovingDom
+      isMovingDom,
+      setIsMovingDom: (val) => setIsMovingDOM(val),
+      setElement
     }
   }
 
-  const addPlaceholder = (obj: ElementStruct) => {
-    if (obj.children.length === 1) {
-      obj.children.push({
-        id: `placeholder_2_1`,
+  const getMargin = (obj: ElementStruct, index: number) => {
+    if (index === 0) {
+      if (obj.children.length > 1) {
+        return '0 0 25px 0'
+      }
+
+      return ''
+    } 
+    
+    return '25px 0 0 0'
+  }
+
+  const addChilren = (elementsObj_clone: ElementStruct, index: number, paths: string[], obj: any) => {
+    const children = elementsObj_clone.children
+    const len = paths.length
+
+    if (children.length === 2 * index + 1) {
+      // 在后面添加
+      children.push(obj)
+
+      paths[len - 1] = `${~~paths[len - 1] + 1}`
+      children.push({
+        id: `placeholder_${paths.join('_')}`,
         type: 'placeholder'
       })
-      obj.children.unshift({
-        id: `placeholder_2_0`,
+    } else if (index === 0) {
+      // 在前面插入
+      children.splice(index + 1, 0, obj, {
+        id: `placeholder_${paths.join('_')}`,
         type: 'placeholder'
       })
+
+      HandleNextNodeId(index + 2, children, true)
     } else {
-      obj.children.push({
-        id: `placeholder_2_${obj.children.length / 2}`,
+      // 在中间插入
+      children.splice(index + 2, 0, obj, {
+        id: `placeholder_${paths.join('_')}`,
         type: 'placeholder'
       })
+
+      HandleNextNodeId(index + 3, children, true)
     }
   }
 
   const setElement = (e: any, type: string) => {
     const target: any = e.target
-
-    if (!elementsObj) {
+  
+    if (!elements) {
       if (type === 'block') {
-        localStore.editorMange.setElementsObj({
+        localStore.editorMange.setElementsObj([{
           id: '0',
           type,
           minWidth: '100%',
           minHeight: '380px',
           padding: '20px 40px 20px 40px',
           backgroundColor: '#fff',
-          children: []
-        })
+          children: [{
+            id: `placeholder_0_0`,
+            type: 'placeholder'
+          }]
+        }])
         localStore.editorMange.setFocusElement({
           id: '0',
           type,
@@ -101,82 +133,74 @@ const Design: React.FC = observer(() => {
         message.warning('有且仅有一个根节点!')
         return
       }
+      
+      if (!target.dataset.alt) return
 
-      const elementsObj_clone = toJS(elementsObj)
-      const len = localStore.editorMange.elementsObj.children.length
-      const id = `${type}_${len}`
-      console.log(target.dataset.alt)
-      if (type === 'card') {
-        elementsObj_clone.children.push({
-          id,
-          type,
-          width: '100%',
-          height: '380px',
-          backgroundColor: '#fff',
-          title: '标题',
-          content: ''
-        })
+      const elementsObj_clone = toJS(localStore.editorMange.elements)
+      const arrs = target.dataset.alt.split('_')
 
-        addPlaceholder(elementsObj_clone)
+      arrs.splice(0, 1)
 
-        localStore.editorMange.setFocusElement({
-          id,
-          type,
-          width: '100%',
-          height: '380px',
-          backgroundColor: '#fff',
-          title: '标题',
-          content: ''
-        })
+      const suffix = arrs.join('_')
+      const id = `${type}_${suffix}`
+      const index = parseInt(arrs[arrs.length - 1])
+      let obj = null
+      console.log(suffix)
+      switch (type) {
+        case 'card':
+          obj = {
+            id,
+            type,
+            width: '100%',
+            height: '380px',
+            title: '标题',
+            content: '',
+            children: [
+              {
+                id: `placeholder_${suffix}_0`,
+                type: 'placeholder'
+              }
+            ]
+          }
 
-        localStore.editorMange.setElementsObj(elementsObj_clone)
-      } else if (type === 'table') {
-        elementsObj_clone.children.push({
-          id,
-          type,
-          width: '100%',
-          height: '380px',
-          margin: elementsObj_clone.children.length ? '30px 0 0 0' : '',
-          columns: [
-            {
-              title: 'table',
-              dataIndex: 'table'
-            },
-            {
-              title: '属性1',
-              dataIndex: '属性1'
-            },
-            {
-              title: '属性2',
-              dataIndex: '属性2'
-            }
-          ]
-        })
-
-        addPlaceholder(elementsObj_clone)
-
-        localStore.editorMange.setFocusElement({
-          id,
-          type,
-          width: '100%',
-          height: '380px',
-          columns: [
-            {
-              title: 'table',
-              dataIndex: 'table'
-            },
-            {
-              title: '属性1',
-              dataIndex: '属性1'
-            },
-            {
-              title: '属性2',
-              dataIndex: '属性2'
-            }
-          ]
-        })
-        localStore.editorMange.setElementsObj(elementsObj_clone)
+          break
+        case 'table':
+          obj = {
+            id,
+            type,
+            width: '100%',
+            height: '380px',
+            margin: getMargin(elementsObj_clone[0], index),
+            columns: [
+              {
+                title: 'table',
+                dataIndex: 'table'
+              },
+              {
+                title: '属性1',
+                dataIndex: '属性1'
+              },
+              {
+                title: '属性2',
+                dataIndex: '属性2'
+              }
+            ]
+          }
+          break
       }
+
+      const deepTreeData = (children: ElementStruct[], zIndex: number) => {
+        if (zIndex === arrs.length - 2) {
+          addChilren(children[arrs[zIndex]], index, arrs, obj)
+          localStore.editorMange.setFocusElement(obj)
+          localStore.editorMange.setElementsObj(elementsObj_clone)
+          return
+        }
+
+        deepTreeData(children[arrs[zIndex]].children, zIndex + 1)
+      }
+
+      deepTreeData(elementsObj_clone, 0)
     }
   }
 

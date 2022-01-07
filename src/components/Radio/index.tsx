@@ -57,7 +57,8 @@ class Radio extends Component<RadioProps, RadioState> {
   static Button = RadioBtn
 
   static defaultProps = {
-    name: ''
+    name: '',
+    value: '',
   }
 
   constructor(props) {
@@ -71,9 +72,11 @@ class Radio extends Component<RadioProps, RadioState> {
   componentDidMount() {
     const { checked, defaultChecked } = this.props;
     
-    this.setState({
-      checked: checked || defaultChecked
-    })
+    if (checked !== undefined && defaultChecked !== undefined) {
+      this.setState({
+        checked: checked || defaultChecked
+      })
+    }
   }
 
   componentWillReceiveProps(nextProps) {

@@ -96,7 +96,7 @@ export default class index extends React.Component<FormProps, FormState> {
     const { errors, formValues, isRequired,  } = this.state;
 
     return (
-      <form action="javascript:void(0)" ref={this.form} id={name} className={
+      <form action="#" ref={this.form} id={name} className={
         "wk-form" +
         LayoutClass[layout] +
         LayoutClass[size]
