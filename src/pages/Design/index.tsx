@@ -71,7 +71,8 @@ const Design: React.FC = observer(() => {
   const addChilren = (elementsObj_clone: ElementStruct, index: number, paths: string[], obj: any) => {
     const children = elementsObj_clone.children
     const len = paths.length
-
+    console.log(children)
+    console.log(elementsObj_clone)
     if (children.length === 2 * index + 1) {
       // 在后面添加
       children.push(obj)
@@ -106,7 +107,7 @@ const Design: React.FC = observer(() => {
     if (!elements) {
       if (type === 'block') {
         localStore.editorMange.setElementsObj([{
-          id: '0',
+          id: 'block_0',
           type,
           minWidth: '100%',
           minHeight: '380px',
@@ -118,7 +119,7 @@ const Design: React.FC = observer(() => {
           }]
         }])
         localStore.editorMange.setFocusElement({
-          id: '0',
+          id: 'block_0',
           type,
           width: '100%',
           height: '380px',
@@ -189,15 +190,16 @@ const Design: React.FC = observer(() => {
           break
       }
 
-      const deepTreeData = (children: ElementStruct[], zIndex: number) => {
+      const deepTreeData = (tree: ElementStruct[], zIndex: number) => {
+        const _index = zIndex === 0 ? 0 : parseInt(arrs[zIndex]) * 2 + 1
         if (zIndex === arrs.length - 2) {
-          addChilren(children[arrs[zIndex]], index, arrs, obj)
+          addChilren(tree[_index], index, arrs, obj)
           localStore.editorMange.setFocusElement(obj)
           localStore.editorMange.setElementsObj(elementsObj_clone)
           return
         }
 
-        deepTreeData(children[arrs[zIndex]].children, zIndex + 1)
+        deepTreeData(tree[_index].children, zIndex + 1)
       }
 
       deepTreeData(elementsObj_clone, 0)

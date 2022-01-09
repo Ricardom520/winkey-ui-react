@@ -18,27 +18,28 @@ const EmptyPlaceholder: React.SFC<EmptyPlaceholderProps> = (props) => {
     const childNodes = parent.childNodes
     const parentHeight = parent.clientHeight
     let _height: number = 0
-    if (id === 'placeholder_0_0_0') {
-      console.log(self.current)
-      console.log(childNodes)
-      console.log(index)
-      console.log(parent)
-    }
     
     if (childNodes.length === 1) {
-      _height = parent.clientHeight * .8
+      console.log(id)
+      console.log(parent.offsetTop)
+      console.log(parent.clientTop)
+      setTop(parseInt(getComputedStyle(parent).paddingTop))
+      _height = parent.clientHeight * .7
     } else if (index === 0) {
-      console.log('???')
       // 第一个元素
       setTop(parent.childNodes[1].offsetTop)
       _height = parent.childNodes[1].offsetTop
     } else {
       let sum = 0 // 子元素的高度和上边距和
+      let _top = 0
       const _index = 2 * index + 1
-      // setTop(childNodes[_index].offsetTop)
+
       for (let i = 1; i < childNodes.length; i = i + 2) {
+        _top += childNodes[i].clientHeight + childNodes[i].offsetTop
         sum += childNodes[i].clientHeight + parseInt(getComputedStyle(childNodes[i]).marginTop)
       }
+
+      setTop(_top)
       
       if (parent.childNodes.length === _index) {
         // 最后一个元素
@@ -59,10 +60,10 @@ const EmptyPlaceholder: React.SFC<EmptyPlaceholderProps> = (props) => {
           return (
             <div 
               ref={self}
-              style={{height: `${height}px`, lineHeight: `${height}px`}}
+              style={{height: `${height}px`, lineHeight: `${height}px`, top: `${top}px`}}
               data-alt={id} 
               key={id} 
-              className={`empty_placeholder ${isMovingDom ? 'show' : id === 'placeholder_0_0_0' ? 'show' : ''}`}
+              className={`empty_placeholder ${isMovingDom ? 'show' : ''}`}
             >
               + 拖放到此处
             </div>
