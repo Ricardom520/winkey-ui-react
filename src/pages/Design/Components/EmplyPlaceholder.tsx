@@ -35,7 +35,7 @@ const EmptyPlaceholder: React.SFC<EmptyPlaceholderProps> = (props) => {
       const _index = 2 * index + 1
 
       for (let i = 1; i < childNodes.length; i = i + 2) {
-        _top += childNodes[i].clientHeight + childNodes[i].offsetTop
+        _top += childNodes[i].clientHeight + (i === 1 ? childNodes[i].offsetTop : parseInt(getComputedStyle(childNodes[i]).marginTop)) 
         sum += childNodes[i].clientHeight + parseInt(getComputedStyle(childNodes[i]).marginTop)
       }
 
