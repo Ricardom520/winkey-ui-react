@@ -47,10 +47,9 @@ export default class RadioBtn extends React.Component<RadioBtnProps, RadioBtnSta
   render() {
     const { children, value, onChange, disabled, name } = this.props;
     const { checked } = this.state;
-
+    console.log(value)
     return (
-      <label 
-        htmlFor={name || ''}
+      <label
         className={
           "wk-radio-button-wrapper" +
           (checked ? " wk-radio-button-wrapper-checked" : "") +
@@ -62,7 +61,7 @@ export default class RadioBtn extends React.Component<RadioBtnProps, RadioBtnSta
             "wk-radio-button" +
             (checked ? " wk-radio-button-checked" : "")
           }>
-          <input className="wk-radio-button-input" type="radio" value={value} onChange={onChange} checked={checked} disabled={disabled} name={name} />
+          <input className="wk-radio-button-input" type="radio" value={value || ''} onChange={onChange} checked={checked} disabled={disabled || false} name={name} />
           <span className="wk-radio-button-inner"/>
         </span>
         <span>{children}</span>

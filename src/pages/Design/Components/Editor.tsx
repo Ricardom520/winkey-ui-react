@@ -8,9 +8,13 @@ import BgTable from './BgTable'
 import AdditionalTool from './AdditionalTool'
 import store from '@/stores'
 import './index.less'
-import { Card, Table } from '@/components'
+import { Card, Form, Table, Input } from '@/components'
 import EmptyPlaceholder from './EmplyPlaceholder'
 import { HandleNextNodeId } from '@/tool/utils'
+
+const FormTypeMap = [
+  'input'
+]
 
 const Editor: React.FC = observer((props) => {
   const localStore = useLocalStore(() => store)
@@ -72,6 +76,16 @@ const Editor: React.FC = observer((props) => {
     handleDeleteItem(id)
   }
 
+  const judgeIsForm = (arr: ElementStruct[]) => {
+    for (let i = 0; i < arr.length; i++) {
+      if (FormTypeMap.indexOf(arr[i].type) > -1) {
+        return true
+      }
+    }
+
+    return false
+  }
+
   const instantiateElement = (arr: ElementStruct, zIndex) => {
     if (!arr) {
       return null
@@ -108,15 +122,12 @@ const Editor: React.FC = observer((props) => {
             focusElement && focusElement.id === arr.id && <AdditionalTool id={arr.id} onDelete={handleDeleteItem} onMove={handleMoveItem} />
           }
           <Card title={arr.title}>
-            {/* <div> */}
-            {/* {arr.content || <p className="normal_color">展示内容</p>} */}
-              {
-                arr.children && 
-                arr.children.map((item) => {
-                  return instantiateElement(item, zIndex + 1)
-                })
-              }
-            {/* </div> */}
+            {
+              arr.children && 
+              arr.children.map((item) => {
+                return instantiateElement(item, zIndex + 1)
+              })
+            }
           </Card>
         </div>
       )
@@ -134,6 +145,53 @@ const Editor: React.FC = observer((props) => {
             focusElement && focusElement.id === arr.id && <AdditionalTool id={arr.id} onDelete={handleDeleteItem} onMove={handleMoveItem} />
           }
           <Table columns={arr.columns} dataSource={[]} />
+        </div>
+      )
+    } else if (arr.type === 'input') {
+      return (
+        <div 
+          id={arr.id}
+          data-alt={`${arr.id}`} 
+          key={arr.id} 
+        > 
+          {
+            arr.id.charAt(arr.id.length-1) === '0' &&
+            <Form name='module'>
+              <Form.Item label='标题'>
+                <Input placeholder='请输入内容' />
+              </Form.Item>
+            </Form>
+          }
+          {
+            arr.id.charAt(arr.id.length-1) !== '0' &&
+            <Form.Item label='标题'>
+              <Input placeholder='请输入内容' />
+            </Form.Item>
+          }
+        </div>
+      )
+    } else if (arr.type === 'form') {
+      return (
+        <div 
+          id={arr.id}
+          data-alt={`${arr.id}`} 
+          key={arr.id} 
+          style={{height: arr.height}}
+        > 
+          <Form 
+            name='module'
+            {...{
+              labelCol: { span: 8 },
+              wrapperCol: { span: 16 },
+            }}
+          >
+            {
+              arr.children && 
+              arr.children.map((item) => {
+                return instantiateElement(item, zIndex + 1)
+              })
+            }
+          </Form>
         </div>
       )
     } else {

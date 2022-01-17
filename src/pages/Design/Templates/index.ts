@@ -7,6 +7,7 @@ import SelectTml from './SelectTml'
 import RadioTml from './RadioTml'
 import CheckboxTml from './CheckboxTml'
 import DatePickerTml from './DatePickerTml'
+import FormTml from './FormTml'
 
 export {
   BlockTml,
@@ -17,5 +18,6 @@ export {
   SelectTml,
   RadioTml,
   CheckboxTml,
-  DatePickerTml
+  DatePickerTml,
+  FormTml
 }

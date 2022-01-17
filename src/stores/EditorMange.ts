@@ -6,6 +6,7 @@ export interface ElementStruct {
   type: string
   minWidth?: string | number
   minHeight?: string | number
+  height?: string | number
   backgroundColor?: string 
   margin?: string
   children?: {

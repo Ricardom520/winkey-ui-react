@@ -18,25 +18,23 @@ const EmptyPlaceholder: React.SFC<EmptyPlaceholderProps> = (props) => {
     const childNodes = parent.childNodes
     const parentHeight = parent.clientHeight
     let _height: number = 0
+    let _top: number = 0
     
     if (childNodes.length === 1) {
-      setTop(parseInt(getComputedStyle(parent).paddingTop))
+      _top = parseInt(getComputedStyle(parent).paddingTop) || parent.clientHeight * .25
       _height = parent.clientHeight * .7
     } else if (index === 0) {
       // 第一个元素
-      setTop(parent.childNodes[1].offsetTop)
+      _top = parent.childNodes[1].offsetTop
       _height = parent.childNodes[1].offsetTop
     } else {
       let sum = 0 // 子元素的高度和上边距和
-      let _top = 0
       const _index = 2 * index + 1
 
       for (let i = 1; i < childNodes.length; i = i + 2) {
         _top += childNodes[i].clientHeight + (i === 1 ? childNodes[i].offsetTop : parseInt(getComputedStyle(childNodes[i]).marginTop)) 
         sum += childNodes[i].clientHeight + parseInt(getComputedStyle(childNodes[i]).marginTop)
       }
-
-      setTop(_top)
       
       if (parent.childNodes.length === _index) {
         // 最后一个元素
@@ -46,6 +44,7 @@ const EmptyPlaceholder: React.SFC<EmptyPlaceholderProps> = (props) => {
       }
     }
 
+    setTop(_top)
     setHeight(_height)
   })
 

@@ -70,19 +70,21 @@ export default class index extends React.Component<FormProps, FormState> {
       form.__INITERNAL__.name = name
     }
 
-    if (!children.length) {
-      if (children.props.name) {
-        formValues[children.props.name] = initialValues[children.props.name] || undefined;
-      }
-    } else {
-      children.forEach(i => {
-        if (i && i.props && i.props.name) {
-          formValues[i.props.name] = initialValues[i.props.name] || undefined;
-          if (i.props.rules && i.props.rules[0].required) {
-            isRequired[i.props.name] = i.props.rules[0]
-          }
+    if (children && typeof children === 'object') {
+      if (!children.length) {
+        if (children.props.name) {
+          formValues[children.props.name] = initialValues[children.props.name] || undefined;
         }
-      })
+      } else {
+        children.forEach(i => {
+          if (i && i.props && i.props.name) {
+            formValues[i.props.name] = initialValues[i.props.name] || undefined;
+            if (i.props.rules && i.props.rules[0].required) {
+              isRequired[i.props.name] = i.props.rules[0]
+            }
+          }
+        })
+      }
     }
 
     this.setState({
@@ -94,7 +96,7 @@ export default class index extends React.Component<FormProps, FormState> {
   render() {
     const { name, children, layout, labelCol, wrapperCol, onFinish, onFinishFailed, size, onValuesChange, labelAlign } = this.props;
     const { errors, formValues, isRequired,  } = this.state;
-
+    console.log(labelCol)
     return (
       <form action="#" ref={this.form} id={name} className={
         "wk-form" +
@@ -102,16 +104,16 @@ export default class index extends React.Component<FormProps, FormState> {
         LayoutClass[size]
       }>
         {
-          children && React.Children.map(children, (child: any) => {
+          children && typeof children === 'object' && React.Children.map(children, (child: any) => {
             if (!child) return null;
             return React.cloneElement(child, {
               formName: name,
-              labelCol: child.props.wrapperCol || labelCol,
+              labelCol: child.props.labelCol || labelCol,
               wrapperCol: child.props.wrapperCol || wrapperCol,
               onFinish,
               onFinishFailed,
-              rules: child.props.rules,
-              isError: errors[child.props.name],
+              rules: child.props ? child.props.rules : [],
+              isError: child.props ? errors[child.props.name] : [],
               formValues,
               setError: (val) => {
                 this.setState({
@@ -127,6 +129,9 @@ export default class index extends React.Component<FormProps, FormState> {
               labelAlign,
             })
           })
+        }
+        {
+          children && typeof children !== 'object' && children
         }
       </form>
     )

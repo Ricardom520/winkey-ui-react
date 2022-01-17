@@ -18,7 +18,8 @@ import {
   SelectTml,
   RadioTml,
   CheckboxTml,
-  DatePickerTml
+  DatePickerTml,
+  FormTml
 } from './Templates'
 import store from '@/stores'
 import ColorInput from './ColorInput'
@@ -46,6 +47,7 @@ const Design: React.FC = observer(() => {
   const RadioRef: any = useRef<HTMLElement>()
   const CheckboxRef: any = useRef<HTMLElement>()
   const DatePickerRef: any = useRef<HTMLElement>()
+  const FormRef: any = useRef<HTMLElement>()
   const [isMovingDom, setIsMovingDOM] = useState<boolean>(false)
 
   const getContext = () => {
@@ -188,6 +190,24 @@ const Design: React.FC = observer(() => {
             ]
           }
           break
+        case 'input':
+          obj = {
+            id,
+            type
+          }
+          break
+        case 'form':
+          obj = {
+            id,
+            type,
+            height: '180px',
+            children: [
+              {
+                id: `placeholder_${suffix}_0`,
+                type: 'placeholder'
+              }
+            ]
+          }
       }
 
       const deepTreeData = (tree: ElementStruct[], zIndex: number) => {
@@ -226,6 +246,8 @@ const Design: React.FC = observer(() => {
       target = RadioRef.current.children[0]
     } else if (type === 'checkbox') {
       target = CheckboxRef.current.children[0]
+    } else if (type === 'form') {
+      target = FormRef.current.children[0]
     }
 
     copyElement = target.cloneNode(true)
@@ -290,6 +312,13 @@ const Design: React.FC = observer(() => {
                 <Tooltip title='Table'>
                   <div>
                     <TableTml/>
+                  </div>
+                </Tooltip>
+              </li>
+              <li className='listItem' onMouseDown={(e) => handleMouseDown('form', e)} ref={FormRef}>
+                <Tooltip title='Form'>
+                  <div>
+                    <FormTml/>
                   </div>
                 </Tooltip>
               </li>

@@ -169,23 +169,23 @@ export default class FormItem extends React.Component<FormItemProps, FormItemSta
     }
   }
 
-  formRadioGroupChange = (e, props) => {
+  formRadioGroupChange = (value, props) => {
     const { name, setFormValues, formValues, onValuesChange } = this.props;
     const { onChange } = props;
 
     if (name) {
-      formValues[name] = e.target.value;
+      formValues[name] = value;
     
       setFormValues(formValues)
     }
 
     if (onChange) {
-      onChange(e)
+      onChange(value)
     }
 
     if (onValuesChange) {
       const values = {};
-      values[name] = e.target.value;
+      values[name] = value;
       onValuesChange(values)
     }
   }
@@ -317,7 +317,7 @@ export default class FormItem extends React.Component<FormItemProps, FormItemSta
 
   render() {
     const { label, labelCol, formName, children, wrapperCol, rules, isError, labelAlign } = this.props;
-
+    console.log(labelCol)
     return (
       <Row className={
         "wk-form-item" +
