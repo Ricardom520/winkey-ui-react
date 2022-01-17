@@ -8,3 +8,7 @@ export const HandleNextNodeId = (index: number, nodes, way: boolean) => {
     nodes[i].id = _paths.join('_')
   }
 }
+
+export const GetScrollY = () => {
+  return document.documentElement.scrollTop || document.body.scrollTop
+}

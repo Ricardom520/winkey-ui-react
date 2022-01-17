@@ -20,9 +20,6 @@ const EmptyPlaceholder: React.SFC<EmptyPlaceholderProps> = (props) => {
     let _height: number = 0
     
     if (childNodes.length === 1) {
-      console.log(id)
-      console.log(parent.offsetTop)
-      console.log(parent.clientTop)
       setTop(parseInt(getComputedStyle(parent).paddingTop))
       _height = parent.clientHeight * .7
     } else if (index === 0) {

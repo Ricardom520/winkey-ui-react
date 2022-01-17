@@ -22,7 +22,7 @@ import {
 } from './Templates'
 import store from '@/stores'
 import ColorInput from './ColorInput'
-import { HandleNextNodeId } from '@/tool/utils'
+import { HandleNextNodeId, GetScrollY } from '@/tool/utils'
 import './index.less'
 
 type HTMLElementEventStyle = {
@@ -212,15 +212,23 @@ const Design: React.FC = observer(() => {
 
     if (type === 'block') {
       target = BlockRef.current.children[0]
-      copyElement = target.cloneNode(true)
     } else if (type === 'card'){
       target = CardRef.current.children[0]
-      copyElement = target.cloneNode(true)
     } else if (type === 'table') {
       target = TableRef.current.children[0]
-      copyElement = target.cloneNode(true)
+    } else if (type === 'input') {
+      target = InputRef.current.children[0]
+    } else if (type === 'button') {
+      target = ButtonRef.current.children[0]
+    } else if (type === 'select') {
+      target = SelectRef.current.children[0]
+    } else if (type === 'radio') {
+      target = RadioRef.current.children[0]
+    } else if (type === 'checkbox') {
+      target = CheckboxRef.current.children[0]
     }
 
+    copyElement = target.cloneNode(true)
     handleMove(copyElement, target, type, e)
     setIsMovingDOM(true)
   }
@@ -229,16 +237,18 @@ const Design: React.FC = observer(() => {
     const getLocation = (event: MouseEvent) => {
       setElement(event, type)
     }
-
+    console.log(document.documentElement.scrollTop)
+    let scrollY = GetScrollY()
     copyElement.style.position = "absolute"
     copyElement.style.zIndex = '2'
-    copyElement.style.top = target.getBoundingClientRect().top + "px"
+    copyElement.style.top = target.getBoundingClientRect().top + scrollY + "px"
     copyElement.style.left = target.getBoundingClientRect().left + "px"
 
     document.body.appendChild(copyElement)
     
     window.onmousemove = (moveEvent: MouseEvent) => {
-      copyElement.style.top = moveEvent.y - event.nativeEvent.offsetY + 'px'
+      scrollY = GetScrollY()
+      copyElement.style.top = moveEvent.y - event.nativeEvent.offsetY + scrollY + 'px'
       copyElement.style.left = moveEvent.x - event.nativeEvent.offsetX + 'px'
 
       window.onmouseup = () => {
