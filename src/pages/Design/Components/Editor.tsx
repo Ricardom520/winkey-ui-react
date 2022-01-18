@@ -8,13 +8,21 @@ import BgTable from './BgTable'
 import AdditionalTool from './AdditionalTool'
 import store from '@/stores'
 import './index.less'
-import { Card, Form, Table, Input } from '@/components'
+import { Card, Form, Table, Input, Select, Radio, Checkbox, DatePicker } from '@/components'
 import EmptyPlaceholder from './EmplyPlaceholder'
 import { HandleNextNodeId } from '@/tool/utils'
 
 const FormTypeMap = [
   'input'
 ]
+
+interface ParentAttributes {
+  type: string
+  layout?: {
+    labelCol?: { span: number },
+    wrapperCol?: { span: number },
+  }
+}
 
 const Editor: React.FC = observer((props) => {
   const localStore = useLocalStore(() => store)
@@ -86,7 +94,7 @@ const Editor: React.FC = observer((props) => {
     return false
   }
 
-  const instantiateElement = (arr: ElementStruct, zIndex) => {
+  const instantiateElement = (arr: ElementStruct, zIndex, parent?: ParentAttributes) => {
     if (!arr) {
       return null
     }
@@ -148,47 +156,106 @@ const Editor: React.FC = observer((props) => {
         </div>
       )
     } else if (arr.type === 'input') {
-      return (
-        <div 
-          id={arr.id}
-          data-alt={`${arr.id}`} 
-          key={arr.id} 
-        > 
-          {
-            arr.id.charAt(arr.id.length-1) === '0' &&
-            <Form name='module'>
-              <Form.Item label='标题'>
-                <Input placeholder='请输入内容' />
-              </Form.Item>
-            </Form>
-          }
-          {
-            arr.id.charAt(arr.id.length-1) !== '0' &&
-            <Form.Item label='标题'>
+      if (parent.type.indexOf('form') > -1) {
+        return (
+          <div 
+            id={arr.id}
+            data-alt={`${arr.id}`} 
+            key={arr.id}
+          > 
+            <Form.Item label='标题' labelCol={parent.layout.labelCol} wrapperCol={parent.layout.wrapperCol}>
               <Input placeholder='请输入内容' />
             </Form.Item>
-          }
-        </div>
-      )
+          </div>
+        )
+      }
+
+      return <Input placeholder='请输入内容' />
+    } else if (arr.type === 'select') {
+      if (parent.type.indexOf('form') > -1) {
+        return (
+          <div 
+            id={arr.id}
+            data-alt={`${arr.id}`} 
+            key={arr.id}
+          > 
+            <Form.Item label='标题' labelCol={parent.layout.labelCol} wrapperCol={parent.layout.wrapperCol}>
+              <Select placeholder='select'/>
+            </Form.Item>
+          </div>
+        )
+      }
+
+      return <Select placeholder='select'/>
+    } else if (arr.type === 'radio') {
+      if (parent.type.indexOf('form') > -1) {
+        return (
+          <div 
+            id={arr.id}
+            data-alt={`${arr.id}`} 
+            key={arr.id}
+          > 
+            <Form.Item label='标题' labelCol={parent.layout.labelCol} wrapperCol={parent.layout.wrapperCol}>
+              <Radio name='radio_tml'>Radio</Radio>
+            </Form.Item>
+          </div>
+        )
+      }
+
+      return <Radio name='radio_tml'>Radio</Radio>
+    } else if (arr.type === 'checkbox') {
+      if (parent.type.indexOf('form') > -1) {
+        return (
+          <div 
+            id={arr.id}
+            data-alt={`${arr.id}`} 
+            key={arr.id}
+          > 
+            <Form.Item label='标题' labelCol={parent.layout.labelCol} wrapperCol={parent.layout.wrapperCol}>
+              <Checkbox>Checkbox</Checkbox>
+            </Form.Item>
+          </div>
+        )
+      }
+
+      return <Checkbox>Checkbox</Checkbox>
+    } else if (arr.type === 'datepicker') {
+      if (parent.type.indexOf('form') > -1) {
+        return (
+          <div 
+            id={arr.id}
+            data-alt={`${arr.id}`} 
+            key={arr.id}
+          > 
+            <Form.Item label='标题' labelCol={parent.layout.labelCol} wrapperCol={parent.layout.wrapperCol}>
+              <DatePicker />
+            </Form.Item>
+          </div>
+        )
+      }
+
+      return <DatePicker />
     } else if (arr.type === 'form') {
       return (
         <div 
           id={arr.id}
           data-alt={`${arr.id}`} 
           key={arr.id} 
-          style={{height: arr.height}}
+          style={{minHeight: arr.height}}
         > 
           <Form 
             name='module'
-            {...{
-              labelCol: { span: 8 },
-              wrapperCol: { span: 16 },
-            }}
           >
             {
               arr.children && 
               arr.children.map((item) => {
-                return instantiateElement(item, zIndex + 1)
+                return instantiateElement(item, zIndex + 1, {
+                  type: arr.type,
+                  layout: {
+                    labelCol: { span: 4 },
+                    wrapperCol: { span: 6 },
+                  }
+                })
               })
             }
           </Form>

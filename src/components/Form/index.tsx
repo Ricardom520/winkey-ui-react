@@ -96,7 +96,7 @@ export default class index extends React.Component<FormProps, FormState> {
   render() {
     const { name, children, layout, labelCol, wrapperCol, onFinish, onFinishFailed, size, onValuesChange, labelAlign } = this.props;
     const { errors, formValues, isRequired,  } = this.state;
-    console.log(labelCol)
+
     return (
       <form action="#" ref={this.form} id={name} className={
         "wk-form" +
@@ -106,6 +106,7 @@ export default class index extends React.Component<FormProps, FormState> {
         {
           children && typeof children === 'object' && React.Children.map(children, (child: any) => {
             if (!child) return null;
+            if (!child.type.winkeyName) return child
             return React.cloneElement(child, {
               formName: name,
               labelCol: child.props.labelCol || labelCol,

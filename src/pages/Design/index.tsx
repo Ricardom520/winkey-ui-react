@@ -196,6 +196,30 @@ const Design: React.FC = observer(() => {
             type
           }
           break
+        case 'select':
+          obj = {
+            id,
+            type
+          }
+          break
+        case 'radio': 
+          obj = {
+            id,
+            type
+          }
+          break
+        case 'checkbox':
+          obj = {
+            id,
+            type
+          }
+          break
+        case 'datepicker':
+          obj = {
+            id,
+            type
+          }
+          break
         case 'form':
           obj = {
             id,

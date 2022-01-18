@@ -296,7 +296,7 @@ export default class FormItem extends React.Component<FormItemProps, FormItemSta
   }
 
   initChildren = (kid?, key?) => {
-    const { formValues, name, size } = this.props;
+    const { formValues = [], name, size } = this.props;
 
     const childType = {
       button: <Button {...kid.props} key={key} onClick={(e) => this.formButtonClick(e, kid.props)} size={size} />,
@@ -316,8 +316,8 @@ export default class FormItem extends React.Component<FormItemProps, FormItemSta
   }
 
   render() {
-    const { label, labelCol, formName, children, wrapperCol, rules, isError, labelAlign } = this.props;
-    console.log(labelCol)
+    const { label, labelCol, formName = '', children, wrapperCol, rules, isError, labelAlign = "right" } = this.props;
+
     return (
       <Row className={
         "wk-form-item" +
