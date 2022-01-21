@@ -73,8 +73,7 @@ const Design: React.FC = observer(() => {
   const addChilren = (elementsObj_clone: ElementStruct, index: number, paths: string[], obj: any) => {
     const children = elementsObj_clone.children
     const len = paths.length
-    console.log(children)
-    console.log(elementsObj_clone)
+
     if (children.length === 2 * index + 1) {
       // 在后面添加
       children.push(obj)
@@ -148,7 +147,7 @@ const Design: React.FC = observer(() => {
       const id = `${type}_${suffix}`
       const index = parseInt(arrs[arrs.length - 1])
       let obj = null
-      console.log(suffix)
+
       switch (type) {
         case 'card':
           obj = {
@@ -225,6 +224,9 @@ const Design: React.FC = observer(() => {
             id,
             type,
             height: '180px',
+            layout: 'horizontal',
+            labelCol: 4,
+            wrapperCol: 6,
             children: [
               {
                 id: `placeholder_${suffix}_0`,
@@ -283,7 +285,7 @@ const Design: React.FC = observer(() => {
     const getLocation = (event: MouseEvent) => {
       setElement(event, type)
     }
-    console.log(document.documentElement.scrollTop)
+
     let scrollY = GetScrollY()
     copyElement.style.position = "absolute"
     copyElement.style.zIndex = '2'

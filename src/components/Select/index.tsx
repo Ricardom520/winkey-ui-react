@@ -14,7 +14,7 @@ interface SelectProps {
   defaultValue?: string | number | string[] | number[];
   value?: string | number;
   style?: React.CSSProperties;
-  options?: SelectOptions;
+  options?: SelectOptions[];
   onChange?: (value) => void;
   onFocus?: () => void;
   onBlur?: () => void;
@@ -36,7 +36,7 @@ interface SelectProps {
 }
 
 interface SelectState {
-  children: ReactNode;
+  children: any;
   focus: boolean;
   open: boolean;
   offsetTop: number;
@@ -105,7 +105,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
     const { value, defaultValue, children } = this.props;
     
     this.setState({
-      value: value || defaultValue || [],
+      value: value || defaultValue || '',
       children: children
     })
 
@@ -137,8 +137,8 @@ export default class Select extends React.Component<SelectProps, SelectState> {
     if (value === undefined) {
       this.setState({
         searchValue: "",
-        value: undefined,
-        label: undefined
+        value: '',
+        label: ''
       })
     }
 
@@ -150,16 +150,16 @@ export default class Select extends React.Component<SelectProps, SelectState> {
   }
 
   initLabelAndValue = (props) => {
-    const { value, defaultValue, children } = props;
+    const { value, defaultValue, children, options } = props;
     
-    if (children && (value || defaultValue)) {
-      const toArrayChildren = Array.prototype.slice.call(children)
+    if ((children || options) && (value || defaultValue)) {
+      const toArrayChildren = options || Array.prototype.slice.call(children)
 
       if ((typeof value !== 'object') && (typeof defaultValue !== 'object')) {
         toArrayChildren.forEach(i => {
-          if (i.props.value === (value || defaultValue)) {
+          if ((i.value || i.props.value) === (value || defaultValue)) {
             this.setState({
-              label: i.props.children
+              label: i.label || i.props.children
             })
           }
         })
@@ -169,8 +169,8 @@ export default class Select extends React.Component<SelectProps, SelectState> {
 
         toArrayChildren.forEach(i => {
           (value || defaultValue).forEach(j => {
-            if (i.props.value === j) {
-              labels.push(i.props.children)
+            if ((i.value || i.props.value) === j) {
+              labels.push(i.label || i.props.children)
               values.push(j)
             }  
           })
@@ -319,7 +319,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
     const wkSelect: any = this.wkSelect.current;
 
     this.setState({
-      offsetLeft: wkSelect.offsetLeft,
+      offsetLeft: wkSelect.getBoundingClientRect().left,
       offsetTop: wkSelect.getBoundingClientRect().top + wkSelect.clientHeight + 3,
       width: wkSelect.clientWidth,
       height: wkSelect.clientHeight,
@@ -499,7 +499,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
   }
 
   render() {
-    const { mode, dropdownClassName, dropdownStyle } = this.props;
+    const { mode, dropdownClassName, dropdownStyle, options } = this.props;
     const { offsetLeft, offsetTop, width, value, open, height, children } = this.state;
 
     return (
@@ -518,7 +518,9 @@ export default class Select extends React.Component<SelectProps, SelectState> {
           height={height}
           mode={mode}
         >
-          {children}
+          {children ? children : options && options.map((item: SelectOptions) => {
+              return <Option value={item.value} key={`${item.label}_${item.value}`}>{item.label}</Option>
+            })}
         </SelectBox>
       </>
     )

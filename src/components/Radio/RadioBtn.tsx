@@ -47,7 +47,7 @@ export default class RadioBtn extends React.Component<RadioBtnProps, RadioBtnSta
   render() {
     const { children, value, onChange, disabled, name } = this.props;
     const { checked } = this.state;
-    console.log(value)
+
     return (
       <label
         className={

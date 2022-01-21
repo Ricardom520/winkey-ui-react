@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite'
 
 import store from '@/stores'
 import { ElementStruct } from '@/stores/EditorMange'
-import { Card, Form, Input, Radio } from '@/components'
+import { Card, Form, Input, Radio, Select } from '@/components'
 import TreeData from './TreeData'
  
 const layout = {
@@ -169,6 +169,37 @@ const Control: React.FC = observer(() => {
               <div>
                 <TreeData data={toJS(focusElement.columns)} onChange={(val) => hanleChangeTree(val)} />
               </div>
+            </Form.Item>
+          }
+          {
+            focusElement.layout &&
+            <Form.Item label='layout'>
+              <Select value={focusElement.layout} options={[
+                {
+                  label: 'horizontal',
+                  value: 'horizontal'
+                },
+                {
+                  label: 'vertical',
+                  value: 'vertical'
+                },
+                {
+                  label: 'inline',
+                  value: 'inline'
+                }
+              ]} onChange={(e) => console.log(e)} />
+            </Form.Item>
+          }
+          {
+            focusElement.labelCol &&
+            <Form.Item label='labelCol'>
+              <Input placeholder='请输入labelCol' value={focusElement.labelCol} onChange={(e) => handleChangeInput(e, 'labelCol')}/>
+            </Form.Item>
+          }
+          {
+            focusElement.wrapperCol &&
+            <Form.Item label='wrapperCol'>
+              <Input placeholder='请输入wrapperCol' value={focusElement.wrapperCol} onChange={(e) => handleChangeInput(e, 'wrapperCol')}/>
             </Form.Item>
           }
         </Form>

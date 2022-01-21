@@ -9,6 +9,7 @@ interface FormProps {
   children?: any;
   layout?: "horizontal" | "vertical" | "inline";
   labelCol?: any;
+  style?: React.CSSProperties
   wrapperCol?: any;
   onFinish?: (val) => void;
   onFinishFailed?: (val) => void;
@@ -94,11 +95,11 @@ export default class index extends React.Component<FormProps, FormState> {
   }
 
   render() {
-    const { name, children, layout, labelCol, wrapperCol, onFinish, onFinishFailed, size, onValuesChange, labelAlign } = this.props;
+    const { name, children, layout, labelCol, wrapperCol, onFinish, onFinishFailed, size, onValuesChange, labelAlign, style } = this.props;
     const { errors, formValues, isRequired,  } = this.state;
 
     return (
-      <form action="#" ref={this.form} id={name} className={
+      <form style={style} action="#" ref={this.form} id={name} className={
         "wk-form" +
         LayoutClass[layout] +
         LayoutClass[size]
@@ -106,7 +107,8 @@ export default class index extends React.Component<FormProps, FormState> {
         {
           children && typeof children === 'object' && React.Children.map(children, (child: any) => {
             if (!child) return null;
-            if (!child.type.winkeyName) return child
+
+            if (!child.type.name) return child
             return React.cloneElement(child, {
               formName: name,
               labelCol: child.props.labelCol || labelCol,

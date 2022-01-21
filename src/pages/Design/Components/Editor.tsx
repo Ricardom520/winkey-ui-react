@@ -44,7 +44,11 @@ const Editor: React.FC = observer((props) => {
       if (zIndex === _zIndex) {
         if (_index === 0) {
           // 如果只有一个元素，则清空children
-          arr.children = []
+          paths[0] = 'placeholder'
+          arr.children = [{
+            id: paths.join('_'),
+            type: 'placeholder'
+          }]
         } else {
           const __index = 2 * _index + 1
           arr.children.splice(__index, 2)
@@ -57,7 +61,7 @@ const Editor: React.FC = observer((props) => {
         return
       }
 
-      deepTreeData(arr[paths[zIndex]], zIndex + 1)
+      deepTreeData(arr.children[2 * parseInt(paths[zIndex]) + 1], zIndex + 1)
     }
 
     deepTreeData(elementsObjClone[paths[1]], 1)
@@ -82,16 +86,6 @@ const Editor: React.FC = observer((props) => {
     }
 
     handleDeleteItem(id)
-  }
-
-  const judgeIsForm = (arr: ElementStruct[]) => {
-    for (let i = 0; i < arr.length; i++) {
-      if (FormTypeMap.indexOf(arr[i].type) > -1) {
-        return true
-      }
-    }
-
-    return false
   }
 
   const instantiateElement = (arr: ElementStruct, zIndex, parent?: ParentAttributes) => {
@@ -241,10 +235,11 @@ const Editor: React.FC = observer((props) => {
           id={arr.id}
           data-alt={`${arr.id}`} 
           key={arr.id} 
-          style={{minHeight: arr.height}}
         > 
           <Form 
             name='module'
+            layout={arr.layout}
+            style={{minHeight: arr.height}}
           >
             {
               arr.children && 
@@ -252,8 +247,8 @@ const Editor: React.FC = observer((props) => {
                 return instantiateElement(item, zIndex + 1, {
                   type: arr.type,
                   layout: {
-                    labelCol: { span: 4 },
-                    wrapperCol: { span: 6 },
+                    labelCol: { span: arr.labelCol },
+                    wrapperCol: { span: arr.wrapperCol },
                   }
                 })
               })

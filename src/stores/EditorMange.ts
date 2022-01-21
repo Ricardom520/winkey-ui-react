@@ -19,6 +19,9 @@ export interface ElementStruct {
   }[]
   title?: string
   content?: string | ReactNode
+  labelCol?: number,
+  wrapperCol?: number,
+  layout?: "horizontal" | "vertical" | "inline"
   columns?: {
     title: string
     dataIndex: string

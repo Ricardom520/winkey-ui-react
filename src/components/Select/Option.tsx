@@ -31,8 +31,7 @@ export default class Option extends Component<OptionProps> {
     const { children, checked, disabled, mode } = this.props;
 
     return (
-      <div 
-        aira-selcted={checked}
+      <div
         className={
           "wk-select-item wk-select-item-option" +
           (checked ? " wk-select-item-checked" : "") + 
