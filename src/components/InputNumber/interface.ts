@@ -5,3 +5,7 @@ export interface InputNumberProps {
   defaultValue?: number
   value?: number
 }
+
+export interface InputNumberState {
+  value: string
+}
