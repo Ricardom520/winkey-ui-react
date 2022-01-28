@@ -1,4 +1,4 @@
-import { Input } from '@/components'
+import { Input, Select } from '@/components'
 import React, { useState, useEffect } from 'react'
 
 import './index.less'
@@ -9,10 +9,34 @@ interface InputControlProps {
   onConfrim?: (val) => void
   onAdd?: () => void
   onReduce?: () => void
+  type?: 'input' | 'select'
 }
 
+const inputWays = [
+  {
+    label: 'input',
+    value: 'input'
+  },
+  {
+    label: 'select',
+    value: 'select'
+  },
+  {
+    label: 'radio',
+    value: 'radio'
+  },
+  {
+    label: 'datepicker',
+    value: 'datepicker'
+  },
+  {
+    label: 'checkbox',
+    value: 'checkbox'
+  }
+]
+
 const InputControl: React.FC<InputControlProps> = (props) => {
-  const { value, title, onConfrim, onAdd, onReduce } = props
+  const { value, title, onConfrim, onAdd, onReduce, type = 'input' } = props
   const [valueState, setValueState] = useState<string>()
   const [focus, setFocus] = useState<boolean>(false)
 
@@ -26,6 +50,15 @@ const InputControl: React.FC<InputControlProps> = (props) => {
     if (onConfrim) {
       onConfrim(valueState)
     }
+  }
+
+  const inputs = {
+    input: <Input value={valueState} onChange={handleChange} onBlur={handleConfirm} />,
+    select: <Select 
+      value={valueState} 
+      options={inputWays}
+      onChange={val => setValueState(val)} 
+    />
   }
 
   const handleAddConlum = () => {
@@ -48,8 +81,7 @@ const InputControl: React.FC<InputControlProps> = (props) => {
         <p className={title ? 'inputControl-value' : ''}>{valueState}</p>
       }
       {
-        focus &&
-        <Input value={valueState} onChange={handleChange} onBlur={handleConfirm} />
+        focus && inputs[type]
       }
       <div className='inputControl-btn'>
         {

@@ -8,13 +8,17 @@ import BgTable from './BgTable'
 import AdditionalTool from './AdditionalTool'
 import store from '@/stores'
 import './index.less'
-import { Card, Form, Table, Input, Select, Radio, Checkbox, DatePicker } from '@/components'
+import { Card, Form, Table, Input, Select, Radio, Checkbox, DatePicker, Row, Col, Button } from '@/components'
 import EmptyPlaceholder from './EmplyPlaceholder'
 import { HandleNextNodeId } from '@/tool/utils'
 
-const FormTypeMap = [
-  'input'
-]
+const FormTypeMap = {
+  input: <Input/>,
+  select: <Select />,
+  radio: <Radio/>,
+  checkbox: <Checkbox/>,
+  datepicker: <DatePicker/>,
+}
 
 interface ParentAttributes {
   type: string
@@ -31,8 +35,14 @@ const Editor: React.FC = observer((props) => {
   const [height, setHeight] = useState<number>(0)
   const [elementsObjClone, setElementsObjClone] = useState<ElementStruct[]>()
 
-  const handleFocusClick = (item: ElementStruct) => {
+  const handleFocusClick = (item: ElementStruct, e: any) => {
     localStore.editorMange.setFocusElement(item)
+
+    try {
+      e.stopPropagation()
+    } catch {
+      e.cancelBubble = true
+    }
   }
 
   const handleDeleteItem = async (id: string) => {
@@ -118,7 +128,7 @@ const Editor: React.FC = observer((props) => {
           data-alt={`${arr.id}`} 
           key={arr.id} 
           className={focusElement ? focusElement.id === arr.id ? 'focusElement' : '' : ''}
-          onDoubleClick={() => handleFocusClick(arr)}
+          onDoubleClick={(e) => handleFocusClick(arr, e)}
         >
           {
             focusElement && focusElement.id === arr.id && <AdditionalTool id={arr.id} onDelete={handleDeleteItem} onMove={handleMoveItem} />
@@ -141,7 +151,7 @@ const Editor: React.FC = observer((props) => {
           data-alt={`${arr.id}`} 
           key={arr.id} 
           className={focusElement ? focusElement.id === arr.id ? 'focusElement' : '' : ''}
-          onDoubleClick={() => handleFocusClick(arr)}
+          onDoubleClick={(e) => handleFocusClick(arr, e)}
         >
           {
             focusElement && focusElement.id === arr.id && <AdditionalTool id={arr.id} onDelete={handleDeleteItem} onMove={handleMoveItem} />
@@ -150,84 +160,14 @@ const Editor: React.FC = observer((props) => {
         </div>
       )
     } else if (arr.type === 'input') {
-      if (parent.type.indexOf('form') > -1) {
-        return (
-          <div 
-            id={arr.id}
-            data-alt={`${arr.id}`} 
-            key={arr.id}
-          > 
-            <Form.Item label='标题' labelCol={parent.layout.labelCol} wrapperCol={parent.layout.wrapperCol}>
-              <Input placeholder='请输入内容' />
-            </Form.Item>
-          </div>
-        )
-      }
-
       return <Input placeholder='请输入内容' />
     } else if (arr.type === 'select') {
-      if (parent.type.indexOf('form') > -1) {
-        return (
-          <div 
-            id={arr.id}
-            data-alt={`${arr.id}`} 
-            key={arr.id}
-          > 
-            <Form.Item label='标题' labelCol={parent.layout.labelCol} wrapperCol={parent.layout.wrapperCol}>
-              <Select placeholder='select'/>
-            </Form.Item>
-          </div>
-        )
-      }
-
       return <Select placeholder='select'/>
     } else if (arr.type === 'radio') {
-      if (parent.type.indexOf('form') > -1) {
-        return (
-          <div 
-            id={arr.id}
-            data-alt={`${arr.id}`} 
-            key={arr.id}
-          > 
-            <Form.Item label='标题' labelCol={parent.layout.labelCol} wrapperCol={parent.layout.wrapperCol}>
-              <Radio name='radio_tml'>Radio</Radio>
-            </Form.Item>
-          </div>
-        )
-      }
-
       return <Radio name='radio_tml'>Radio</Radio>
     } else if (arr.type === 'checkbox') {
-      if (parent.type.indexOf('form') > -1) {
-        return (
-          <div 
-            id={arr.id}
-            data-alt={`${arr.id}`} 
-            key={arr.id}
-          > 
-            <Form.Item label='标题' labelCol={parent.layout.labelCol} wrapperCol={parent.layout.wrapperCol}>
-              <Checkbox>Checkbox</Checkbox>
-            </Form.Item>
-          </div>
-        )
-      }
-
       return <Checkbox>Checkbox</Checkbox>
     } else if (arr.type === 'datepicker') {
-      if (parent.type.indexOf('form') > -1) {
-        return (
-          <div 
-            id={arr.id}
-            data-alt={`${arr.id}`} 
-            key={arr.id}
-          > 
-            <Form.Item label='标题' labelCol={parent.layout.labelCol} wrapperCol={parent.layout.wrapperCol}>
-              <DatePicker />
-            </Form.Item>
-          </div>
-        )
-      }
-
       return <DatePicker />
     } else if (arr.type === 'form') {
       return (
@@ -235,24 +175,49 @@ const Editor: React.FC = observer((props) => {
           id={arr.id}
           data-alt={`${arr.id}`} 
           key={arr.id} 
+          className={focusElement ? focusElement.id === arr.id ? 'focusElement' : '' : ''}
+          onDoubleClick={(e) => handleFocusClick(arr, e)}
         > 
+          {
+            focusElement && focusElement.id === arr.id && <AdditionalTool id={arr.id} onDelete={handleDeleteItem} onMove={handleMoveItem} />
+          }
           <Form 
             name='module'
             layout={arr.layout}
             style={{minHeight: arr.height}}
+            labelCol={{span: arr.labelCol}}
+            wrapperCol={{span: arr.wrapperCol}}
           >
-            {
-              arr.children && 
-              arr.children.map((item) => {
-                return instantiateElement(item, zIndex + 1, {
-                  type: arr.type,
-                  layout: {
-                    labelCol: { span: arr.labelCol },
-                    wrapperCol: { span: arr.wrapperCol },
-                  }
+             <Row >
+              {
+                arr.formItems && 
+                arr.formItems.map((item, index) => {
+                  return (
+                    <>
+                      <Col span={24 / arr.row} key={`${arr.id}_${index}`}>
+                        <Form.Item labelCol={{span: arr.labelCol}} wrapperCol={{span: arr.wrapperCol}} label={item.title} name={item.name}>
+                          {FormTypeMap[item.type]}
+                        </Form.Item>
+                      </Col>
+                      {
+                        arr.isSubmit && arr.submitAlign === 'end' && index === arr.formItems.length - 1 &&
+                        <Col style={{paddingLeft: '5%'}} span={24 / arr.row} key={`${arr.id}_button`}>
+                          <Button type='primary'>提交</Button> 
+                        </Col>
+                      }
+                    </>
+                  )
                 })
-              })
-            }
+              }
+             </Row>
+             {
+               arr.isSubmit && arr.submitAlign !== 'end' &&
+               <Row style={{justifyContent: arr.submitAlign}}>
+                 <Col offset={arr.labelCol / arr.row}>
+                  <Button type='primary'>提交</Button> 
+                 </Col>
+               </Row>
+             }
           </Form>
         </div>
       )

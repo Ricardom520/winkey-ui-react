@@ -31,6 +31,7 @@ interface FormItemProps {
   onValuesChange?: (val) => void;
   size?: "small" | "default" | "large";
   labelAlign?: "left | right | center";
+  style?: React.CSSProperties
 }
 
 interface FormItemState {
@@ -316,10 +317,10 @@ export default class FormItem extends React.Component<FormItemProps, FormItemSta
   }
 
   render() {
-    const { label, labelCol, formName = '', children, wrapperCol, rules, isError, labelAlign = "right" } = this.props;
+    const { label, labelCol, formName = '', children, wrapperCol, rules, isError, labelAlign = "right", style } = this.props;
 
     return (
-      <Row className={
+      <Row style={style} className={
         "wk-form-item" +
         (isError ? " wk-form-item-has-error" : "") +
         (isError && rules && rules[0] ? " wk-form-item-with-help" : "")

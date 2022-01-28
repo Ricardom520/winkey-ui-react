@@ -1,5 +1,6 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
+import Empty from '../Empty'
 
 import "./index.less";
 
@@ -89,7 +90,7 @@ class SelectBox extends React.Component<SelectBoxProps> {
               }
               {
                 !children &&
-                <div>暂无数据</div>
+                <Empty/>
               }
             </div>
           </div>

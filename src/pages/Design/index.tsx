@@ -227,10 +227,14 @@ const Design: React.FC = observer(() => {
             layout: 'horizontal',
             labelCol: 4,
             wrapperCol: 6,
-            children: [
+            row: 1,
+            isSubmit: true,
+            submitAlign: 'flex-start',
+            formItems: [
               {
-                id: `placeholder_${suffix}_0`,
-                type: 'placeholder'
+                title: '标题',
+                name: 'input',
+                type: 'input'
               }
             ]
           }

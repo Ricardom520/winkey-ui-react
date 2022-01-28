@@ -5,12 +5,12 @@ import { observer } from 'mobx-react-lite'
 
 import store from '@/stores'
 import { ElementStruct } from '@/stores/EditorMange'
-import { Card, Form, Input, Radio, Select } from '@/components'
+import { Card, Form, Input, Radio, Select, InputNumber } from '@/components'
 import TreeData from './TreeData'
  
 const layout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 18 },
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
 };
 
 const Control: React.FC = observer(() => {
@@ -20,36 +20,6 @@ const Control: React.FC = observer(() => {
 
   const handleChangeHasBorder = (val) => {
     focusElement.hasBorder = val
-  }
-
-  const handleChangeInput = (e, type: string) => {
-    const value = e.target.value
-    const _focusElement = toJS(focusElement)
-    const keyPath = _focusElement.id
-    const paths = keyPath.split('_')
-
-    if (paths.length === 1) {
-
-    } else {
-      const deepSetData = (obj, index) => {
-        if (index === paths.length -1) {
-          obj[parseInt(paths[index]) * 2 + 1][type] = value
-
-          _focusElement[type] = value
-          localStore.editorMange.setElementsObj(_elementsObj)
-          localStore.editorMange.setFocusElement(_focusElement)
-          return
-        }
-
-        deepSetData(obj[paths[index]].children, index + 1)
-      }
-
-      deepSetData(_elementsObj, 1)
-    }
-  }
-
-  const hanleChangeTree = (val) => {
-    handleData(val, 'columns')
   }
 
   const handleData = (val: any, type: string) => {
@@ -70,7 +40,7 @@ const Control: React.FC = observer(() => {
           return
         }
 
-        deepSetData(obj[paths[index]].children, index + 1)
+        deepSetData(obj[index === 1 ? 0 : 2 * parseInt(paths[index]) + 1].children, index + 1)
       }
 
       deepSetData(_elementsObj, 1)
@@ -100,7 +70,7 @@ const Control: React.FC = observer(() => {
           {
             focusElement.color && 
             <Form.Item label='字体颜色'>
-              <Input placeholder='请输入字体颜色' value={focusElement.color || '#000'} onChange={(e) => handleChangeInput(e, 'color')} />
+              <Input placeholder='请输入字体颜色' value={focusElement.color || '#000'} onChange={(e) => handleData(e, 'color')} />
             </Form.Item>
           }
           {
@@ -146,33 +116,39 @@ const Control: React.FC = observer(() => {
             </Form.Item>
           }
           {
-            focusElement.hasBorder && 
+            focusElement.hasBorder !== undefined &&
             <Form.Item label='边框颜色'>
               <Input placeholder='请输入外边距' value={focusElement.borderColor}/>
             </Form.Item>
           }
           {
-            focusElement.hasBorder &&
+            focusElement.hasBorder !== undefined &&
               <Form.Item label='边框宽度'>
                 <Input placeholder='请输入边框宽度' value={focusElement.borderSize}/>
               </Form.Item> 
           }
           {
-            focusElement.title &&
+            focusElement.title !== undefined &&
             <Form.Item label='标题'>
-              <Input placeholder='请输入标题' value={focusElement.title} onChange={(e) => handleChangeInput(e, 'title')}/>
+              <Input placeholder='请输入标题' value={focusElement.title} onChange={(e) => handleData(e, 'title')}/>
             </Form.Item>
           }
           {
-            focusElement.columns &&
+            focusElement.columns !== undefined &&
             <Form.Item label='列属性'>
               <div>
-                <TreeData data={toJS(focusElement.columns)} onChange={(val) => hanleChangeTree(val)} />
+                <TreeData 
+                  inputWay='input'
+                  type='columns' 
+                  data={toJS(focusElement.columns)} 
+                  onChange={(val) => handleData(val, 'columns')} 
+                  content={{title: '新增属性', dataIndex: '新增属性'}}
+                />
               </div>
             </Form.Item>
           }
           {
-            focusElement.layout &&
+            focusElement.layout !== undefined &&
             <Form.Item label='layout'>
               <Select value={focusElement.layout} options={[
                 {
@@ -187,19 +163,84 @@ const Control: React.FC = observer(() => {
                   label: 'inline',
                   value: 'inline'
                 }
-              ]} onChange={(e) => console.log(e)} />
+              ]} onChange={(val) => handleData(val, 'layout')} />
             </Form.Item>
           }
           {
-            focusElement.labelCol &&
+            focusElement.labelCol !== undefined &&
             <Form.Item label='labelCol'>
-              <Input placeholder='请输入labelCol' value={focusElement.labelCol} onChange={(e) => handleChangeInput(e, 'labelCol')}/>
+              <InputNumber min={1} max={30} defaultValue={4} onChange={(val) => handleData(val, 'labelCol')} />
             </Form.Item>
           }
           {
-            focusElement.wrapperCol &&
+            focusElement.wrapperCol !== undefined &&
             <Form.Item label='wrapperCol'>
-              <Input placeholder='请输入wrapperCol' value={focusElement.wrapperCol} onChange={(e) => handleChangeInput(e, 'wrapperCol')}/>
+              <InputNumber min={1} max={30} defaultValue={6} onChange={(val) => handleData(val, 'wrapperCol')} />
+            </Form.Item>
+          }
+          {
+            focusElement.row !== undefined &&
+            <Form.Item label='每行个数'>
+              <InputNumber min={1} max={4} defaultValue={1} onChange={(val) => handleData(val, 'row')} />
+            </Form.Item>
+          }
+          {
+            focusElement.isSubmit !== undefined &&
+            <Form.Item label='是否有提交'>
+              <Radio.Group value={focusElement.isSubmit ? 1 : 0} options={[
+                {
+                  label: '是',
+                  value: 1
+                },
+                {
+                  label: '否',
+                  value: 0
+                }
+              ]} onChange={val => handleData(val === 1, 'isSubmit')}></Radio.Group>
+            </Form.Item>
+          }
+          {
+            focusElement.submitAlign !== undefined && focusElement.isSubmit && 
+            <Form.Item label='按钮位置'>
+              <Select value={focusElement.submitAlign} options={[
+                {
+                  label: '居左',
+                  value: 'flex-start'
+                },
+                {
+                  label: '居中',
+                  value: 'center'
+                },
+                {
+                  label: '居右',
+                  value: 'flex-end'
+                },
+                {
+                  label: '靠后',
+                  value: 'end'
+                }
+              ]} onChange={(val) => handleData(val, 'submitAlign')} />
+            </Form.Item>
+          }
+          {
+            focusElement.formItems !== undefined &&
+            <Form.Item label='内容模块'>
+              <TreeData 
+                type='formItems' 
+                inputWay='select'
+                data={toJS(focusElement.formItems)} 
+                onChange={(val) => handleData(val, 'formItems')} 
+                content={{
+                  title: '标题',
+                  name: 'input',
+                  type: 'input',
+                  children: {
+                    title: 'options',
+                    label: 'label',
+                    value: 'value'
+                  }
+                }}
+              />
             </Form.Item>
           }
         </Form>

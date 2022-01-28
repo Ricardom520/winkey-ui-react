@@ -26,6 +26,13 @@ export interface ElementStruct {
     title: string
     dataIndex: string
   }[]
+  formItems?: {
+    title: string
+    [propsName: string]: string
+  }[]
+  row?: number // form每行个数
+  isSubmit?: boolean // form是否有提交按钮
+  submitAlign?: 'left' | 'center' | 'right' | 'end' // 提交按钮位置
 }
 
 export interface FocusElementBaseStruct {

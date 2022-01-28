@@ -3,6 +3,7 @@ import { InputNumber } from '@/components';
 import PageTitle from '../PageTitle';
 import IntroduceBox from '../IntroduceBox';
 import { HighlightCode } from '@/tool/func';
+import InputNumberBaseMd from '@/assets/markdowns/InputNumber/base.md'
 
 const InputNumberPage: React.FC = () => {
   const onChange = (value) => {
@@ -18,7 +19,7 @@ const InputNumberPage: React.FC = () => {
       <PageTitle title="Input输入框" description="通过鼠标或键盘输入内容，是最基础的表单域的包装。" />
 
       <IntroduceBox
-        height={210}
+        height={290}
         title="基本使用"
         description="基本使用。"
         demo={
@@ -26,9 +27,9 @@ const InputNumberPage: React.FC = () => {
             <InputNumber min={1} max={10} defaultValue={3} onChange={onChange} />
           </div>
         }
-        // markdown={
-        //   <div className="gird-descrition" dangerouslySetInnerHTML={{ __html: InputMd.html }} />
-        // }
+        markdown={
+          <div className="gird-descrition" dangerouslySetInnerHTML={{ __html: InputNumberBaseMd.html }} />
+        }
       />
     </div>
   )

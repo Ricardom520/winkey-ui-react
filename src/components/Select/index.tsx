@@ -33,6 +33,7 @@ interface SelectProps {
   className?: string;
   dropdownClassName?: string;
   dropdownStyle?: React.CSSProperties;
+  open?: boolean
 }
 
 interface SelectState {
@@ -102,11 +103,12 @@ export default class Select extends React.Component<SelectProps, SelectState> {
   }
 
   componentDidMount() {
-    const { value, defaultValue, children } = this.props;
+    const { value, defaultValue, children, open } = this.props;
     
     this.setState({
       value: value || defaultValue || '',
-      children: children
+      children: children,
+      open
     })
 
     this.initLabelAndValue(this.props)

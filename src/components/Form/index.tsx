@@ -73,7 +73,7 @@ export default class index extends React.Component<FormProps, FormState> {
 
     if (children && typeof children === 'object') {
       if (!children.length) {
-        if (children.props.name) {
+        if (children.props && children.props.name) {
           formValues[children.props.name] = initialValues[children.props.name] || undefined;
         }
       } else {

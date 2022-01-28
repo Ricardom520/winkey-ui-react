@@ -62,6 +62,27 @@ class IndexNumber extends Component<InputNumberProps, InputNumberState> {
     })
   }
 
+  handleChangeValue = (e) => {
+    const { onChange, max, min } = this.props
+    let value = parseInt(e.target.value)
+
+    if (value > max) {
+      value = max
+    }
+
+    if (value < min) {
+      value = min
+    }
+
+    if (onChange) {
+      onChange(value)
+    }
+
+    this.setState({
+      value: value ? `${value}` : ''
+    })
+  }
+
   render(): React.ReactNode {
     const { value } = this.state
 
@@ -76,7 +97,7 @@ class IndexNumber extends Component<InputNumberProps, InputNumberState> {
           </span>
         </div>
         <div className='wk-input-number-input-wrap'>
-        <input className='wk-input-number-input' value={value} />
+        <input className='wk-input-number-input' value={value} onChange={this.handleChangeValue} />
         </div>
       </div>
     )

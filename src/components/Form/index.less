@@ -77,6 +77,13 @@
   &-inline {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
+    .wk-form-item-control-input {
+      flex: auto;
+      &-content {
+        flex: auto;
+      }
+    }
   }
 }
 
@@ -107,9 +114,6 @@
 .wk-form-inline .wk-form-item>.wk-form-item-control, .wk-form-inline .wk-form-item>.wk-form-item-label {
   display: inline-block;
   vertical-align: top;
-}
-.wk-form-inline .wk-form-item-control-input-content {
-  flex: none;
 }
 
 .wk-form-item-explain, .wk-form-item-extra {
