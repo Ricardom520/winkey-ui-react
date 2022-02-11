@@ -47,6 +47,34 @@ const Control: React.FC = observer(() => {
     }
   }
 
+  const handleFormItemData = (val: any, type: string) => {
+    const _focusElement = toJS(focusElement)
+    console.log(_focusElement)
+    console.log(val)
+    const keyPath = _focusElement.id
+    const paths = keyPath.split('_')
+
+    if (paths.length === 1) {
+
+    } else {
+      const deepSetData = (obj, index) => {
+        if (index === paths.length - 2) {
+          console.log(obj[parseInt(paths[index]) * 2 + 1])
+          obj[parseInt(paths[index]) * 2 + 1]['formItems'][paths[index + 1]][type] = val
+
+          _focusElement[type] = val
+          localStore.editorMange.setElementsObj(_elementsObj)
+          localStore.editorMange.setFocusElement(_focusElement)
+          return
+        }
+
+        deepSetData(obj[index === 1 ? 0 : 2 * parseInt(paths[index]) + 1].children, index + 1)
+      }
+
+      deepSetData(_elementsObj, 1)
+    }
+  }
+
   useEffect(() => {
     setElementsObj(toJS(elements))
   }, [elements])
@@ -229,6 +257,35 @@ const Control: React.FC = observer(() => {
                 type='formItems' 
                 inputWay='select'
                 data={toJS(focusElement.formItems)} 
+                filterKey={['name', 'type']}
+                onChange={(val) => handleData(val, 'formItems')} 
+                content={{
+                  title: '标题',
+                  name: 'input',
+                  type: 'input',
+                  children: {
+                    title: 'options',
+                    label: 'label',
+                    value: 'value'
+                  }
+                }}
+              />
+            </Form.Item>
+          }
+          {
+            focusElement.placeholder !== undefined &&
+            <Form.Item label='占位符'>
+              <Input placeholder='Input Text' value={focusElement.placeholder} onChange={(e) => handleFormItemData(e.target.value, 'placeholder')}/>
+            </Form.Item> 
+          }
+          {
+            focusElement.options !== undefined && focusElement.type === 'select' &&
+            <Form.Item label='选择项'>
+              <TreeData 
+                type='formItems' 
+                inputWay='select'
+                data={toJS(focusElement.formItems)} 
+                filterKey={['name', 'type']}
                 onChange={(val) => handleData(val, 'formItems')} 
                 content={{
                   title: '标题',

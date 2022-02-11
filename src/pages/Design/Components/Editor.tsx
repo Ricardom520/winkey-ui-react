@@ -98,6 +98,20 @@ const Editor: React.FC = observer((props) => {
     handleDeleteItem(id)
   }
 
+  const handleFocusFormItemClick = (e, item, id, index) => {
+    console.log(item)
+    localStore.editorMange.setFocusElement({
+      id: `${id}_${index}`,
+      placeholder: item.placeholder
+    })
+
+    try {
+      e.stopPropagation()
+    } catch {
+      e.cancelBubble = true
+    }
+  }
+
   const instantiateElement = (arr: ElementStruct, zIndex, parent?: ParentAttributes) => {
     if (!arr) {
       return null
@@ -195,8 +209,19 @@ const Editor: React.FC = observer((props) => {
                   return (
                     <>
                       <Col span={24 / arr.row} key={`${arr.id}_${index}`}>
-                        <Form.Item labelCol={{span: arr.labelCol}} wrapperCol={{span: arr.wrapperCol}} label={item.title} name={item.name}>
-                          {FormTypeMap[item.type]}
+                        <Form.Item labelCol={{span: arr.labelCol}} wrapperCol={{span: arr.wrapperCol}} label={item.title} name={item.name as string}>
+                          <div className={focusElement.id === `${arr.id}_${index}` ? 'formItem-focus' : ''} onDoubleClick={(e) => handleFocusFormItemClick(e, item, arr.id, index)}>
+                            {/* {FormTypeMap[item.type]} */}
+                            {
+                              item.type === 'input' && <Input placeholder={item.placeholder as string} />
+                            }
+                            {
+                              item.type === 'select' && <Select placeholder={item.placeholder as string} options={item.options as {
+                                label: string
+                                value: string | number
+                              }[]} />
+                            }
+                          </div>
                         </Form.Item>
                       </Col>
                       {

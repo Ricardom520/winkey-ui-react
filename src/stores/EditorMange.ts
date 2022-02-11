@@ -28,7 +28,10 @@ export interface ElementStruct {
   }[]
   formItems?: {
     title: string
-    [propsName: string]: string
+    [propsName: string]: string | {
+      label: string
+      value: string | number
+    }[]
   }[]
   row?: number // form每行个数
   isSubmit?: boolean // form是否有提交按钮

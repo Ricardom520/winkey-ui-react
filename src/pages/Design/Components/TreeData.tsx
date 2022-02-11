@@ -18,18 +18,18 @@ interface TreeDataProps {
     }
   }
   inputWay: 'input' | 'select'
+  filterKey?: string[]
 }
 
 const TreeData: React.SFC<TreeDataProps> = observer((props) => {
-  const { type, content, inputWay } = props
+  const { type, content, inputWay, data, onChange, filterKey } = props
   const localStore = useLocalStore(() => store)
   const { focusElement } = localStore.editorMange
-  const { data, onChange } = props
   const [treeData, setTreeData] = useState([])
 
   const initTree = (dataSource) => {
     const arr = []
-    console.log(dataSource)
+    
     dataSource.forEach((item: any, n) => {
       const children = []
       const obj: {
@@ -41,20 +41,31 @@ const TreeData: React.SFC<TreeDataProps> = observer((props) => {
       Object.keys(item).forEach((_item: string) => {
         if (_item === 'title') {
           obj.title = <InputControl 
-                        onAdd={() => handleAddTreeData(n, item)} 
+                        onAdd={() => handleAddTreeData(n)} 
                         onReduce={() => handleReduceTreeData(n)}
                         value={item[_item]} 
                         onConfrim={(val: string) => handleChangeTreeData(val, {index: n, key: _item})} 
                       />
           
-        } else if (_item === 'children') {
-          // TODO 补充options
-        } else {
+        } else if (filterKey && filterKey.includes(_item)) {
           obj.key = `columns_${n}`
           children.push({
             title: <InputControl 
                     type={inputWay}
-                    onAdd={() => handleAddTreeData(n, item)} 
+                    onAdd={() => handleAddTreeData(n)} 
+                    onReduce={() => handleReduceTreeData(n)}
+                    title={_item} 
+                    value={item[_item]} 
+                    onConfrim={(val: string) => handleChangeTreeData(val, {index: n, key: _item})} 
+                  />,
+            key: `columns_kid_${_item}`
+          })
+        } else if (!filterKey) {
+          obj.key = `columns_${n}`
+          children.push({
+            title: <InputControl 
+                    type={inputWay}
+                    onAdd={() => handleAddTreeData(n)} 
                     onReduce={() => handleReduceTreeData(n)}
                     title={_item} 
                     value={item[_item]} 
@@ -78,12 +89,12 @@ const TreeData: React.SFC<TreeDataProps> = observer((props) => {
     onChange(data)
   }
 
-  const handleAddTreeData = (index: number, item) => {
+  const handleAddTreeData = (index: number) => {
     const _focusElement: FocusElementBaseStruct = toJS(focusElement)
     const arrs = _focusElement[type]
-    console.log(item)
-    arrs.splice(index + 1, 0, content)
 
+    arrs.splice(index + 1, 0, content)
+    console.log(arrs)
     onChange(arrs)
   }
 
@@ -96,12 +107,11 @@ const TreeData: React.SFC<TreeDataProps> = observer((props) => {
   }
 
   useEffect(() => {
-    console.log(data)
     const res = initTree(data)
 
     setTreeData(res)
   }, [data])
-  console.log(treeData)
+
   return (
     <Tree
       treeData={treeData}
