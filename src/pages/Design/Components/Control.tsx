@@ -59,7 +59,6 @@ const Control: React.FC = observer(() => {
     } else {
       const deepSetData = (obj, index) => {
         if (index === paths.length - 2) {
-          console.log(obj[parseInt(paths[index]) * 2 + 1])
           obj[parseInt(paths[index]) * 2 + 1]['formItems'][paths[index + 1]][type] = val
 
           _focusElement[type] = val
@@ -257,7 +256,7 @@ const Control: React.FC = observer(() => {
                 type='formItems' 
                 inputWay='select'
                 data={toJS(focusElement.formItems)} 
-                filterKey={['name', 'type']}
+                filterKey={['type']}
                 onChange={(val) => handleData(val, 'formItems')} 
                 content={{
                   title: '标题',
@@ -284,8 +283,8 @@ const Control: React.FC = observer(() => {
               <TreeData 
                 type='formItems' 
                 inputWay='select'
-                data={toJS(focusElement.formItems)} 
-                filterKey={['name', 'type']}
+                data={toJS(focusElement.options)} 
+                filterKey={['type']}
                 onChange={(val) => handleData(val, 'formItems')} 
                 content={{
                   title: '标题',

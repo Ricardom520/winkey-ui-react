@@ -235,8 +235,6 @@ const Design: React.FC = observer(() => {
                 title: '标题',
                 name: 'input',
                 type: 'input',
-                placeholder: 'input text',
-                options: []
               }
             ]
           }

@@ -7,6 +7,7 @@ import { FocusElementBaseStruct } from '@/stores/EditorMange'
 import store from '@/stores'
 import { Tree } from '@/components'
 import InputControl from './InputControl'
+import { FormItemPlaceHolderMap } from '../datas'
 
 interface TreeDataProps {
   data: any
@@ -85,7 +86,13 @@ const TreeData: React.SFC<TreeDataProps> = observer((props) => {
   }
 
   const handleChangeTreeData = (val, { index, key }) => {
+    if (key === 'type') {
+      // 修改formItem的类型特殊对待
+      data[index].placeholder = data[index].placeholder || FormItemPlaceHolderMap[val]
+      data[index].options = data[index].options || [{title: '选择项', label: '', value: ''}]
+    }
     data[index][key] = val
+    console.log(data)
     onChange(data)
   }
 
@@ -108,7 +115,7 @@ const TreeData: React.SFC<TreeDataProps> = observer((props) => {
 
   useEffect(() => {
     const res = initTree(data)
-
+    console.log(data)
     setTreeData(res)
   }, [data])
 

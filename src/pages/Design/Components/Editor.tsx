@@ -99,10 +99,11 @@ const Editor: React.FC = observer((props) => {
   }
 
   const handleFocusFormItemClick = (e, item, id, index) => {
-    console.log(item)
     localStore.editorMange.setFocusElement({
       id: `${id}_${index}`,
-      placeholder: item.placeholder
+      type: item.type,
+      placeholder: item.placeholder,
+      options: item.options 
     })
 
     try {
