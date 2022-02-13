@@ -89,10 +89,10 @@ const TreeData: React.SFC<TreeDataProps> = observer((props) => {
     if (key === 'type') {
       // 修改formItem的类型特殊对待
       data[index].placeholder = data[index].placeholder || FormItemPlaceHolderMap[val]
-      data[index].options = data[index].options || [{title: '选择项', label: '', value: ''}]
+      data[index].options = data[index].options || [{label: '标题', value: '选择项'}]
     }
     data[index][key] = val
-    console.log(data)
+
     onChange(data)
   }
 
@@ -101,7 +101,7 @@ const TreeData: React.SFC<TreeDataProps> = observer((props) => {
     const arrs = _focusElement[type]
 
     arrs.splice(index + 1, 0, content)
-    console.log(arrs)
+
     onChange(arrs)
   }
 
@@ -115,7 +115,7 @@ const TreeData: React.SFC<TreeDataProps> = observer((props) => {
 
   useEffect(() => {
     const res = initTree(data)
-    console.log(data)
+
     setTreeData(res)
   }, [data])
 

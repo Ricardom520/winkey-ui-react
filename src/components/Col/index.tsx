@@ -72,7 +72,7 @@ export default class Col extends React.Component<ColProps, ColState> {
   render () {
     const { span, children, className, offset } = this.props;
     const { style } = this.state;
-    console.log(offset)
+
     return (
       <div 
         style={style}

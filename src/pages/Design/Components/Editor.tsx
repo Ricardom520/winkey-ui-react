@@ -208,11 +208,10 @@ const Editor: React.FC = observer((props) => {
                 arr.formItems && 
                 arr.formItems.map((item, index) => {
                   return (
-                    <>
-                      <Col span={24 / arr.row} key={`${arr.id}_${index}`}>
+                    <React.Fragment key={`${arr.id}_${index}`}>
+                      <Col span={24 / arr.row}>
                         <Form.Item labelCol={{span: arr.labelCol}} wrapperCol={{span: arr.wrapperCol}} label={item.title} name={item.name as string}>
                           <div className={focusElement.id === `${arr.id}_${index}` ? 'formItem-focus' : ''} onDoubleClick={(e) => handleFocusFormItemClick(e, item, arr.id, index)}>
-                            {/* {FormTypeMap[item.type]} */}
                             {
                               item.type === 'input' && <Input placeholder={item.placeholder as string} />
                             }
@@ -227,11 +226,11 @@ const Editor: React.FC = observer((props) => {
                       </Col>
                       {
                         arr.isSubmit && arr.submitAlign === 'end' && index === arr.formItems.length - 1 &&
-                        <Col style={{paddingLeft: '5%'}} span={24 / arr.row} key={`${arr.id}_button`}>
+                        <Col style={{paddingLeft: '5%'}} span={24 / arr.row}>
                           <Button type='primary'>提交</Button> 
                         </Col>
                       }
-                    </>
+                    </React.Fragment>
                   )
                 })
               }

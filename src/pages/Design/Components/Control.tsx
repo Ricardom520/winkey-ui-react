@@ -7,10 +7,11 @@ import store from '@/stores'
 import { ElementStruct } from '@/stores/EditorMange'
 import { Card, Form, Input, Radio, Select, InputNumber } from '@/components'
 import TreeData from './TreeData'
+import FormItemOptions from './FormItemOptions'
  
 const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
+  labelCol: { span: 6 },
+  wrapperCol: { span: 18 },
 };
 
 const Control: React.FC = observer(() => {
@@ -49,8 +50,6 @@ const Control: React.FC = observer(() => {
 
   const handleFormItemData = (val: any, type: string) => {
     const _focusElement = toJS(focusElement)
-    console.log(_focusElement)
-    console.log(val)
     const keyPath = _focusElement.id
     const paths = keyPath.split('_')
 
@@ -201,7 +200,7 @@ const Control: React.FC = observer(() => {
           }
           {
             focusElement.wrapperCol !== undefined &&
-            <Form.Item label='wrapperCol'>
+            <Form.Item label='wrapper'>
               <InputNumber min={1} max={30} defaultValue={6} onChange={(val) => handleData(val, 'wrapperCol')} />
             </Form.Item>
           }
@@ -213,7 +212,7 @@ const Control: React.FC = observer(() => {
           }
           {
             focusElement.isSubmit !== undefined &&
-            <Form.Item label='是否有提交'>
+            <Form.Item label='提交？'>
               <Radio.Group value={focusElement.isSubmit ? 1 : 0} options={[
                 {
                   label: '是',
@@ -280,23 +279,7 @@ const Control: React.FC = observer(() => {
           {
             focusElement.options !== undefined && focusElement.type === 'select' &&
             <Form.Item label='选择项'>
-              <TreeData 
-                type='formItems' 
-                inputWay='select'
-                data={toJS(focusElement.options)} 
-                filterKey={['type']}
-                onChange={(val) => handleData(val, 'formItems')} 
-                content={{
-                  title: '标题',
-                  name: 'input',
-                  type: 'input',
-                  children: {
-                    title: 'options',
-                    label: 'label',
-                    value: 'value'
-                  }
-                }}
-              />
+              <FormItemOptions datas={focusElement.options} onChange={(val) => handleFormItemData(val, 'options')} />
             </Form.Item>
           }
         </Form>

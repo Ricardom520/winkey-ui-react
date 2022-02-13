@@ -10,6 +10,8 @@ interface InputControlProps {
   onAdd?: () => void
   onReduce?: () => void
   type?: 'input' | 'select'
+  addabled?: boolean
+  deleteabled?: boolean
 }
 
 const inputWays = [
@@ -36,7 +38,7 @@ const inputWays = [
 ]
 
 const InputControl: React.FC<InputControlProps> = (props) => {
-  const { value, title, onConfrim, onAdd, onReduce, type = 'input' } = props
+  const { value, title, onConfrim, onAdd, onReduce, type = 'input', addabled = true, deleteabled = true } = props
   const [valueState, setValueState] = useState<string>()
   const [focus, setFocus] = useState<boolean>(false)
 
@@ -92,8 +94,12 @@ const InputControl: React.FC<InputControlProps> = (props) => {
           focus &&
           <i className='iconfont wk-icon-hock' onClick={handleConfirm} />
         }
-        <i className='iconfont wk-icon-dustbin' onClick={handleDeleteConlum} />
-        <i className='iconfont wk-icon-add' onClick={handleAddConlum} />
+        {
+          deleteabled && <i className='iconfont wk-icon-dustbin' onClick={handleDeleteConlum} /> 
+        }
+        {
+          addabled && <i className='iconfont wk-icon-add' onClick={handleAddConlum} />
+        }
       </div>
     </div>
   )
