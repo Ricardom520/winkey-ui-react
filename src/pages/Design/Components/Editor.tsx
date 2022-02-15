@@ -11,6 +11,7 @@ import './index.less'
 import { Card, Form, Table, Input, Select, Radio, Checkbox, DatePicker, Row, Col, Button } from '@/components'
 import EmptyPlaceholder from './EmplyPlaceholder'
 import { HandleNextNodeId } from '@/tool/utils'
+import { LabelValue } from './interface'
 
 const FormTypeMap = {
   input: <Input/>,
@@ -216,10 +217,16 @@ const Editor: React.FC = observer((props) => {
                               item.type === 'input' && <Input placeholder={item.placeholder as string} />
                             }
                             {
-                              item.type === 'select' && <Select placeholder={item.placeholder as string} options={item.options as {
-                                label: string
-                                value: string | number
-                              }[]} />
+                              item.type === 'select' && <Select placeholder={item.placeholder as string} options={item.options as LabelValue[]} />
+                            }
+                            {
+                              item.type === 'radio' && <Radio.Group options={item.options as LabelValue[]} />
+                            }
+                            {
+                              item.type === 'datepicker' && <DatePicker/>
+                            }
+                            {
+                              item.type === 'checkbox' && <Checkbox.Group options={item.options as LabelValue[]} />
                             }
                           </div>
                         </Form.Item>

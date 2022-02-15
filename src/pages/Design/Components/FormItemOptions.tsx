@@ -15,8 +15,8 @@ const FormItemOptions: React.FC<FormItemOptionsProps> = (props) => {
 
   const handleAdd = (index: number) => {
     options.splice(index + 1, 0, {
-      label: '标题1',
-      value: '对应值1'
+      label: '标题',
+      value: '对应值'
     })
 
     setOptions(Object.assign([], options))
@@ -31,11 +31,12 @@ const FormItemOptions: React.FC<FormItemOptionsProps> = (props) => {
   const handleChange = (key: 'label' | 'value', index, val: string) => {
     options[index][key] = val
 
-    setOptions(options)
+    setOptions(Object.assign([], options))
   }
 
   useEffect(() => {
     if (onChange) {
+      console.log(options)
       onChange(options)
     }
   }, [options])

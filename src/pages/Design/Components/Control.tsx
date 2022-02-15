@@ -8,6 +8,7 @@ import { ElementStruct } from '@/stores/EditorMange'
 import { Card, Form, Input, Radio, Select, InputNumber } from '@/components'
 import TreeData from './TreeData'
 import FormItemOptions from './FormItemOptions'
+import { FormItemTypeOptionsFilter } from '../datas'
  
 const layout = {
   labelCol: { span: 6 },
@@ -52,15 +53,17 @@ const Control: React.FC = observer(() => {
     const _focusElement = toJS(focusElement)
     const keyPath = _focusElement.id
     const paths = keyPath.split('_')
-
+    console.log('///')
     if (paths.length === 1) {
 
     } else {
       const deepSetData = (obj, index) => {
+        if (!obj) return
         if (index === paths.length - 2) {
           obj[parseInt(paths[index]) * 2 + 1]['formItems'][paths[index + 1]][type] = val
 
           _focusElement[type] = val
+          console.log(_focusElement)
           localStore.editorMange.setElementsObj(_elementsObj)
           localStore.editorMange.setFocusElement(_focusElement)
           return
@@ -277,9 +280,9 @@ const Control: React.FC = observer(() => {
             </Form.Item> 
           }
           {
-            focusElement.options !== undefined && focusElement.type === 'select' &&
+            focusElement.options !== undefined && FormItemTypeOptionsFilter.includes(focusElement.type) &&
             <Form.Item label='选择项'>
-              <FormItemOptions datas={focusElement.options} onChange={(val) => handleFormItemData(val, 'options')} />
+              <FormItemOptions datas={toJS(focusElement.options)} onChange={(val) => handleFormItemData(val, 'options')} />
             </Form.Item>
           }
         </Form>
