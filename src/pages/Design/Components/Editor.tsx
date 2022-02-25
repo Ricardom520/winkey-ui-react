@@ -142,6 +142,7 @@ const Editor: React.FC = observer((props) => {
         <div 
           id={arr.id}
           data-alt={`${arr.id}`} 
+          style={{margin: arr.margin}} 
           key={arr.id} 
           className={focusElement ? focusElement.id === arr.id ? 'focusElement' : '' : ''}
           onDoubleClick={(e) => handleFocusClick(arr, e)}
@@ -191,6 +192,7 @@ const Editor: React.FC = observer((props) => {
           id={arr.id}
           data-alt={`${arr.id}`} 
           key={arr.id} 
+          style={{margin: arr.margin}} 
           className={focusElement ? focusElement.id === arr.id ? 'focusElement' : '' : ''}
           onDoubleClick={(e) => handleFocusClick(arr, e)}
         > 

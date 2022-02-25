@@ -26,7 +26,7 @@ const EmptyPlaceholder: React.SFC<EmptyPlaceholderProps> = (props) => {
     } else if (index === 0) {
       // 第一个元素
       _top = parent.childNodes[1].offsetTop
-      _height = parent.childNodes[1].offsetTop
+      _height = parent.childNodes[1].offsetTop * .5
     } else {
       let sum = 0 // 子元素的高度和上边距和
       const _index = 2 * index + 1

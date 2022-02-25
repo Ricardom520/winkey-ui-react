@@ -156,6 +156,7 @@ const Design: React.FC = observer(() => {
             width: '100%',
             height: '380px',
             title: '标题',
+            margin: getMargin(elementsObj_clone[0], index),
             content: '',
             children: [
               {
@@ -225,6 +226,7 @@ const Design: React.FC = observer(() => {
             type,
             height: '180px',
             layout: 'horizontal',
+            margin: getMargin(elementsObj_clone[0], index),
             labelCol: 4,
             wrapperCol: 6,
             row: 1,
@@ -353,7 +355,7 @@ const Design: React.FC = observer(() => {
                   </div>
                 </Tooltip>
               </li>
-              <li className='listItem' onMouseDown={(e) => handleMouseDown('input', e)} ref={InputRef}>
+              {/* <li className='listItem' onMouseDown={(e) => handleMouseDown('input', e)} ref={InputRef}>
                 <Tooltip title='Input'>
                   <div>
                     <InputTml/>
@@ -394,7 +396,7 @@ const Design: React.FC = observer(() => {
                     <DatePickerTml/>
                   </div>
                 </Tooltip>
-              </li>
+              </li> */}
             </ul>
           </div>
           <div className='right'>

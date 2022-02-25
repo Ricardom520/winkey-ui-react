@@ -28,10 +28,19 @@
         height: 100%;
       }
       .controls {
+        position: relative;
         width: 440px;
         height: 100%;
         background-color: #fff;
         overflow-y: scroll;
+        &_btn {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          text-align: right;
+          padding: 10px 20px;
+          border-top: 1px solid #f0f0f0;
+        }
       }
     }
   }

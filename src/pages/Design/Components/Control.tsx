@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite'
 
 import store from '@/stores'
 import { ElementStruct } from '@/stores/EditorMange'
-import { Card, Form, Input, Radio, Select, InputNumber } from '@/components'
+import { Card, Form, Input, Radio, Select, InputNumber, Button } from '@/components'
 import TreeData from './TreeData'
 import FormItemOptions from './FormItemOptions'
 import { FormItemTypeOptionsFilter } from '../datas'
@@ -287,6 +287,9 @@ const Control: React.FC = observer(() => {
           }
         </Form>
       </Card>
+      <div className='controls_btn'>
+        <Button type='primary'>打印</Button>
+      </div>
     </div>
   )
 })
