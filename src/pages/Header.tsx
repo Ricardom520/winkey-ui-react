@@ -20,7 +20,10 @@ const Header: React.SFC = () => {
           <img src={Search} alt='find' />
           <input type='text' placeholder='搜索文档' />
         </div>
-        <ListsMenus/>
+        <div>
+          <ListsMenus/>
+          <img/>
+        </div>
       </div>
     </header>
   )

@@ -123,7 +123,7 @@ const Index: React.SFC = () => {
             </div>
             <div className='banner-desc'>
               <h1>Winkey UI</h1>
-              <p>WinkeyUI, 一套为开发者、设计师和产品经理准备的基于React的企微端组件库</p>
+              <p>WinkeyUI, 为所欲为的基于React的组件库</p>
               <p>企业级产品设计体系，创造高效愉悦的工作体验</p>
               <p className='banner-btn'>
 

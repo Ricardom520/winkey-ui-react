@@ -102,34 +102,131 @@ const Design: React.FC = observer(() => {
     }
   }
 
-  const setElement = (e: any, type: string) => {
-    const target: any = e.target
-  
-    if (!elements) {
-      if (type === 'block') {
-        localStore.editorMange.setElementsObj([{
-          id: 'block_0',
+  const filterDomType = (type, id, index, elementsObj_clone, suffix?: string) => {
+    let obj = null
+
+    switch (type) {
+      case 'block':
+        obj = {
+          id: id,
           type,
           minWidth: '100%',
           minHeight: '380px',
           padding: '20px 40px 20px 40px',
           backgroundColor: '#fff',
           children: [{
-            id: `placeholder_0_0`,
+            id: `placeholder_${suffix}_0`,
             type: 'placeholder'
           }]
-        }])
-        localStore.editorMange.setFocusElement({
-          id: 'block_0',
+        }
+        break;
+      case 'card':
+        obj = {
+          id,
           type,
           width: '100%',
           height: '380px',
-          padding: '20px 40px 20px 40px',
-          backgroundColor: '#fff'
-        })
-      } else if (type === 'card') {
+          title: '标题',
+          margin: elementsObj_clone ? getMargin(elementsObj_clone[0], index) : '',
+          content: '',
+          children: [
+            {
+              id: `placeholder_${suffix}_0`,
+              type: 'placeholder'
+            }
+          ]
+        }
 
-      }
+        break
+      case 'table':
+        obj = {
+          id,
+          type,
+          width: '100%',
+          height: '380px',
+          margin: elementsObj_clone ? getMargin(elementsObj_clone[0], index) : '',
+          columns: [
+            {
+              title: 'table',
+              dataIndex: 'table'
+            },
+            {
+              title: '属性1',
+              dataIndex: '属性1'
+            },
+            {
+              title: '属性2',
+              dataIndex: '属性2'
+            }
+          ]
+        }
+        break
+      case 'input':
+        obj = {
+          id,
+          type
+        }
+        break
+      case 'select':
+        obj = {
+          id,
+          type
+        }
+        break
+      case 'radio': 
+        obj = {
+          id,
+          type
+        }
+        break
+      case 'checkbox':
+        obj = {
+          id,
+          type
+        }
+        break
+      case 'datepicker':
+        obj = {
+          id,
+          type
+        }
+        break
+      case 'form':
+        obj = {
+          id,
+          type,
+          height: '180px',
+          layout: 'horizontal',
+          margin: elementsObj_clone ? getMargin(elementsObj_clone[0], index) : '',
+          labelCol: 4,
+          wrapperCol: 6,
+          row: 1,
+          isSubmit: true,
+          submitAlign: 'flex-start',
+          formItems: [
+            {
+              title: '标题',
+              name: 'input',
+              type: 'input',
+              placeholder: 'Input text'
+            }
+          ]
+        }
+    }
+
+    return obj
+  }
+
+  const setElement = (e: any, type: string) => {
+    const target: any = e.target
+    const elementsObj_clone = toJS(localStore.editorMange.elements)
+    let obj = null
+  
+    if (!elements) {
+      obj = filterDomType(type, `${type}_0`, 0, elementsObj_clone)
+      console.log(obj)
+      localStore.editorMange.setFocusElement(obj)
+      localStore.editorMange.setElementsObj([obj])
     } else {
       if (target.dataset.alt && target.dataset.alt.indexOf('bg') > -1) {
         message.warning('有且仅有一个根节点!')
@@ -138,7 +235,6 @@ const Design: React.FC = observer(() => {
       
       if (!target.dataset.alt) return
 
-      const elementsObj_clone = toJS(localStore.editorMange.elements)
       const arrs = target.dataset.alt.split('_')
 
       arrs.splice(0, 1)
@@ -146,102 +242,7 @@ const Design: React.FC = observer(() => {
       const suffix = arrs.join('_')
       const id = `${type}_${suffix}`
       const index = parseInt(arrs[arrs.length - 1])
-      let obj = null
-
-      switch (type) {
-        case 'card':
-          obj = {
-            id,
-            type,
-            width: '100%',
-            height: '380px',
-            title: '标题',
-            margin: getMargin(elementsObj_clone[0], index),
-            content: '',
-            children: [
-              {
-                id: `placeholder_${suffix}_0`,
-                type: 'placeholder'
-              }
-            ]
-          }
-
-          break
-        case 'table':
-          obj = {
-            id,
-            type,
-            width: '100%',
-            height: '380px',
-            margin: getMargin(elementsObj_clone[0], index),
-            columns: [
-              {
-                title: 'table',
-                dataIndex: 'table'
-              },
-              {
-                title: '属性1',
-                dataIndex: '属性1'
-              },
-              {
-                title: '属性2',
-                dataIndex: '属性2'
-              }
-            ]
-          }
-          break
-        case 'input':
-          obj = {
-            id,
-            type
-          }
-          break
-        case 'select':
-          obj = {
-            id,
-            type
-          }
-          break
-        case 'radio': 
-          obj = {
-            id,
-            type
-          }
-          break
-        case 'checkbox':
-          obj = {
-            id,
-            type
-          }
-          break
-        case 'datepicker':
-          obj = {
-            id,
-            type
-          }
-          break
-        case 'form':
-          obj = {
-            id,
-            type,
-            height: '180px',
-            layout: 'horizontal',
-            margin: getMargin(elementsObj_clone[0], index),
-            labelCol: 4,
-            wrapperCol: 6,
-            row: 1,
-            isSubmit: true,
-            submitAlign: 'flex-start',
-            formItems: [
-              {
-                title: '标题',
-                name: 'input',
-                type: 'input',
-                placeholder: 'Input text'
-              }
-            ]
-          }
-      }
+      obj = filterDomType(type, id, index, elementsObj_clone, suffix)
 
       const deepTreeData = (tree: ElementStruct[], zIndex: number) => {
         const _index = zIndex === 0 ? 0 : parseInt(arrs[zIndex]) * 2 + 1
