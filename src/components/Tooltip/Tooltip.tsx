@@ -14,35 +14,33 @@ class TooltipItem extends Component<TooltipItemProps> {
   private poupNode
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   retContainer() {
     if (!this.poupNode) {
-      const popupNode = document.createElement('div');
-      popupNode.style.position = "absolute";
-      popupNode.style.top = "0px";
-      popupNode.style.left = "0px";
-      popupNode.style.width = "100%";
-      
-      this.poupNode = popupNode;
+      const popupNode = document.createElement('div')
+      popupNode.style.position = 'absolute'
+      popupNode.style.top = '0px'
+      popupNode.style.left = '0px'
+      popupNode.style.width = '100%'
+
+      this.poupNode = popupNode
       document.body.appendChild(popupNode)
     }
 
-    return this.poupNode;
+    return this.poupNode
   }
 
   retContent() {
-    const { top, left, title, open } = this.props;
+    const { top, left, title, open } = this.props
 
     return (
       <div>
-        <div 
-          style={{top: top + 'px', left: left+ 'px'}}
+        <div
+          style={{ top: top + 'px', left: left + 'px' }}
           className={
-            'wk-tooltip' +
-            ' wk-tooltip-placement-top' +
-            (!open ? ' wk-tooltip-hidden' : '')
+            'wk-tooltip' + ' wk-tooltip-placement-top' + (!open ? ' wk-tooltip-hidden' : '')
           }
         >
           <div className='wk-tooltip-content'>
@@ -57,23 +55,15 @@ class TooltipItem extends Component<TooltipItemProps> {
   }
 
   componentDidMount() {
-    ReactDOM.unstable_renderSubtreeIntoContainer(
-      this,
-      this.retContent(),
-      this.retContainer(),
-    )
+    ReactDOM.unstable_renderSubtreeIntoContainer(this, this.retContent(), this.retContainer())
   }
 
   componentDidUpdate() {
-    ReactDOM.unstable_renderSubtreeIntoContainer(
-      this,
-      this.retContent(),
-      this.retContainer(),
-    )
+    ReactDOM.unstable_renderSubtreeIntoContainer(this, this.retContent(), this.retContainer())
   }
 
   render() {
-    return null;
+    return null
   }
 }
 

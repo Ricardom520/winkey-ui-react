@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import { InputProps }from './index';
+import { InputProps } from './index'
 
 const InputClass = {
-  large: " wk-input-lg",
-  small: " wk-input-sm",
-  left: " wk-input-left",
-  center: " wk-input-center",
-  right: " wk-input-right",
-  "": ""
+  'large': ' wk-input-lg',
+  'small': ' wk-input-sm',
+  'left': ' wk-input-left',
+  'center': ' wk-input-center',
+  'right': ' wk-input-right',
+  '': ''
 }
 
 export default class Input extends Component<InputProps> {
   _onClick = (e) => {
     if (this.props.onClick) {
-      this.props.onClick(e);
+      this.props.onClick(e)
     }
   }
 
@@ -37,23 +37,37 @@ export default class Input extends Component<InputProps> {
   }
 
   render() {
-    const { placeholder, isMobile, readOnly, size = "", textAlign = "", className, style, value, defaultValue, type, maxLength, disabled, bordered } = this.props;
+    const {
+      placeholder,
+      isMobile,
+      readOnly,
+      size = '',
+      textAlign = '',
+      className,
+      style,
+      value,
+      defaultValue,
+      type,
+      maxLength,
+      disabled,
+      bordered
+    } = this.props
 
     return (
-      <input 
+      <input
         disabled={disabled}
         maxLength={maxLength}
         type={type}
         readOnly={readOnly}
         className={
-          "wk-input" +
-          (isMobile ? " wk-input-mobile" : "") + 
-          InputClass[size] + 
+          'wk-input' +
+          (isMobile ? ' wk-input-mobile' : '') +
+          InputClass[size] +
           InputClass[textAlign] +
-          (className ? ` ${className}` : "") +
-          (!bordered ? ' wk-input-borderless' : "")
-        } 
-        placeholder={placeholder} 
+          (className ? ` ${className}` : '') +
+          (!bordered ? ' wk-input-borderless' : '')
+        }
+        placeholder={placeholder}
         defaultValue={defaultValue}
         value={value}
         onClick={this._onClick}

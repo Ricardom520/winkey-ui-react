@@ -17,13 +17,13 @@ class IndexNumber extends Component<InputNumberProps, InputNumberState> {
   }
 
   componentDidMount(): void {
-      const { defaultValue, value } = this.props
+    const { defaultValue, value } = this.props
 
-      if (value || defaultValue) {
-        this.setState({
-          value: `${value || defaultValue}`
-        })
-      }
+    if (value || defaultValue) {
+      this.setState({
+        value: `${value || defaultValue}`
+      })
+    }
   }
 
   handleAddValue = () => {
@@ -89,15 +89,25 @@ class IndexNumber extends Component<InputNumberProps, InputNumberState> {
     return (
       <div className='wk-input-number'>
         <div className='wk-input-number-handler-wrap'>
-          <span className='wk-input-number-handler wk-input-number-handler-up' onClick={this.handleAddValue}>
-            <i className='iconfont wk-icon-arrow-left'/>
+          <span
+            className='wk-input-number-handler wk-input-number-handler-up'
+            onClick={this.handleAddValue}
+          >
+            <i className='iconfont wk-icon-arrow-left' />
           </span>
-          <span className='wk-input-number-handler wk-input-number-handler-down' onClick={this.handleReduceValue}>
-            <i className='iconfont wk-icon-arrow-left'/>
+          <span
+            className='wk-input-number-handler wk-input-number-handler-down'
+            onClick={this.handleReduceValue}
+          >
+            <i className='iconfont wk-icon-arrow-left' />
           </span>
         </div>
         <div className='wk-input-number-input-wrap'>
-        <input className='wk-input-number-input' value={value} onChange={this.handleChangeValue} />
+          <input
+            className='wk-input-number-input'
+            value={value}
+            onChange={this.handleChangeValue}
+          />
         </div>
       </div>
     )

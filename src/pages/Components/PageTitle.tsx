@@ -1,14 +1,14 @@
-import React from 'react';
+import React from 'react'
 
-import './index.less';
+import './index.less'
 
 interface PageTitleProps {
-  title: string;
-  description: string;
+  title: string
+  description: string
 }
 
 const PageTitle: React.SFC<PageTitleProps> = (props) => {
-  const { title, description } = props;
+  const { title, description } = props
 
   return (
     <section className='pageTitleContainer'>
@@ -18,4 +18,4 @@ const PageTitle: React.SFC<PageTitleProps> = (props) => {
   )
 }
 
-export default PageTitle;
+export default PageTitle

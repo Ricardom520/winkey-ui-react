@@ -4,19 +4,19 @@
 .ReactCSSTransitionGroup(
   go,
   {transform: translate(100%, 0) ;},
-  {transform: translate(0, 0) ; transition: transform .3s;},
+  {transform: translate(0, 0) ; transition: transform 0.3s;},
   {opacity: 1;},
-  {opacity: 0; transition: opacity .3s;}
+  {opacity: 0; transition: opacity 0.3s;}
 );
 
 // 页面返回动画
 .ReactCSSTransitionGroup(
   back,
   {opacity: 0;},
-  {opacity: 1; transition: opacity .3s;},
+  {opacity: 1; transition: opacity 0.3s;},
   {transform: translate(0, 0) ;},
-  {transform: translate(100%, 0) ; transition: transform .3s;}
+  {transform: translate(100%, 0) ; transition: transform 0.3s;}
 );
 
 // 淡入淡出
-.ReactCSSTransitionGroup(fade, {opacity: 0;}, {opacity: 1; transition: opacity .3s;}, {opacity: 1;}, {opacity: 0; transition: opacity .3s;});
+.ReactCSSTransitionGroup(fade, {opacity: 0;}, {opacity: 1; transition: opacity 0.3s;}, {opacity: 1;}, {opacity: 0; transition: opacity 0.3s;});

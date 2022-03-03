@@ -1,22 +1,22 @@
-import React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import React from 'react'
+import { RouteComponentProps } from 'react-router-dom'
 
 // 路由页面组件
 export interface IRoute<P = {}> extends RouteComponentProps<P> {
-  history: any;
-  location: any;
+  history: any
+  location: any
 }
 
 // 增强event参数
 interface T extends EventTarget {
   dataset: {
-    [key: string]: string | number;
+    [key: string]: string | number
   }
 }
 
 // 鼠标事件返回
 export interface IMouseEvent<P = HTMLDivElement> extends React.MouseEvent<P> {
-  currentTarget: P & T;
+  currentTarget: P & T
 }
 
 // 表单事件返回

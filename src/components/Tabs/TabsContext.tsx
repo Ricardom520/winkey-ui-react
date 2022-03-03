@@ -1,13 +1,13 @@
-import { createContext } from 'react';
+import { createContext } from 'react'
 
 export interface TabsContextProps {
-  activeKey: string | number;
-  setActiveKey: (val) => void;
+  activeKey: string | number
+  setActiveKey: (val) => void
 }
 
 const TabsContext: React.Context<TabsContextProps> = createContext({
   activeKey: undefined,
-  setActiveKey: null,
-});
+  setActiveKey: null
+})
 
-export default TabsContext;
+export default TabsContext

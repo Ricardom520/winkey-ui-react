@@ -1,32 +1,36 @@
 ```tsx
-import React from 'react';
-import { Select, Radio } from 'winkey-ui-react';
+import React from 'react'
+import { Select, Radio } from 'winkey-ui-react'
 
-const { Option } = Select;
+const { Option } = Select
 
-const Demo:React.FC = () => {
-  
+const Demo: React.FC = () => {
   const handleChange = (value) => {
-    console.log(`selected ${value}`);
+    console.log(`selected ${value}`)
   }
 
   return (
-    <div style={{marginBottom: '20px'}}>
-      <Radio.Group value={size} onChange={e=>setSize(e.target.value)}>
-        <Radio.Button value="large">Large</Radio.Button>
-        <Radio.Button value="default">Default</Radio.Button>
-        <Radio.Button value="small">Small</Radio.Button>
+    <div style={{ marginBottom: '20px' }}>
+      <Radio.Group value={size} onChange={(e) => setSize(e.target.value)}>
+        <Radio.Button value='large'>Large</Radio.Button>
+        <Radio.Button value='default'>Default</Radio.Button>
+        <Radio.Button value='small'>Small</Radio.Button>
       </Radio.Group>
       <br />
       <br />
-      <Select size={size} defaultValue="a10" onChange={handleChange} style={{ width: 200, marginBottom: '10px' }}>
+      <Select
+        size={size}
+        defaultValue='a10'
+        onChange={handleChange}
+        style={{ width: 200, marginBottom: '10px' }}
+      >
         {children}
       </Select>
       <br />
       <Select
-        mode="multiple"
+        mode='multiple'
         size={size}
-        placeholder="Please select"
+        placeholder='Please select'
         defaultValue={['a10', 'c12']}
         onChange={handleChange}
         style={{ width: '100%' }}
@@ -37,5 +41,5 @@ const Demo:React.FC = () => {
   )
 }
 
-export default Demo;
+export default Demo
 ```

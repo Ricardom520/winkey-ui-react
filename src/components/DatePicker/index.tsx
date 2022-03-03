@@ -1,30 +1,30 @@
-import { Moment } from 'moment';
-import React from 'react';
+import { Moment } from 'moment'
+import React from 'react'
 
-import DatePickerPC from './DatePickerPC';
-import DatePickerMobile from './DatePickerMobile';
+import DatePickerPC from './DatePickerPC'
+import DatePickerMobile from './DatePickerMobile'
 
 export interface DatePickerProps {
   isMobile?: boolean
-  size?: "small" | "large" | "default",
-  disabled?: boolean,
-  bordered?: boolean,
-  className?: string;
-  placeholder?: string;
-  allowClear?: boolean;
-  showSuffixIcon?: boolean;
-  format?: string;
-  onChange?: (date, dateString) => void;
-  picker?: "month" | "year" | "date",
-  value?: Moment;
-  defaultValue?: Moment;
-  onOk?: (date, dateString) => void;
-  okText?: string;
-  dismissText?: string;
-  title?: string;
-  pickerClassName?: string;
-  disabledDate?: (current: Moment) => boolean;
-  showTime?: boolean;
+  size?: 'small' | 'large' | 'default'
+  disabled?: boolean
+  bordered?: boolean
+  className?: string
+  placeholder?: string
+  allowClear?: boolean
+  showSuffixIcon?: boolean
+  format?: string
+  onChange?: (date, dateString) => void
+  picker?: 'month' | 'year' | 'date'
+  value?: Moment
+  defaultValue?: Moment
+  onOk?: (date, dateString) => void
+  okText?: string
+  dismissText?: string
+  title?: string
+  pickerClassName?: string
+  disabledDate?: (current: Moment) => boolean
+  showTime?: boolean
 }
 
 export default class DatePicker extends React.Component<DatePickerProps> {
@@ -32,12 +32,12 @@ export default class DatePicker extends React.Component<DatePickerProps> {
   static defaultProps = {
     bordered: true,
     showSuffixIcon: true,
-    picker: "date",
-    size: "",
+    picker: 'date',
+    size: '',
     allowClear: true,
-    title: "选择日期",
-    okText: "确定",
-    dismissText: "取消"
+    title: '选择日期',
+    okText: '确定',
+    dismissText: '取消'
   }
 
   render() {
@@ -62,12 +62,11 @@ export default class DatePicker extends React.Component<DatePickerProps> {
       disabledDate,
       showTime,
       pickerClassName
-    } = this.props;
+    } = this.props
 
     return (
       <>
-        {
-          !isMobile &&
+        {!isMobile && (
           <DatePickerPC
             size={size}
             disabledDate={disabledDate}
@@ -83,9 +82,8 @@ export default class DatePicker extends React.Component<DatePickerProps> {
             defaultValue={defaultValue}
             onChange={onChange}
           />
-        }
-        {
-          isMobile &&
+        )}
+        {isMobile && (
           <DatePickerMobile
             value={value}
             defaultValue={defaultValue}
@@ -99,7 +97,7 @@ export default class DatePicker extends React.Component<DatePickerProps> {
             pickerClassName={pickerClassName}
             showTime={showTime}
           />
-        }
+        )}
       </>
     )
   }

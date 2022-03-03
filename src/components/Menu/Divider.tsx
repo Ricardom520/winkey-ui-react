@@ -1,21 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 interface DividerProps {
-  prefixClassName?: string;
+  prefixClassName?: string
 }
 
 class Divider extends Component<DividerProps> {
   static defaultProps = {
-    prefixClassName: "wk"
+    prefixClassName: 'wk'
   }
-  
-  render () {
-    const { prefixClassName } = this.props;
 
-    return (
-      <li className={`${prefixClassName}-menu-item-divider`}/>
-    )
+  render() {
+    const { prefixClassName } = this.props
+
+    return <li className={`${prefixClassName}-menu-item-divider`} />
   }
 }
 
-export default Divider;
+export default Divider

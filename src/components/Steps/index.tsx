@@ -1,15 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import {
-  StepsProps,
-  StepsState
-} from './interface';
-import Step from './Step';
-import './index.less';
+import { StepsProps, StepsState } from './interface'
+import Step from './Step'
+import './index.less'
 
 const directionClassName = {
   horizontal: ' wk-steps-horizontal',
-  vertical: ' wk-steps-vertical',
+  vertical: ' wk-steps-vertical'
 }
 
 const sizeClassName = {
@@ -18,22 +15,22 @@ const sizeClassName = {
 }
 
 class Steps extends Component<StepsProps, StepsState> {
-  static Step = Step;
+  static Step = Step
   static defaultProps = {
-    direction: "horizontal",
+    direction: 'horizontal',
     size: 'default'
   }
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
-      current: 0,
+      current: 0
     }
   }
 
   componentDidMount() {
-    const { current } = this.props;
+    const { current } = this.props
 
     if (current !== undefined) {
       this.setState({
@@ -43,14 +40,14 @@ class Steps extends Component<StepsProps, StepsState> {
   }
 
   handleChange = (current: number) => {
-    console.log(current);
+    console.log(current)
     if (this.props.onChange) {
-      this.props.onChange(current);
+      this.props.onChange(current)
     }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { current } = nextProps;
+    const { current } = nextProps
 
     if (current !== undefined) {
       this.setState({
@@ -60,34 +57,32 @@ class Steps extends Component<StepsProps, StepsState> {
   }
 
   render() {
-    const { direction, children, size, progressDot, status } = this.props;
-    const { current } = this.state;
+    const { direction, children, size, progressDot, status } = this.props
+    const { current } = this.state
 
     return (
-      <div 
+      <div
         className={
-          'wk-steps' + 
+          'wk-steps' +
           directionClassName[direction] +
           sizeClassName[size] +
           (progressDot ? ' wk-steps-label-vertical wk-steps-dot' : ' wk-steps-label-horizontal')
         }
       >
-        {
-          children && React.Children.map(children, (child: any, n : number) => {
+        {children &&
+          React.Children.map(children, (child: any, n: number) => {
             return React.cloneElement(child, {
               index: n,
-              status: child.props.status || (
-                current === n ? status || 'process' :
-                (n < current ? 'finish' : 'wait')
-              ),
+              status:
+                child.props.status ||
+                (current === n ? status || 'process' : n < current ? 'finish' : 'wait'),
               progressDot,
               onChange: () => this.handleChange(n)
             })
-          })
-        }
+          })}
       </div>
     )
   }
 }
 
-export default Steps;
+export default Steps

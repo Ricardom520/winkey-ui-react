@@ -7,10 +7,12 @@
     .left {
       min-width: 269px;
       width: 269px;
-      border-right: 1px solid #F0F0F0;
+      border-right: 1px solid #f0f0f0;
       overflow-y: scroll;
       overflow-x: hidden;
-      a, a:focus, a:hover {
+      a,
+      a:focus,
+      a:hover {
         cursor: pointer;
         color: inherit;
         text-decoration: none;
@@ -19,10 +21,10 @@
         .title {
           padding-left: 30px;
           p {
-            color: #8C8C8C;
+            color: #8c8c8c;
             font-size: 13px;
             padding: 10px 0;
-            border-bottom: 1px solid #F0F0F0;
+            border-bottom: 1px solid #f0f0f0;
           }
         }
         .desc {
@@ -39,9 +41,9 @@
             }
           }
           li.active {
-            color: #2496FF;
-            border-right: 4px solid #2496FF;
-            background: #E6F7FF;
+            color: #2496ff;
+            border-right: 4px solid #2496ff;
+            background: #e6f7ff;
           }
         }
       }
@@ -75,7 +77,7 @@
     font-weight: 400;
   }
   p {
-    color: #5E6D82;
+    color: #5e6d82;
     padding: 18px 0;
   }
 }
@@ -83,8 +85,9 @@
 .introduceBoxContainer {
   margin-top: 20px;
   margin-bottom: 30px;
-  .description, .title {
-    color: #5E6D82;
+  .description,
+  .title {
+    color: #5e6d82;
     padding: 18px 0;
   }
   .title {
@@ -93,23 +96,23 @@
     padding: 0;
   }
   .container {
-    border: 1px solid #EBEBEB;
+    border: 1px solid #ebebeb;
     border-radius: 5px;
     .code {
-      transition: all ease-in-out .5s;
+      transition: all ease-in-out 0.5s;
     }
     .showline {
       text-align: center;
       height: 40px;
       line-height: 40px;
-      border-top: 1px solid #EBEBEB;
+      border-top: 1px solid #ebebeb;
       transition: all ease-in-out 0.5s;
       p {
         position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #D4DDE7;
+        color: #d4dde7;
         height: 100%;
         padding: 0;
         transition: all ease-in-out 0.5s;
@@ -120,7 +123,7 @@
           height: 0;
           margin-top: 5px;
           margin-right: 10px;
-          border-top: 6px solid #EBEBEB;
+          border-top: 6px solid #ebebeb;
           border-left: 6px solid transparent;
           border-right: 6px solid transparent;
           border-bottom: 6px solid transparent;
@@ -136,14 +139,14 @@
     }
     .showline:hover {
       cursor: pointer;
-      background: #F9FAFC;
+      background: #f9fafc;
       p {
-        color: #489FFF;
+        color: #489fff;
         i {
           left: 44%;
           width: 0;
           height: 0;
-          border-top-color:#489FFF;
+          border-top-color: #489fff;
           transition: all ease-out 0.5s;
         }
       }
@@ -157,7 +160,7 @@
       width: 100%;
       tr {
         display: block;
-        border-bottom: 1px solid #DCDFE6;
+        border-bottom: 1px solid #dcdfe6;
         padding: 15px 0;
       }
       th {
@@ -171,7 +174,7 @@
         display: inline-block;
         color: #606266;
         font-size: 14px;
-        word-wrap:break-word
+        word-wrap: break-word;
       }
     }
   }
@@ -189,9 +192,15 @@
         .demo-preview-header {
           padding: 5px 10px 0 10px;
           border-radius: 4px 4px 0 0;
-          background: -webkit-gradient(linear,left top,left bottom,from(rgba(55,55,55,.98)),to(#545456));
-          background: -webkit-linear-gradient(rgba(55,55,55,.98),#545456);
-          background: linear-gradient(rgba(55,55,55,.98),#545456);
+          background: -webkit-gradient(
+            linear,
+            left top,
+            left bottom,
+            from(rgba(55, 55, 55, 0.98)),
+            to(#545456)
+          );
+          background: -webkit-linear-gradient(rgba(55, 55, 55, 0.98), #545456);
+          background: linear-gradient(rgba(55, 55, 55, 0.98), #545456);
           text-align: center;
           .demo-preview-statbar {
             height: 20px;
@@ -215,7 +224,7 @@
           }
         }
         .code-box-demo {
-          width:  100%;
+          width: 100%;
           height: 548px;
           border-top: none;
           border-right: 1px solid rgb(247, 247, 247);
@@ -223,7 +232,7 @@
           border-left: 1px solid rgb(247, 247, 247);
           border-image: initial;
           box-shadow: rgb(235 235 235) 0px 2px 4px;
-          background-color: #F5F5F9;
+          background-color: #f5f5f9;
         }
       }
     }

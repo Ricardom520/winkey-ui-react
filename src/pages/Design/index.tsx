@@ -9,10 +9,10 @@ import Editor from './Components/Editor'
 import { ElementStruct } from '@/stores/EditorMange'
 import Control from './Components/Control'
 import DegisnContext from './DegisnContext'
-import { 
-  BlockTml, 
-  CardTml, 
-  TableTml, 
+import {
+  BlockTml,
+  CardTml,
+  TableTml,
   InputTml,
   ButtonTml,
   SelectTml,
@@ -65,12 +65,17 @@ const Design: React.FC = observer(() => {
       }
 
       return ''
-    } 
-    
+    }
+
     return '25px 0 0 0'
   }
 
-  const addChilren = (elementsObj_clone: ElementStruct, index: number, paths: string[], obj: any) => {
+  const addChilren = (
+    elementsObj_clone: ElementStruct,
+    index: number,
+    paths: string[],
+    obj: any
+  ) => {
     const children = elementsObj_clone.children
     const len = paths.length
 
@@ -114,12 +119,14 @@ const Design: React.FC = observer(() => {
           minHeight: '380px',
           padding: '20px 40px 20px 40px',
           backgroundColor: '#fff',
-          children: [{
-            id: `placeholder_${suffix}_0`,
-            type: 'placeholder'
-          }]
+          children: [
+            {
+              id: `placeholder_${suffix}_0`,
+              type: 'placeholder'
+            }
+          ]
         }
-        break;
+        break
       case 'card':
         obj = {
           id,
@@ -173,7 +180,7 @@ const Design: React.FC = observer(() => {
           type
         }
         break
-      case 'radio': 
+      case 'radio':
         obj = {
           id,
           type
@@ -221,7 +228,7 @@ const Design: React.FC = observer(() => {
     const target: any = e.target
     const elementsObj_clone = toJS(localStore.editorMange.elements)
     let obj = null
-  
+
     if (!elements) {
       obj = filterDomType(type, `${type}_0`, 0, elementsObj_clone)
       console.log(obj)
@@ -232,7 +239,7 @@ const Design: React.FC = observer(() => {
         message.warning('有且仅有一个根节点!')
         return
       }
-      
+
       if (!target.dataset.alt) return
 
       const arrs = target.dataset.alt.split('_')
@@ -261,12 +268,12 @@ const Design: React.FC = observer(() => {
   }
 
   const handleMouseDown = (type: string, e) => {
-    let target: any;
-    let copyElement: any;
+    let target: any
+    let copyElement: any
 
     if (type === 'block') {
       target = BlockRef.current.children[0]
-    } else if (type === 'card'){
+    } else if (type === 'card') {
       target = CardRef.current.children[0]
     } else if (type === 'table') {
       target = TableRef.current.children[0]
@@ -289,19 +296,24 @@ const Design: React.FC = observer(() => {
     setIsMovingDOM(true)
   }
 
-  const handleMove: (copyElement: HTMLElement, target: HTMLElement, type: string, event: HTMLElementEvent<HTMLElementEventStyle>) => void = (copyElement, target, type, event) => {
+  const handleMove: (
+    copyElement: HTMLElement,
+    target: HTMLElement,
+    type: string,
+    event: HTMLElementEvent<HTMLElementEventStyle>
+  ) => void = (copyElement, target, type, event) => {
     const getLocation = (event: MouseEvent) => {
       setElement(event, type)
     }
 
     let scrollY = GetScrollY()
-    copyElement.style.position = "absolute"
+    copyElement.style.position = 'absolute'
     copyElement.style.zIndex = '2'
-    copyElement.style.top = target.getBoundingClientRect().top + scrollY + "px"
-    copyElement.style.left = target.getBoundingClientRect().left + "px"
+    copyElement.style.top = target.getBoundingClientRect().top + scrollY + 'px'
+    copyElement.style.left = target.getBoundingClientRect().left + 'px'
 
     document.body.appendChild(copyElement)
-    
+
     window.onmousemove = (moveEvent: MouseEvent) => {
       scrollY = GetScrollY()
       copyElement.style.top = moveEvent.y - event.nativeEvent.offsetY + scrollY + 'px'
@@ -311,7 +323,7 @@ const Design: React.FC = observer(() => {
         document.body.removeChild(copyElement)
         document.addEventListener('mousemove', getLocation)
         setIsMovingDOM(false)
-        setTimeout(function() {
+        setTimeout(function () {
           window.onmousemove = null
           window.onmouseup = null
 
@@ -323,36 +335,52 @@ const Design: React.FC = observer(() => {
 
   return (
     <DegisnContext.Provider value={getContext()}>
-        <div className='designContainer'>
-        <Header/>
+      <div className='designContainer'>
+        <Header />
         <div className='container'>
           <div className='left'>
             <ul>
-              <li className='listItem' onMouseDown={(e) => handleMouseDown('block', e)} ref={BlockRef}>
+              <li
+                className='listItem'
+                onMouseDown={(e) => handleMouseDown('block', e)}
+                ref={BlockRef}
+              >
                 <Tooltip title='block'>
-                  <div> 
-                    <BlockTml/>
+                  <div>
+                    <BlockTml />
                   </div>
                 </Tooltip>
               </li>
-              <li className='listItem' onMouseDown={(e) => handleMouseDown('card', e)} ref={CardRef}>
+              <li
+                className='listItem'
+                onMouseDown={(e) => handleMouseDown('card', e)}
+                ref={CardRef}
+              >
                 <Tooltip title='Card'>
                   <div>
-                    <CardTml/>
+                    <CardTml />
                   </div>
                 </Tooltip>
               </li>
-              <li className='listItem' onMouseDown={(e) => handleMouseDown('table', e)} ref={TableRef}>
+              <li
+                className='listItem'
+                onMouseDown={(e) => handleMouseDown('table', e)}
+                ref={TableRef}
+              >
                 <Tooltip title='Table'>
                   <div>
-                    <TableTml/>
+                    <TableTml />
                   </div>
                 </Tooltip>
               </li>
-              <li className='listItem' onMouseDown={(e) => handleMouseDown('form', e)} ref={FormRef}>
+              <li
+                className='listItem'
+                onMouseDown={(e) => handleMouseDown('form', e)}
+                ref={FormRef}
+              >
                 <Tooltip title='Form'>
                   <div>
-                    <FormTml/>
+                    <FormTml />
                   </div>
                 </Tooltip>
               </li>
@@ -404,10 +432,7 @@ const Design: React.FC = observer(() => {
             <div className='content'>
               <Editor />
             </div>
-            {
-              focusElement &&
-              <Control/>
-            }
+            {focusElement && <Control />}
           </div>
         </div>
       </div>

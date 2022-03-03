@@ -6,7 +6,7 @@ import '../index.less'
 const ButtonTml = () => {
   return (
     <div className='base_demo'>
-      <Select placeholder='select'/>
+      <Select placeholder='select' />
     </div>
   )
 }

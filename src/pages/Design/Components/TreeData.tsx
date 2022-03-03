@@ -14,9 +14,11 @@ interface TreeDataProps {
   onChange: (val) => void
   type: string
   content: {
-    [props: string]: string | {
-      [props: string]: string
-    }
+    [props: string]:
+      | string
+      | {
+          [props: string]: string
+        }
   }
   inputWay: 'input' | 'select'
   filterKey?: string[]
@@ -30,7 +32,7 @@ const TreeData: React.SFC<TreeDataProps> = observer((props) => {
 
   const initTree = (dataSource) => {
     const arr = []
-    
+
     dataSource.forEach((item: any, n) => {
       const children = []
       const obj: {
@@ -41,37 +43,42 @@ const TreeData: React.SFC<TreeDataProps> = observer((props) => {
 
       Object.keys(item).forEach((_item: string) => {
         if (_item === 'title') {
-          obj.title = <InputControl 
-                        onAdd={() => handleAddTreeData(n)} 
-                        onReduce={() => handleReduceTreeData(n)}
-                        value={item[_item]} 
-                        onConfrim={(val: string) => handleChangeTreeData(val, {index: n, key: _item})} 
-                      />
-          
+          obj.title = (
+            <InputControl
+              onAdd={() => handleAddTreeData(n)}
+              onReduce={() => handleReduceTreeData(n)}
+              value={item[_item]}
+              onConfrim={(val: string) => handleChangeTreeData(val, { index: n, key: _item })}
+            />
+          )
         } else if (filterKey && filterKey.includes(_item)) {
           obj.key = `columns_${n}`
           children.push({
-            title: <InputControl 
-                    type={inputWay}
-                    onAdd={() => handleAddTreeData(n)} 
-                    onReduce={() => handleReduceTreeData(n)}
-                    title={_item} 
-                    value={item[_item]} 
-                    onConfrim={(val: string) => handleChangeTreeData(val, {index: n, key: _item})} 
-                  />,
+            title: (
+              <InputControl
+                type={inputWay}
+                onAdd={() => handleAddTreeData(n)}
+                onReduce={() => handleReduceTreeData(n)}
+                title={_item}
+                value={item[_item]}
+                onConfrim={(val: string) => handleChangeTreeData(val, { index: n, key: _item })}
+              />
+            ),
             key: `columns_kid_${_item}`
           })
         } else if (!filterKey) {
           obj.key = `columns_${n}`
           children.push({
-            title: <InputControl 
-                    type={inputWay}
-                    onAdd={() => handleAddTreeData(n)} 
-                    onReduce={() => handleReduceTreeData(n)}
-                    title={_item} 
-                    value={item[_item]} 
-                    onConfrim={(val: string) => handleChangeTreeData(val, {index: n, key: _item})} 
-                  />,
+            title: (
+              <InputControl
+                type={inputWay}
+                onAdd={() => handleAddTreeData(n)}
+                onReduce={() => handleReduceTreeData(n)}
+                title={_item}
+                value={item[_item]}
+                onConfrim={(val: string) => handleChangeTreeData(val, { index: n, key: _item })}
+              />
+            ),
             key: `columns_kid_${_item}`
           })
         }
@@ -89,7 +96,7 @@ const TreeData: React.SFC<TreeDataProps> = observer((props) => {
     if (key === 'type') {
       // 修改formItem的类型特殊对待
       data[index].placeholder = data[index].placeholder || FormItemPlaceHolderMap[val]
-      data[index].options = data[index].options || [{label: '标题', value: '选择项'}]
+      data[index].options = data[index].options || [{ label: '标题', value: '选择项' }]
     }
     data[index][key] = val
 
@@ -108,7 +115,7 @@ const TreeData: React.SFC<TreeDataProps> = observer((props) => {
   const handleReduceTreeData = (index: number) => {
     const _focusElement: FocusElementBaseStruct = toJS(focusElement)
     const arrs = _focusElement[type]
-    
+
     arrs.splice(index, 1)
     onChange(arrs)
   }
@@ -119,11 +126,7 @@ const TreeData: React.SFC<TreeDataProps> = observer((props) => {
     setTreeData(res)
   }, [data])
 
-  return (
-    <Tree
-      treeData={treeData}
-    />
-  )
+  return <Tree treeData={treeData} />
 })
 
 export default TreeData

@@ -1,6 +1,6 @@
 ```tsx
-import React, { useState } from 'reaact';
-import { Tag, Input } from 'winkey-ui-react';
+import React, { useState } from 'reaact'
+import { Tag, Input } from 'winkey-ui-react'
 
 /**
  * .tag-item-input {
@@ -8,74 +8,74 @@ import { Tag, Input } from 'winkey-ui-react';
  * }
  */
 
-const Demo:React.SFC = () => {
-  const saveInputRef: any = useRef();
-  const [tags, setTags] = useState<string[]>(['Unremovable', 'Tag 2', 'Tag 3']);
-  const [inputVisible, setInputVisible] = useState<boolean>(false);
-  const [inputValue, setInputValue] = useState<string>('');
+const Demo: React.SFC = () => {
+  const saveInputRef: any = useRef()
+  const [tags, setTags] = useState<string[]>(['Unremovable', 'Tag 2', 'Tag 3'])
+  const [inputVisible, setInputVisible] = useState<boolean>(false)
+  const [inputValue, setInputValue] = useState<string>('')
 
-  const handleClose = removedTag => {
-    const tagsClose = tags.filter(tag => tag !== removedTag);
- 
+  const handleClose = (removedTag) => {
+    const tagsClose = tags.filter((tag) => tag !== removedTag)
+
     setTags(tagsClose)
-  };
+  }
 
   const showInput = async () => {
     await setInputVisible(true)
-    
-    saveInputRef.current.onFocus();
-  };
 
-  const handleInputChange = e => {
-    setInputValue(e.target.value);
-  };
+    saveInputRef.current.onFocus()
+  }
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value)
+  }
 
   const handleInputConfirm = () => {
-    let tagsCopy = Object.assign([], tags);
+    let tagsCopy = Object.assign([], tags)
 
     if (inputValue && tags.indexOf(inputValue) === -1) {
-      tagsCopy = [...tags, inputValue];
+      tagsCopy = [...tags, inputValue]
     }
 
-    setTags(tagsCopy);
-    setInputVisible(false);
-    setInputValue('');
-  };
+    setTags(tagsCopy)
+    setInputVisible(false)
+    setInputValue('')
+  }
 
   return (
-    <div style={{marginBottom: '20px'}}>
+    <div style={{ marginBottom: '20px' }}>
       {tags.map((tag, index) => {
-        const isLongTag = tag.length > 20;
+        const isLongTag = tag.length > 20
 
         const tagElem = (
           <Tag
-            className="edit-tag"
+            className='edit-tag'
             key={tag}
             closable={index !== 0}
             onClose={() => handleClose(tag)}
           >
             <span
-              onDoubleClick={e => {
+              onDoubleClick={(e) => {
                 if (index !== 0) {
-                  setEditInputIndex(index);
+                  setEditInputIndex(index)
                   setEditInputValue(tag)
-                
-                  e.preventDefault();
+
+                  e.preventDefault()
                 }
               }}
             >
               {isLongTag ? `${tag.slice(0, 20)}...` : tag}
             </span>
           </Tag>
-        );
-        return tagElem;
+        )
+        return tagElem
       })}
       {inputVisible && (
         <Input
           ref={saveInputRef}
-          type="text"
-          size="small"
-          className="tag-item-input"
+          type='text'
+          size='small'
+          className='tag-item-input'
           value={inputValue}
           onChange={handleInputChange}
           onBlur={handleInputConfirm}
@@ -83,7 +83,7 @@ const Demo:React.SFC = () => {
         />
       )}
       {!inputVisible && (
-        <Tag className="site-tag-plus" onClick={showInput}>
+        <Tag className='site-tag-plus' onClick={showInput}>
           <span>+</span> New Tag
         </Tag>
       )}
@@ -91,5 +91,5 @@ const Demo:React.SFC = () => {
   )
 }
 
-return Demo;
+return Demo
 ```

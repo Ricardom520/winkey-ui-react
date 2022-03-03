@@ -1,6 +1,32 @@
-html,body, div,h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { 
-  margin:0; 
-  padding:0;
+html,
+body,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+p,
+blockquote,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+pre,
+form,
+fieldset,
+legend,
+button,
+input,
+textarea,
+th,
+td {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -10,13 +36,15 @@ a {
   background-color: transparent;
   outline: none;
   cursor: pointer;
-  transition: color .3s;
+  transition: color 0.3s;
   -webkit-text-decoration-skip: objects;
 }
 a:hover {
   color: #40a9ff;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: border-box;
 }

@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import Checkbox, { CheckboxGroupProps, CheckboxGroupOptions } from './index';
+import Checkbox, { CheckboxGroupProps, CheckboxGroupOptions } from './index'
 
 const CheckboxGroupClass = {
-  row: " wk-checkbox-group-row",
-  col: " wk-checkbox-group-col",
-  "": ""
+  'row': ' wk-checkbox-group-row',
+  'col': ' wk-checkbox-group-col',
+  '': ''
 }
 
 interface CheckboxGroupState {
@@ -19,7 +19,7 @@ export default class CheckboxGroup extends Component<CheckboxGroupProps, Checkbo
   }
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       value: []
@@ -27,7 +27,7 @@ export default class CheckboxGroup extends Component<CheckboxGroupProps, Checkbo
   }
 
   componentDidMount() {
-    const { value, defaultValue } = this.props;
+    const { value, defaultValue } = this.props
 
     this.setState({
       value: value || defaultValue
@@ -37,25 +37,33 @@ export default class CheckboxGroup extends Component<CheckboxGroupProps, Checkbo
   initCheckbox = (datas, defaultValue) => {
     if (typeof datas[0] === 'string') {
       return datas.map((i: string, n: number) => {
-        return <Checkbox 
-          key={`${i}`} onChange={(e) => {
-          this.handleChange(e.target.checked, n)
-          }} value={i}
-          defaultChecked={defaultValue.includes(i)}
-        >
-          {i}
-        </Checkbox>
+        return (
+          <Checkbox
+            key={`${i}`}
+            onChange={(e) => {
+              this.handleChange(e.target.checked, n)
+            }}
+            value={i}
+            defaultChecked={defaultValue.includes(i)}
+          >
+            {i}
+          </Checkbox>
+        )
       })
     } else {
       return datas.map((i: CheckboxGroupOptions) => {
-        return <Checkbox 
-          key={`${i.label}-${i.value}`} onChange={(e) => {
-          this.handleChange(e.target.checked, i.value)
-        }} value={i.value}
-          defaultChecked={defaultValue.includes(i.value)}
-        >
-          {i.label}
-        </Checkbox>
+        return (
+          <Checkbox
+            key={`${i.label}-${i.value}`}
+            onChange={(e) => {
+              this.handleChange(e.target.checked, i.value)
+            }}
+            value={i.value}
+            defaultChecked={defaultValue.includes(i.value)}
+          >
+            {i.label}
+          </Checkbox>
+        )
       })
     }
   }
@@ -70,7 +78,7 @@ export default class CheckboxGroup extends Component<CheckboxGroupProps, Checkbo
         this.props.onChange([...this.state.value, value])
       }
     } else {
-      const arrs = this.state.value.filter(i => {
+      const arrs = this.state.value.filter((i) => {
         if (i !== value) {
           return i
         }
@@ -87,28 +95,22 @@ export default class CheckboxGroup extends Component<CheckboxGroupProps, Checkbo
   }
 
   render() {
-    const { options, direction = "col", value, children, defaultValue } = this.props
-    
+    const { options, direction = 'col', value, children, defaultValue } = this.props
+
     return (
-      <div className={
-        "wk-checkbox-group" +
-        CheckboxGroupClass[direction]
-      }>
-        {
-          children && React.Children.map(children, (child: any) => {
+      <div className={'wk-checkbox-group' + CheckboxGroupClass[direction]}>
+        {children &&
+          React.Children.map(children, (child: any) => {
             return React.cloneElement(child, {
               value: child.props.value,
-              defaultChecked:  (value || defaultValue).includes(child.props.value),
+              defaultChecked: (value || defaultValue).includes(child.props.value),
               onChange: (e) => {
                 this.handleChange(e.target.checked, child.props.value)
               }
             })
-          })
-        }
-        {
-          options && this.initCheckbox(options, defaultValue)
-        }
+          })}
+        {options && this.initCheckbox(options, defaultValue)}
       </div>
     )
   }
-} 
+}

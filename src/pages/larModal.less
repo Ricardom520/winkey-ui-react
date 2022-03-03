@@ -1,0 +1,84 @@
+.larModal-box {
+  padding: 20px 10px;
+  .title {
+    text-align: center;
+  }
+  .larModal-content {
+    padding-top: 20px;
+    .larModal-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      &-input {
+        position: relative;
+        flex: 1;
+        color: #7ab6b6;
+        font-size: 17px;
+        letter-spacing: 1px;
+        height: 40px;
+        margin-left: 20px;
+        padding: 5px 10px 2px 0;
+        box-shadow: 0 0 0 0 transparent;
+        border: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        .wk-input-suffix {
+          display: none;
+        }
+        .underline {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          height: 2px;
+          background-color: #7ab6b6;
+          transition: all ease-in-out 0.4s;
+        }
+      }
+    }
+    .larModal-btn {
+      text-align: center;
+      margin-top: 40px;
+      button {
+        position: relative;
+        height: 45px;
+        padding: 7px 45px;
+        color: #7ab6b6;
+        background-color: #edf6f5;
+        border: none;
+        cursor: pointer;
+        i {
+          position: relative;
+          display: block;
+          font-size: 30px;
+          transform: rotate(180deg);
+          z-index: 1;
+        }
+      }
+      button:hover {
+        color: #fff;
+      }
+      button:hover::before,
+      button:hover::after {
+        width: 50%;
+        height: 100%;
+      }
+      button::before,
+      button::after {
+        position: absolute;
+        width: 2px;
+        height: 50%;
+        background-color: #7ab6b6;
+        transition: all ease-in-out 0.3s;
+        z-index: 0;
+        content: '';
+      }
+      button::before {
+        bottom: 0;
+        left: 0;
+      }
+      button::after {
+        top: 0;
+        right: 0;
+      }
+    }
+  }
+}

@@ -5,10 +5,7 @@
     "outDir": "build/dist",
     "module": "esnext",
     "target": "esnext",
-    "lib": [
-      "esnext",
-      "dom"
-    ],
+    "lib": ["esnext", "dom"],
     "sourceMap": true,
     "baseUrl": ".",
     "jsx": "react",
@@ -25,15 +22,8 @@
     "experimentalDecorators": true,
     "strict": false,
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "build",
-    "dist",
-    "webpack",
-  ]
+  "exclude": ["node_modules", "build", "dist", "webpack"]
 }

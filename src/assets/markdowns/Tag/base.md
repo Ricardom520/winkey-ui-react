@@ -1,22 +1,22 @@
 ```tsx
-import React from 'reaact';
-import { Tag } from 'winkey-ui-react';
+import React from 'reaact'
+import { Tag } from 'winkey-ui-react'
 
-const Demo:React.SFC = () => {
+const Demo: React.SFC = () => {
   const log = (e) => {
-    console.log(e);
+    console.log(e)
   }
 
   const preventDefault = (e) => {
-    e.preventDefault();
-    console.log('Clicked! But prevent default.');
+    e.preventDefault()
+    console.log('Clicked! But prevent default.')
   }
 
   return (
     <>
       <Tag>Tag 1</Tag>
       <Tag>
-        <a href="https://github.com/ant-design/ant-design/issues/1862">Link</a>
+        <a href='https://github.com/ant-design/ant-design/issues/1862'>Link</a>
       </Tag>
       <Tag closable onClose={log}>
         Tag 2
@@ -28,5 +28,5 @@ const Demo:React.SFC = () => {
   )
 }
 
-return Demo;
+return Demo
 ```

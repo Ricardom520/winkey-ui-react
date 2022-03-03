@@ -250,9 +250,9 @@ export const menus = [
       },
       {
         id: 39,
-        url: "/popconfirm",
+        url: '/popconfirm',
         hidden: true,
-        title: "Popconfirm 气泡确认框"
+        title: 'Popconfirm 气泡确认框'
       }
     ]
   },
@@ -261,9 +261,9 @@ export const menus = [
     lists: [
       {
         id: 40,
-        url: "/editor",
+        url: '/editor',
         hidden: true,
-        title: "Editor 富文本编译器"
+        title: 'Editor 富文本编译器'
       }
     ]
   }

@@ -1,16 +1,14 @@
 ```tsx
-import React from 'react';
-import { Switch } from 'winkey-ui-react';
+import React from 'react'
+import { Switch } from 'winkey-ui-react'
 
 const Demo: React.SFC = () => {
   const onChange = (checked) => {
-    console.log(`switch to ${checked}`);
+    console.log(`switch to ${checked}`)
   }
 
-  return (
-    <Switch defaultChecked onChange={onChange} />
-  )
+  return <Switch defaultChecked onChange={onChange} />
 }
 
-export default Demo;
+export default Demo
 ```

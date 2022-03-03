@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
-import './index.less';
+import './index.less'
 
 const routes = [
   {
@@ -18,7 +18,7 @@ const ListsMenus: React.SFC = () => {
   const [actIndex, setActIndex] = useState<number>(0)
 
   useEffect(() => {
-    switch(window.location.hash) {
+    switch (window.location.hash) {
       case '#/components':
         setActIndex(0)
         break
@@ -32,22 +32,23 @@ const ListsMenus: React.SFC = () => {
 
   return (
     <ul className='ListsMenus'>
-      {
-        routes.map((i: {
-          title: string,
-          url: string
-        }, index: number) => {
+      {routes.map(
+        (
+          i: {
+            title: string
+            url: string
+          },
+          index: number
+        ) => {
           return (
             <li className={actIndex === index ? 'active' : ''} key={i.title}>
-              <Link to={i.url}>
-                {i.title}
-              </Link>
+              <Link to={i.url}>{i.title}</Link>
             </li>
           )
-        })
-      }
+        }
+      )}
     </ul>
   )
 }
 
-export default ListsMenus;
+export default ListsMenus

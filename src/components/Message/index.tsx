@@ -1,29 +1,29 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Message from './Message';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Message from './Message'
 
 function createNofication() {
-  const div = document.createElement('div');
-  div.style.position = "absolute";
-  div.style.top = "0px";
-  div.style.left = "0px";
-  div.style.width = "100%";
-  document.body.appendChild(div);
+  const div = document.createElement('div')
+  div.style.position = 'absolute'
+  div.style.top = '0px'
+  div.style.left = '0px'
+  div.style.width = '100%'
+  document.body.appendChild(div)
 
-  const notification: any = ReactDOM.render(<Message/>, div)
+  const notification: any = ReactDOM.render(<Message />, div)
 
   return {
     addNotice(notice) {
-      return notification.addNotice(notice);
+      return notification.addNotice(notice)
     },
     destory() {
-      ReactDOM.unmountComponentAtNode(div);
-      document.body.removeChild(div);
+      ReactDOM.unmountComponentAtNode(div)
+      document.body.removeChild(div)
     }
   }
 }
 
-let notification;
+let notification
 
 const notice = (type, content, duration = 2000, onClose) => {
   if (!notification) {

@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import { ReactNode } from 'react';
+import React, { Component } from 'react'
+import { ReactNode } from 'react'
 
-import RadioGroup from "./RadioGroup";
-import RadioBtn from './RadioBtn';
-import "./index.less";
+import RadioGroup from './RadioGroup'
+import RadioBtn from './RadioBtn'
+import './index.less'
 
 interface RadioGroupChidlren extends RadioGroupProps {
-  props: any;
+  props: any
   type: React.ComponentClass
 }
 
 export interface RadioGroupOptions {
-  label: string;
-  value: string | number;
-  disabled?: boolean;
+  label: string
+  value: string | number
+  disabled?: boolean
 }
 
 interface Target extends EventTarget {
@@ -21,30 +21,30 @@ interface Target extends EventTarget {
 }
 
 export interface RadioGroupProps {
-  children?: RadioGroupChidlren[] | RadioGroupChidlren;
-  options?: RadioGroupOptions[] | string[];
-  direction?: "row" | "col";
-  value?: string | number;
-  onChange?: (value, target: Target) => void;
-  className?: React.CSSProperties;
-  optionType?: "button";
-  buttonStyle?: "outline" | "solid";
-  defaultValue?: string | number;
-  style?: React.CSSProperties;
-  disabled?: boolean;
-  name?: string;
-  size?: "large" | "small"
+  children?: RadioGroupChidlren[] | RadioGroupChidlren
+  options?: RadioGroupOptions[] | string[]
+  direction?: 'row' | 'col'
+  value?: string | number
+  onChange?: (value, target: Target) => void
+  className?: React.CSSProperties
+  optionType?: 'button'
+  buttonStyle?: 'outline' | 'solid'
+  defaultValue?: string | number
+  style?: React.CSSProperties
+  disabled?: boolean
+  name?: string
+  size?: 'large' | 'small'
 }
 
 interface RadioProps {
-  children?: ReactNode;
-  disabled?: boolean;
-  value?: string | number;
-  checked?: boolean;
-  onChange?: (value) => void;
-  defaultChecked?: boolean;
-  style?: React.CSSProperties;
-  name?: string;
+  children?: ReactNode
+  disabled?: boolean
+  value?: string | number
+  checked?: boolean
+  onChange?: (value) => void
+  defaultChecked?: boolean
+  style?: React.CSSProperties
+  name?: string
 }
 
 interface RadioState {
@@ -58,7 +58,7 @@ class Radio extends Component<RadioProps, RadioState> {
 
   static defaultProps = {
     name: '',
-    value: '',
+    value: ''
   }
 
   constructor(props) {
@@ -70,8 +70,8 @@ class Radio extends Component<RadioProps, RadioState> {
   }
 
   componentDidMount() {
-    const { checked, defaultChecked } = this.props;
-    
+    const { checked, defaultChecked } = this.props
+
     if (checked !== undefined && defaultChecked !== undefined) {
       this.setState({
         checked: checked || defaultChecked
@@ -88,13 +88,13 @@ class Radio extends Component<RadioProps, RadioState> {
   }
 
   handleChange = (e) => {
-    const { onChange, disabled } = this.props;
+    const { onChange, disabled } = this.props
 
     if (!disabled) {
       if (onChange) {
         onChange(e)
       }
-  
+
       this.setState({
         checked: e.target.checked
       })
@@ -102,26 +102,32 @@ class Radio extends Component<RadioProps, RadioState> {
   }
 
   render() {
-    const { children, disabled, value, name } = this.props;
-    const { checked } = this.state;
+    const { children, disabled, value, name } = this.props
+    const { checked } = this.state
 
     return (
-      <label 
+      <label
         htmlFor={name || ''}
-        className={
-          "wk-radio-wrapper" + 
-          (disabled ? " wk-radio-wrapper-disabled" : "")
-        }
+        className={'wk-radio-wrapper' + (disabled ? ' wk-radio-wrapper-disabled' : '')}
       >
-        <span className={
-          "wk-radio" +
-          (checked ? " wk-radio-checked" : "") +
-          (disabled ? " wk-radio-disabled" : "")
-        }>
-          <input className="wk-radio-input" type="radio" onChange={this.handleChange} value={value} checked={checked} name={name} />
-          <span className="wk-radio-inner"/>
+        <span
+          className={
+            'wk-radio' +
+            (checked ? ' wk-radio-checked' : '') +
+            (disabled ? ' wk-radio-disabled' : '')
+          }
+        >
+          <input
+            className='wk-radio-input'
+            type='radio'
+            onChange={this.handleChange}
+            value={value}
+            checked={checked}
+            name={name}
+          />
+          <span className='wk-radio-inner' />
         </span>
-        <span className="wk-radio-label">{children}</span>
+        <span className='wk-radio-label'>{children}</span>
       </label>
     )
   }

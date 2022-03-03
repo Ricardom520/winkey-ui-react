@@ -6,9 +6,7 @@ import '../index.less'
 const FormTml = () => {
   return (
     <div className='base_demo from_demo'>
-      <Form name='demo'>
-        Form
-      </Form>
+      <Form name='demo'>Form</Form>
     </div>
   )
 }

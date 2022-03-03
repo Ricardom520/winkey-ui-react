@@ -6,7 +6,7 @@ import '../index.less'
 const InputTml = () => {
   return (
     <div className='base_demo'>
-      <Input/>
+      <Input />
     </div>
   )
 }

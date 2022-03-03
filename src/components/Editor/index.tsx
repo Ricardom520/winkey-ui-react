@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import DropdownTitle from './DropdownTitle';
-import Dropdown from '../Dropdown';
+import DropdownTitle from './DropdownTitle'
+import Dropdown from '../Dropdown'
 
 class Editor extends Component {
   render() {
     return (
       <div className='wk-editor'>
         <div className='wk-editor-menu'>
-          <Dropdown overlay={<DropdownTitle/>}>
+          <Dropdown overlay={<DropdownTitle />}>
             <div className='wk-editor-menu-item'>
-              <i className='iconfont wk-icon-title'/>
+              <i className='iconfont wk-icon-title' />
             </div>
           </Dropdown>
         </div>
@@ -22,4 +22,4 @@ class Editor extends Component {
   }
 }
 
-export default Editor;
+export default Editor

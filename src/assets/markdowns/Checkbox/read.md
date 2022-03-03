@@ -49,8 +49,8 @@
 </table>
 
 ### option
+
     interface Options {
-    label: string;  
+    label: string;
     value: string;
     }
-

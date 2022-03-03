@@ -81,7 +81,7 @@ export const icons = [
   },
   {
     icon: 'wk-icon-user',
-    index: 21,
+    index: 21
   },
   {
     icon: 'wk-icon-setting',
@@ -248,7 +248,7 @@ export const icons = [
     index: 72
   },
   {
-    icon : 'wk-icon-narrow',
+    icon: 'wk-icon-narrow',
     index: 73
   },
   {
@@ -320,7 +320,7 @@ export const icons = [
     index: 91
   },
   {
-    icon: "wk-icon-back",
+    icon: 'wk-icon-back',
     index: 92
   },
   {

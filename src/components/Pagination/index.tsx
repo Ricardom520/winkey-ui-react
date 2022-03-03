@@ -16,7 +16,7 @@ class Pagination extends Component<PaginationProps, PaginationState> {
 
     this.state = {
       current: this.props.defaultCurrent,
-      pageSize: this.props.defaultPageSize,
+      pageSize: this.props.defaultPageSize
     }
   }
 
@@ -80,48 +80,42 @@ class Pagination extends Component<PaginationProps, PaginationState> {
     const page = total ? Math.ceil(total / pageSize) : 1
     console.log(current)
     return (
-      <ul 
+      <ul
         className={
           'wk-pagination' +
           (type === 'table' ? ' wk-table-pagination wk-table-pagination-right' : '')
         }
       >
-        <li 
-          className={
-            'wk-pagination-prev' +
-            (current === 1 ? ' wk-pagination-disabled' : '')
-          }
-        >
-          <button className='wk-pagination-item-link' onClick={() => this.handleClickPrev(current === 1)}>
-            <i className="iconfont wk-icon-arrow-left"/>
+        <li className={'wk-pagination-prev' + (current === 1 ? ' wk-pagination-disabled' : '')}>
+          <button
+            className='wk-pagination-item-link'
+            onClick={() => this.handleClickPrev(current === 1)}
+          >
+            <i className='iconfont wk-icon-arrow-left' />
           </button>
         </li>
-        {
-          new Array(page).fill(0).map((_, n: number) => {
-            const index = n + 1
-            return (
-              <li 
-                key={`pg_${index}`}
-                className={
-                  'wk-pagination-item' +
-                  ` wk-pagination-item-${index}` +
-                  (current === index ? ' wk-pagination-item-active' : '')
-                }
-                onClick={() => this.handleClickItem(index)}
-              >
-                {index}
-              </li>
-            )
-          })
-        }
-        <li 
-          className={
-            'wk-pagination-next' +
-            (current === page ? ' wk-pagination-disabled' : '')
-          }
-        >
-          <button className='wk-pagination-item-link' onClick={() => this.handleClickNext(current === page)}>
-            <i className="iconfont wk-icon-arrow-right"/>
+        {new Array(page).fill(0).map((_, n: number) => {
+          const index = n + 1
+          return (
+            <li
+              key={`pg_${index}`}
+              className={
+                'wk-pagination-item' +
+                ` wk-pagination-item-${index}` +
+                (current === index ? ' wk-pagination-item-active' : '')
+              }
+              onClick={() => this.handleClickItem(index)}
+            >
+              {index}
+            </li>
+          )
+        })}
+        <li className={'wk-pagination-next' + (current === page ? ' wk-pagination-disabled' : '')}>
+          <button
+            className='wk-pagination-item-link'
+            onClick={() => this.handleClickNext(current === page)}
+          >
+            <i className='iconfont wk-icon-arrow-right' />
           </button>
         </li>
       </ul>

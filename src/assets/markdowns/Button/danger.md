@@ -3,7 +3,7 @@ import React from 'react';
 import { Button } from 'winkey-ui';
 
 const Demo: React.SFC = () = > {
-  
+
   return (
     <div className='button-demo-items'>
       <Button type="primary" danger>Primary</Button>

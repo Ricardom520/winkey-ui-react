@@ -1,28 +1,28 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 import Empty from '../Empty'
 
-import "./index.less";
+import './index.less'
 
 interface SelectBoxProps {
-  top: number;
-  left: number;
-  width: number;
-  children: any;
-  onChange: (value, label, boolean) => void;
-  value: any;
-  open: boolean;
-  height: number;
-  mode: "single" | "multiple"
-  dropdownClassName: string;
-  dropdownStyle: React.CSSProperties;
+  top: number
+  left: number
+  width: number
+  children: any
+  onChange: (value, label, boolean) => void
+  value: any
+  open: boolean
+  height: number
+  mode: 'single' | 'multiple'
+  dropdownClassName: string
+  dropdownStyle: React.CSSProperties
 }
 
 class SelectBox extends React.Component<SelectBoxProps> {
   private poupNode
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   handleClick = (val, label, boolean) => {
@@ -31,67 +31,84 @@ class SelectBox extends React.Component<SelectBoxProps> {
 
   retContainer() {
     if (!this.poupNode) {
-      const popupNode = document.createElement('div');
-      popupNode.style.position = "absolute";
-      popupNode.style.top = "0px";
-      popupNode.style.left = "0px";
-      popupNode.style.width = "100%";
-      
-      this.poupNode = popupNode;
+      const popupNode = document.createElement('div')
+      popupNode.style.position = 'absolute'
+      popupNode.style.top = '0px'
+      popupNode.style.left = '0px'
+      popupNode.style.width = '100%'
+
+      this.poupNode = popupNode
       document.body.appendChild(popupNode)
     }
 
-    return this.poupNode;
+    return this.poupNode
   }
 
   retContent() {
-    const { top, left, width, children, value, open, height, mode, dropdownClassName, dropdownStyle } = this.props;
+    const {
+      top,
+      left,
+      width,
+      children,
+      value,
+      open,
+      height,
+      mode,
+      dropdownClassName,
+      dropdownStyle
+    } = this.props
 
     return (
-      <div style={{position: 'absolute'}}>
-        <div 
+      <div style={{ position: 'absolute' }}>
+        <div
           className={
-            "wk-select-dropdown" +
-            (!open ? " wk-select-dropdown-hidden" : "") +
-            (dropdownClassName ? ` ${dropdownClassName}` : "")
+            'wk-select-dropdown' +
+            (!open ? ' wk-select-dropdown-hidden' : '') +
+            (dropdownClassName ? ` ${dropdownClassName}` : '')
           }
-          style={{minWidth: '120px', width: `${width}px`, top: top, left: left, ...dropdownStyle }}
+          style={{
+            minWidth: '120px',
+            width: `${width}px`,
+            top: top,
+            left: left,
+            ...dropdownStyle
+          }}
         >
           <div>
-            <div className="wk-virtual-list" style={{position: 'relative'}}>
-              {
-                children && 
+            <div className='wk-virtual-list' style={{ position: 'relative' }}>
+              {children && (
                 <div
-                  className="wk-virtual-list-holder" 
+                  className='wk-virtual-list-holder'
                   style={{
-                    maxHeight: '256px', 
-                    overflowY: height * (children.length ? children.length : 1) > 256 ? 'scroll' : 'hidden', 
-                    overflowAnchor: 'none', 
+                    maxHeight: '256px',
+                    overflowY:
+                      height * (children.length ? children.length : 1) > 256 ? 'scroll' : 'hidden',
+                    overflowAnchor: 'none',
                     height: open ? `${height * (children.length ? children.length : 1)}px` : 0
-                  }}>
+                  }}
+                >
                   <div>
-                    <div className="wk-virtual-list-holder-inner" style={{display: 'flex', flexDirection: 'column'}}>
-                      {
-                        React.Children.map(children, (child: any) => {
-                          if (!child) return null
-                          return React.cloneElement(child, {
-                            onClick: this.handleClick,
-                            checked: typeof value === 'object' ?
-                            value.includes(child.props.value) :
-                            child.props.value === value,
-                            disabled: child.props.disabled,
-                            mode: mode
-                          })
+                    <div
+                      className='wk-virtual-list-holder-inner'
+                      style={{ display: 'flex', flexDirection: 'column' }}
+                    >
+                      {React.Children.map(children, (child: any) => {
+                        if (!child) return null
+                        return React.cloneElement(child, {
+                          onClick: this.handleClick,
+                          checked:
+                            typeof value === 'object'
+                              ? value.includes(child.props.value)
+                              : child.props.value === value,
+                          disabled: child.props.disabled,
+                          mode: mode
                         })
-                      }
+                      })}
                     </div>
                   </div>
                 </div>
-              }
-              {
-                !children &&
-                <Empty/>
-              }
+              )}
+              {!children && <Empty />}
             </div>
           </div>
         </div>
@@ -100,24 +117,16 @@ class SelectBox extends React.Component<SelectBoxProps> {
   }
 
   componentDidMount() {
-    ReactDOM.unstable_renderSubtreeIntoContainer(
-      this,
-      this.retContent(),
-      this.retContainer(),
-    )
+    ReactDOM.unstable_renderSubtreeIntoContainer(this, this.retContent(), this.retContainer())
   }
 
   componentDidUpdate() {
-    ReactDOM.unstable_renderSubtreeIntoContainer(
-      this,
-      this.retContent(),
-      this.retContainer(),
-    )
+    ReactDOM.unstable_renderSubtreeIntoContainer(this, this.retContent(), this.retContainer())
   }
 
   render() {
-    return null;
+    return null
   }
 }
 
-export default SelectBox;
+export default SelectBox

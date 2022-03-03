@@ -7,31 +7,36 @@ export interface ElementStruct {
   minWidth?: string | number
   minHeight?: string | number
   height?: string | number
-  backgroundColor?: string 
+  backgroundColor?: string
   margin?: string
   children?: {
     id: string
     type: string
-    [propsName: string]: string | number | {
-      title: string
-      dataIndex: string
-    }[]
+    [propsName: string]:
+      | string
+      | number
+      | {
+          title: string
+          dataIndex: string
+        }[]
   }[]
   title?: string
   content?: string | ReactNode
-  labelCol?: number,
-  wrapperCol?: number,
-  layout?: "horizontal" | "vertical" | "inline"
+  labelCol?: number
+  wrapperCol?: number
+  layout?: 'horizontal' | 'vertical' | 'inline'
   columns?: {
     title: string
     dataIndex: string
   }[]
   formItems?: {
     title: string
-    [propsName: string]: string | {
-      label: string
-      value: string | number
-    }[]
+    [propsName: string]:
+      | string
+      | {
+          label: string
+          value: string | number
+        }[]
   }[]
   row?: number // form每行个数
   isSubmit?: boolean // form是否有提交按钮

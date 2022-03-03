@@ -6,7 +6,7 @@ import '../index.less'
 const CardTml = () => {
   return (
     <div className='base_demo'>
-      <Card title='title' size='small'/>
+      <Card title='title' size='small' />
     </div>
   )
 }

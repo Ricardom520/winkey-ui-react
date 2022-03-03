@@ -7,14 +7,14 @@
   font-variwk: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   position: absolute;
   display: none;
   color: #1890ff;
   text-align: center;
   vertical-align: middle;
   opacity: 0;
-  transition: transform .3s cubic-bezier(.78,.14,.15,.86);
+  transition: transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
   &-spinning {
     position: static;
     display: inline-block;
@@ -37,9 +37,9 @@
       height: 9px;
       background-color: #1890ff;
       border-radius: 100%;
-      transform: scale(.75);
+      transform: scale(0.75);
       transform-origin: 50% 50%;
-      opacity: .3;
+      opacity: 0.3;
       animation: wkSpinMove 1s infinite linear alternate;
     }
     &-item:nth-child(1) {
@@ -49,12 +49,12 @@
     &-item:nth-child(2) {
       top: 0;
       right: 0;
-      animation-delay: .4s;
+      animation-delay: 0.4s;
     }
     &-item:nth-child(3) {
       right: 0;
       bottom: 0;
-      animation-delay: .8s;
+      animation-delay: 0.8s;
     }
     &-item:nth-child(4) {
       bottom: 0;
@@ -69,12 +69,12 @@
   }
   &-container {
     position: relative;
-    transition: opacity .3s;
+    transition: opacity 0.3s;
   }
   &-blur {
     clear: both;
     overflow: hidden;
-    opacity: .5;
+    opacity: 0.5;
     user-select: none;
     pointer-events: none;
   }
@@ -98,7 +98,7 @@
   height: 14px;
 }
 
-.wk-spin-nested-loading>div>.wk-spin {
+.wk-spin-nested-loading > div > .wk-spin {
   position: absolute;
   top: 0;
   left: 0;
@@ -113,7 +113,7 @@
   display: block;
 }
 
-.wk-spin-nested-loading>div>.wk-spin .wk-spin-text {
+.wk-spin-nested-loading > div > .wk-spin .wk-spin-text {
   position: absolute;
   top: 50%;
   width: 100%;
@@ -122,12 +122,22 @@
 }
 
 @keyframes wkRotate {
-  0%{ transform: rotate(0deg);}
-  50%{ transform: rotate(180deg);}
-  100%{ transform: rotate(360deg);}
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes wkSpinMove {
-  0%{ opacity: .3;}
-  100%{ opacity: 1;}
+  0% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 1;
+  }
 }

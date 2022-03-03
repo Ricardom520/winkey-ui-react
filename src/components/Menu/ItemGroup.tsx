@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 
 interface ItemGroupProps {
-  title?: string;
-  onClick?: (key: string) => void;
-  selectedKeys?: string[];
+  title?: string
+  onClick?: (key: string) => void
+  selectedKeys?: string[]
 }
 
 interface ItemGroupState {
@@ -12,15 +12,15 @@ interface ItemGroupState {
 
 export default class ItemGroup extends React.Component<ItemGroupProps, ItemGroupState> {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
-      activeKey: undefined,
+      activeKey: undefined
     }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { selectedKeys } = nextProps;
+    const { selectedKeys } = nextProps
 
     if (selectedKeys) {
       this.setState({
@@ -30,9 +30,8 @@ export default class ItemGroup extends React.Component<ItemGroupProps, ItemGroup
   }
 
   handleChange = (key: string) => {
-    
     if (this.props.onClick) {
-      this.props.onClick(key);
+      this.props.onClick(key)
     }
 
     if (!this.props.selectedKeys) {
@@ -43,27 +42,22 @@ export default class ItemGroup extends React.Component<ItemGroupProps, ItemGroup
   }
 
   render() {
-    const { children, title } = this.props;
-    const { activeKey } = this.state;
+    const { children, title } = this.props
+    const { activeKey } = this.state
 
     return (
-      <li
-        className={
-          'wk-menu-item-group'
-        }
-      >
-        <div className='wk-menu-item-group-title'>
-          {title}
-        </div>
+      <li className={'wk-menu-item-group'}>
+        <div className='wk-menu-item-group-title'>{title}</div>
         <ul className='wk-menu-item-group-list'>
-          {
-            children && React.Children.map(children, (child: any, n: number) => {
+          {children &&
+            React.Children.map(children, (child: any, n: number) => {
               return React.cloneElement(child, {
-                className: ` wk-menu-item-only-child ${activeKey === child.key ? ' wk-menu-item-only-child-active' : ''}`,
-                onClick: () => this.handleChange(child.key),
+                className: ` wk-menu-item-only-child ${
+                  activeKey === child.key ? ' wk-menu-item-only-child-active' : ''
+                }`,
+                onClick: () => this.handleChange(child.key)
               })
-            })
-          }
+            })}
         </ul>
       </li>
     )

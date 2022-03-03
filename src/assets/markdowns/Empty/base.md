@@ -1,12 +1,10 @@
 ```tsx
-import React from 'react';
-import { Empty } from 'winkey-ui-react';
+import React from 'react'
+import { Empty } from 'winkey-ui-react'
 
 const Demo: React.SFC = () => {
-  return (
-    <Empty />
-  )
+  return <Empty />
 }
 
-export default Demo;
+export default Demo
 ```

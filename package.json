@@ -6,7 +6,18 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack serve --config ./config/webpack.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.prod.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eslint": "eslint --ext=jsx,ts,tsx ./",
+    "eslint:fix": "eslint --fix --ext=jsx,ts,tsx ./",
+    "prettier": "prettier --write ./**"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "jsxSingleQuote": true,
+    "quoteProps": "consistent",
+    "trailingComma": "none",
+    "printWidth": 100
   },
   "author": "Ricardom",
   "license": "ISC",
@@ -52,6 +63,7 @@
   },
   "dependencies": {
     "@types/react": "^17.0.0",
+    "axios": "^0.26.0",
     "classnames": "^2.2.6",
     "crypto-browserify": "^3.12.0",
     "dva": "^2.4.1",

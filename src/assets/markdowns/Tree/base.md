@@ -1,6 +1,6 @@
 ```tsx
-import React from 'reaact';
-import { Tree } from 'winkey-ui-react';
+import React from 'reaact'
+import { Tree } from 'winkey-ui-react'
 
 const treeData = [
   {
@@ -15,32 +15,36 @@ const treeData = [
           {
             title: 'leaf',
             key: '0-0-0-0',
-            disableCheckbox: true,
+            disableCheckbox: true
           },
           {
             title: 'leaf',
-            key: '0-0-0-1',
-          },
-        ],
+            key: '0-0-0-1'
+          }
+        ]
       },
       {
         title: 'parent 1-1',
         key: '0-0-1',
-        children: [{ title: <span style={{ color: '#1890ff' }}>sss</span>, key: '0-0-1-0' }],
-      },
-    ],
-  },
-];
+        children: [
+          {
+            title: <span style={{ color: '#1890ff' }}>sss</span>,
+            key: '0-0-1-0'
+          }
+        ]
+      }
+    ]
+  }
+]
 
-const Demo:React.SFC = () => {
+const Demo: React.SFC = () => {
   const onSelect = (selectedKeys: React.Key[], info: any) => {
-    console.log('selected', selectedKeys, info);
-  };
+    console.log('selected', selectedKeys, info)
+  }
 
   const onCheck = (checkedKeys: React.Key[], info: any) => {
-    console.log('onCheck', checkedKeys, info);
-  };
-
+    console.log('onCheck', checkedKeys, info)
+  }
 
   return (
     <Tree
@@ -55,5 +59,5 @@ const Demo:React.SFC = () => {
   )
 }
 
-return Demo;
+return Demo
 ```

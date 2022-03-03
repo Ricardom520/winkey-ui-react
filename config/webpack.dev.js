@@ -1,23 +1,21 @@
 'use strict'
 
-require('regenerator-runtime/runtime');
-require('colors');
+require('regenerator-runtime/runtime')
+require('colors')
 
-const resolve = require('resolve');
-const path = require('path');
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
-const TypescriptFormatter = require('react-dev-utils/typescriptFormatter');
-const Portfinder = require('portfinder');
-const { merge } = require('webpack-merge');
+const resolve = require('resolve')
+const path = require('path')
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin')
+const TypescriptFormatter = require('react-dev-utils/typescriptFormatter')
+const Portfinder = require('portfinder')
+const { merge } = require('webpack-merge')
 
+const webpackBaseConfig = require('./webpack.base')
+const utils = require('./utils')
 
-
-const webpackBaseConfig = require('./webpack.base');
-const utils = require('./utils');
-
-const PORT = 8000;
-const IP = utils.getIPAdress();
+const PORT = 8000
+const IP = utils.getIPAdress()
 
 const devWebpackConfig = merge(webpackBaseConfig, {
   mode: 'development',
@@ -41,7 +39,7 @@ const devWebpackConfig = merge(webpackBaseConfig, {
       chunkModules: false,
       entryoptions: false
     },
-    historyApiFallback: true,
+    historyApiFallback: true
   },
   plugins: [
     // ts检查插件
@@ -55,34 +53,47 @@ const devWebpackConfig = merge(webpackBaseConfig, {
       resolveModuleNameModule: undefined,
       resolveTypeReferenceDirectiveModule: undefined,
       tsconfig: path.resolve(__dirname, '../tsconfig.json'),
-      reportFiles: ['**', '!**/__tests__/**', '!**/?(*.)(spec|test).*', '!**/src/setupProxy.*', '!**/src/setupTests.*'],
+      reportFiles: [
+        '**',
+        '!**/__tests__/**',
+        '!**/?(*.)(spec|test).*',
+        '!**/src/setupProxy.*',
+        '!**/src/setupTests.*'
+      ],
       silent: false,
       formatter: TypescriptFormatter
     })
   ]
 })
 
-var s = "\n      ┏┛ ┻━━━━━┛ ┻┓\n      ┃　　　　　　 ┃\n      ┃　　　━　　　┃\n      ┃　┳┛　  ┗┳　┃\n"
-+ "      ┃　　　　　　 ┃\n      ┃　　　┻　　　┃\n      ┃　　　　　　 ┃\n      ┗━┓　　　┏━━━┛\n        ┃　　　┃   神兽祝福\n"
-+ "        ┃　　　┃   草泥马祝你通过关！\n        ┃　　　┗━━━━━━━━━┓\n        ┃　　　　　　　    ┣┓\n"
-+ "        ┃　　　　         ┏┛\n        ┗━┓ ┓ ┏━━━┳ ┓ ┏━┛\n          ┃ ┫ ┫   ┃ ┫ ┫\n          ┗━┻━┛   ┗━┻━┛";
+var s =
+  '\n      ┏┛ ┻━━━━━┛ ┻┓\n      ┃　　　　　　 ┃\n      ┃　　　━　　　┃\n      ┃　┳┛　  ┗┳　┃\n' +
+  '      ┃　　　　　　 ┃\n      ┃　　　┻　　　┃\n      ┃　　　　　　 ┃\n      ┗━┓　　　┏━━━┛\n        ┃　　　┃   神兽祝福\n' +
+  '        ┃　　　┃   草泥马祝你通过关！\n        ┃　　　┗━━━━━━━━━┓\n        ┃　　　　　　　    ┣┓\n' +
+  '        ┃　　　　         ┏┛\n        ┗━┓ ┓ ┏━━━┳ ┓ ┏━┛\n          ┃ ┫ ┫   ┃ ┫ ┫\n          ┗━┻━┛   ┗━┻━┛'
 
 module.exports = new Promise((resolve, reject) => {
-  Portfinder.basePort = PORT;
+  Portfinder.basePort = PORT
   Portfinder.getPort((err, port) => {
     if (err) {
       reject(err)
     } else {
-      process.env.PORT = port;
-      devWebpackConfig.devServer.port = port;
-      devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
-        clearConsole: true,
-        compilationSuccessInfo: {
-          messages: [`${'欢迎来到PulanGo~'.rainbow}${'*⸜( •ᴗ• )⸝*'.green}。\n${s}\n你的项目在这里吼~ (╯‵□′)╯︵ http://${IP}:${port}
-                    `]
-        },
-        onErrors: utils.createNotifierCallback()
-      }))
+      process.env.PORT = port
+      devWebpackConfig.devServer.port = port
+      devWebpackConfig.plugins.push(
+        new FriendlyErrorsPlugin({
+          clearConsole: true,
+          compilationSuccessInfo: {
+            messages: [
+              `${'欢迎来到PulanGo~'.rainbow}${
+                '*⸜( •ᴗ• )⸝*'.green
+              }。\n${s}\n你的项目在这里吼~ (╯‵□′)╯︵ http://${IP}:${port}
+                    `
+            ]
+          },
+          onErrors: utils.createNotifierCallback()
+        })
+      )
       resolve(devWebpackConfig)
     }
   })

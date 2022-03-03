@@ -1,28 +1,28 @@
 ```tsx
-import React from 'react';
-import { Button, Modal } from 'winkey-ui';
+import React from 'react'
+import { Button, Modal } from 'winkey-ui'
 
 const Demo: React.SFC = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
   const showModal = () => {
-    setIsModalVisible(true);
-  };
+    setIsModalVisible(true)
+  }
 
   const handleOk = () => {
-    setIsModalVisible(false);
-  };
+    setIsModalVisible(false)
+  }
 
   const handleCancel = () => {
-    setIsModalVisible(false);
-  };
+    setIsModalVisible(false)
+  }
 
   return (
     <div>
-      <Button type="primary" onClick={showModal}>
+      <Button type='primary' onClick={showModal}>
         Open Modal
       </Button>
-      <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title='Basic Modal' visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
         <p>Some contents...</p>
         <p>Some contents...</p>
         <p>Some contents...</p>
@@ -31,5 +31,5 @@ const Demo: React.SFC = () => {
   )
 }
 
-export default Demo;
+export default Demo
 ```

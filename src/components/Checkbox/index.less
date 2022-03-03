@@ -2,8 +2,8 @@
   display: inline-block;
   font-size: 14px;
   font-variant: tabular-nums;
-  font-feature-settings: "tnum";
-  color: rgba(0, 0, 0, .85);
+  font-feature-settings: 'tnum';
+  color: rgba(0, 0, 0, 0.85);
   list-style: none;
   line-height: unset;
   margin: 0;
@@ -14,12 +14,12 @@
 
 .wk-checkbox {
   position: relative;
-  top: -.09em;
+  top: -0.09em;
   display: inline-block;
-  color: rgba(0, 0, 0, .85);
+  color: rgba(0, 0, 0, 0.85);
   font-size: 14px;
   font-variant: tabular-nums;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   list-style: none;
   line-height: 1;
   white-space: nowrap;
@@ -53,7 +53,7 @@
     border-radius: 2px;
     border-collapse: separate;
     background-color: #fff;
-    transition: all .3s;
+    transition: all 0.3s;
   }
   &-inner::after {
     position: absolute;
@@ -67,7 +67,7 @@
     border-left: 0;
     transform: rotate(45deg) scale(0) translate(-50%, -50%);
     opacity: 0;
-    transition: all .1s cubic-bezier(.71,-.46,.88,.6), opacity .1s;;
+    transition: all 0.1s cubic-bezier(0.71, -0.46, 0.88, 0.6), opacity 0.1s;
     content: ' ';
   }
   &-checked {
@@ -81,10 +81,10 @@
       border: 2px solid #fff;
       border-top: 0;
       border-left: 0;
-      transform: rotate(45deg) scale(1) translate(-50%,-50%);
+      transform: rotate(45deg) scale(1) translate(-50%, -50%);
       opacity: 1;
-      transition: all .2s cubic-bezier(.12,.4,.29,1.46) .1s;
-      content: " ";
+      transition: all 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;
+      content: ' ';
     }
   }
   &-checked::after {
@@ -96,7 +96,7 @@
     border: 1px solid #1890ff;
     border-radius: 2px;
     visibility: hidden;
-    animation: antCheckboxEffect .36s ease-in-out;
+    animation: antCheckboxEffect 0.36s ease-in-out;
     animation-duration: 0.36s;
     animation-timing-function: ease-in-out;
     animation-delay: 0s;
@@ -107,7 +107,7 @@
     animation-name: antCheckboxEffect;
     -webkit-animation-fill-mode: backwards;
     animation-fill-mode: backwards;
-    content: "";
+    content: '';
   }
 }
 .wk-checkbox + span {
@@ -131,12 +131,12 @@
 }
 .wk-checkbox-disabled.wk-checkbox-checked {
   .wk-checkbox-inner::after {
-    border-color: rgba(0, 0, 0, .25);
+    border-color: rgba(0, 0, 0, 0.25);
     animation-name: none;
   }
 }
 .wk-checkbox-disabled + span {
-  color: rgba(0, 0, 0, .25);
+  color: rgba(0, 0, 0, 0.25);
   cursor: not-allowed;
 }
 

@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import Mask from '../Mask';
-import Button from '../Button';
-import {
-  ModalProps
-} from './interface';
-import "./index.less";
+import Mask from '../Mask'
+import Button from '../Button'
+import { ModalProps } from './interface'
+import './index.less'
 
 class Modal extends Component<ModalProps> {
   static defaultProps = {
@@ -15,7 +13,7 @@ class Modal extends Component<ModalProps> {
   }
 
   handleClickCancel = () => {
-    const { onCancel } = this.props;
+    const { onCancel } = this.props
 
     if (onCancel) {
       onCancel()
@@ -23,49 +21,47 @@ class Modal extends Component<ModalProps> {
   }
 
   handleClickOk = () => {
-    const { onOk } = this.props;
+    const { onOk } = this.props
 
     if (onOk) {
-      onOk();
+      onOk()
     }
   }
 
   render() {
-    const { visible, title, children, width, footer, okText, cancelText } = this.props;
+    const { visible, title, children, width, footer, okText, cancelText } = this.props
 
     return (
-      <Mask kind="modal" visible={visible} onCancel={() => this.handleClickCancel()}>
-        <div className="wk-modal" style={{width: typeof width === 'string' ? width : `${width}px`}}>
-          <div className="wk-modal-content">
-            <button className="wk-modal-close" onClick={this.handleClickCancel}>
-              <span className="wk-modal-close-x">
-                <i className="iconfont wk-icon-close"/>
+      <Mask kind='modal' visible={visible} onCancel={() => this.handleClickCancel()}>
+        <div
+          className='wk-modal'
+          style={{ width: typeof width === 'string' ? width : `${width}px` }}
+        >
+          <div className='wk-modal-content'>
+            <button className='wk-modal-close' onClick={this.handleClickCancel}>
+              <span className='wk-modal-close-x'>
+                <i className='iconfont wk-icon-close' />
               </span>
             </button>
-            {
-              title &&
-              <div className="wk-modal-header">
-                <div className="wk-modal-title">{title}</div>
+            {title && (
+              <div className='wk-modal-header'>
+                <div className='wk-modal-title'>{title}</div>
               </div>
-            }
-            <div className="wk-modal-body">
-              {children}
-            </div>
-            {
-              footer !== null &&
-              <div className="wk-modal-footer">
-                {
-                  footer && footer
-                }
-                {
-                  !footer && 
+            )}
+            <div className='wk-modal-body'>{children}</div>
+            {footer !== null && (
+              <div className='wk-modal-footer'>
+                {footer && footer}
+                {!footer && (
                   <>
                     <Button onClick={this.handleClickCancel}>{cancelText}</Button>
-                    <Button type="primary" onClick={this.handleClickOk}>{okText}</Button>
+                    <Button type='primary' onClick={this.handleClickOk}>
+                      {okText}
+                    </Button>
                   </>
-                }
+                )}
               </div>
-            }
+            )}
           </div>
         </div>
       </Mask>
@@ -73,4 +69,4 @@ class Modal extends Component<ModalProps> {
   }
 }
 
-export default Modal;
+export default Modal

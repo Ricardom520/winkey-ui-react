@@ -1,22 +1,21 @@
 ```tsx
-import React from 'react';
-import { Select } from 'winkey-ui-react';
+import React from 'react'
+import { Select } from 'winkey-ui-react'
 
-const { Option } = Select;
+const { Option } = Select
 
-const Demo:React.FC = () => {
-  
+const Demo: React.FC = () => {
   const handleChange = (value) => {
-    console.log(`selected ${value}`);
+    console.log(`selected ${value}`)
   }
 
   return (
-    <div style={{marginBottom: '20px'}}>
+    <div style={{ marginBottom: '20px' }}>
       <Select
-        mode="multiple"
+        mode='multiple'
         allowClear
         style={{ width: '100%', marginBottom: '10px' }}
-        placeholder="Please select"
+        placeholder='Please select'
         defaultValue={['a10', 'c12']}
         onChange={handleChange}
       >
@@ -24,10 +23,10 @@ const Demo:React.FC = () => {
       </Select>
       <br />
       <Select
-        mode="multiple"
+        mode='multiple'
         disabled
         style={{ width: '100%' }}
-        placeholder="Please select"
+        placeholder='Please select'
         defaultValue={['a10', 'c12']}
         onChange={handleChange}
       >
@@ -37,5 +36,5 @@ const Demo:React.FC = () => {
   )
 }
 
-export default Demo;
+export default Demo
 ```

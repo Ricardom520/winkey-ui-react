@@ -38,7 +38,16 @@ const inputWays = [
 ]
 
 const InputControl: React.FC<InputControlProps> = (props) => {
-  const { value, title, onConfrim, onAdd, onReduce, type = 'input', addabled = true, deleteabled = true } = props
+  const {
+    value,
+    title,
+    onConfrim,
+    onAdd,
+    onReduce,
+    type = 'input',
+    addabled = true,
+    deleteabled = true
+  } = props
   const [valueState, setValueState] = useState<string>()
   const [focus, setFocus] = useState<boolean>(false)
 
@@ -56,11 +65,7 @@ const InputControl: React.FC<InputControlProps> = (props) => {
 
   const inputs = {
     input: <Input value={valueState} onChange={handleChange} onBlur={handleConfirm} />,
-    select: <Select 
-      value={valueState} 
-      options={inputWays}
-      onChange={val => setValueState(val)} 
-    />
+    select: <Select value={valueState} options={inputWays} onChange={(val) => setValueState(val)} />
   }
 
   const handleAddConlum = () => {
@@ -78,28 +83,13 @@ const InputControl: React.FC<InputControlProps> = (props) => {
   return (
     <div className='inputControl'>
       {title && `${title}：`}
-      {
-        !focus &&
-        <p className={title ? 'inputControl-value' : ''}>{valueState}</p>
-      }
-      {
-        focus && inputs[type]
-      }
+      {!focus && <p className={title ? 'inputControl-value' : ''}>{valueState}</p>}
+      {focus && inputs[type]}
       <div className='inputControl-btn'>
-        {
-          !focus &&
-          <i className='iconfont wk-icon-write' onClick={() => setFocus(true)} />
-        }
-        {
-          focus &&
-          <i className='iconfont wk-icon-hock' onClick={handleConfirm} />
-        }
-        {
-          deleteabled && <i className='iconfont wk-icon-dustbin' onClick={handleDeleteConlum} /> 
-        }
-        {
-          addabled && <i className='iconfont wk-icon-add' onClick={handleAddConlum} />
-        }
+        {!focus && <i className='iconfont wk-icon-write' onClick={() => setFocus(true)} />}
+        {focus && <i className='iconfont wk-icon-hock' onClick={handleConfirm} />}
+        {deleteabled && <i className='iconfont wk-icon-dustbin' onClick={handleDeleteConlum} />}
+        {addabled && <i className='iconfont wk-icon-add' onClick={handleAddConlum} />}
       </div>
     </div>
   )

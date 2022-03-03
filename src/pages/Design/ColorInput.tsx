@@ -12,7 +12,7 @@ const ColorInput: React.SFC<ColorInputProps> = (props) => {
 
   return (
     <Dropdown overlay={<SketchPicker color={color} onChange={setColor} />} trigger={['click']}>
-      <Input placeholder='请输入宽度' value={value || '#000'}/>
+      <Input placeholder='请输入宽度' value={value || '#000'} />
     </Dropdown>
   )
 }

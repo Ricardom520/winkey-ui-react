@@ -1,24 +1,24 @@
 ```tsx
-import React from 'react';
-import { Empty } from 'winkey-ui-react';
+import React from 'react'
+import { Empty } from 'winkey-ui-react'
 
 const Demo: React.SFC = () => {
   return (
     <Empty
-      image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+      image='https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg'
       imageStyle={{
-        height: 60,
+        height: 60
       }}
       description={
         <span>
-          Customize <a href="#API">Description</a>
+          Customize <a href='#API'>Description</a>
         </span>
       }
     >
-      <Button type="primary">Create Now</Button>
+      <Button type='primary'>Create Now</Button>
     </Empty>
   )
 }
 
-export default Demo;
+export default Demo
 ```

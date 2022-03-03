@@ -14,16 +14,16 @@ export const MonthDays = {
 }
 
 export const PickerFormatNormal = {
-  date: "YYYY-MM-DD",
-  month: "YYYY-MM",
-  year: "YYYY",
+  date: 'YYYY-MM-DD',
+  month: 'YYYY-MM',
+  year: 'YYYY',
   showTime: 'YYYY-MM-DD HH:mm'
 }
 
 export const PlaceholderNormal = {
-  date: "请选择日期",
-  week: "请选择周",
-  month: "请选择月份",
-  quarter: "请选择季度",
-  year: "请选择年份",
+  date: '请选择日期',
+  week: '请选择周',
+  month: '请选择月份',
+  quarter: '请选择季度',
+  year: '请选择年份'
 }

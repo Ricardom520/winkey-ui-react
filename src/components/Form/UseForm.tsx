@@ -4,14 +4,14 @@ export default function useForm() {
       return this.formThis.state.formValues
     }
 
-    return {};
+    return {}
   }
 
   const resetFields = () => {
-    const values = {};
+    const values = {}
 
-    Object.keys(this.formThis.state.formValues).forEach(i=>{
-      values[i] = ""
+    Object.keys(this.formThis.state.formValues).forEach((i) => {
+      values[i] = ''
     })
     this.formThis.setState({
       formValues: values
@@ -19,16 +19,16 @@ export default function useForm() {
   }
 
   const getFieldValue = (name) => {
-    const values = this.formThis.state.formValues;
+    const values = this.formThis.state.formValues
 
     return values[name]
   }
 
   const setFieldsValue = (store) => {
-    const values = this.formThis.state.formValues;
+    const values = this.formThis.state.formValues
 
-    Object.keys(store).forEach(i => {
-      values[i] = store[i];
+    Object.keys(store).forEach((i) => {
+      values[i] = store[i]
     })
 
     this.formThis.setState({
@@ -37,8 +37,8 @@ export default function useForm() {
   }
 
   const itemRef = (ref, _this) => {
-    this.form = ref;
-    this.formThis = _this;
+    this.form = ref
+    this.formThis = _this
   }
 
   this._form = {
@@ -49,10 +49,8 @@ export default function useForm() {
     __INITERNAL__: {
       itemRef,
       name: undefined
-    },
-  };
+    }
+  }
 
-  return [
-    this._form
-  ]
+  return [this._form]
 }

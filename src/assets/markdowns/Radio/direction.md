@@ -1,18 +1,18 @@
 ```tsx
-import React, { useState } from 'react';
-import { Radio, Input } from 'winkey-ui';
+import React, { useState } from 'react'
+import { Radio, Input } from 'winkey-ui'
 
 const Demo: React.SFC = () => {
-  const [value, setValue] = useState<number>(1);
-  
-  const onChange = e => {
-    console.log('radio checked', e.target.value);
+  const [value, setValue] = useState<number>(1)
+
+  const onChange = (e) => {
+    console.log('radio checked', e.target.value)
     setValue5(e.target.value)
   }
 
   return (
-    <div style={{marginBottom: '20px'}}>
-      <Radio.Group onChange={onChange} value={value} direction="col">
+    <div style={{ marginBottom: '20px' }}>
+      <Radio.Group onChange={onChange} value={value} direction='col'>
         <Radio style={radioStyle} value={1}>
           Option A
         </Radio>
@@ -31,5 +31,5 @@ const Demo: React.SFC = () => {
   )
 }
 
-export default Demo;
+export default Demo
 ```

@@ -4,10 +4,7 @@
       "@babel/preset-env",
       {
         "targets": {
-          "browsers": [
-            "last 2 versions",
-            "not ie <= 9"
-          ]
+          "browsers": ["last 2 versions", "not ie <= 9"]
         }
       }
     ]
@@ -19,11 +16,9 @@
     //     "loose": true
     //   }
     // ],
-    [
-      "@babel/transform-runtime"
-    ],
+    ["@babel/transform-runtime"]
     // [
-    //   "@babel/plugin-proposal-private-property-in-object", 
+    //   "@babel/plugin-proposal-private-property-in-object",
     //   { "loose": true }
     // ]
   ]

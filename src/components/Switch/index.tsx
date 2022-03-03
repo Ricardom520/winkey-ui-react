@@ -1,38 +1,38 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode } from 'react'
 
-import "./index.less";
+import './index.less'
 
 interface SwitchProps {
-  defaultChecked?: boolean;
-  checked?: boolean;
-  disabled?: boolean;
-  onChange?: (boolean) => void;
-  style?: React.CSSProperties;
-  checkedChildren?: ReactNode;
-  unCheckedChildren?: ReactNode;
-  size?: "small";
-  loading?: boolean;
+  defaultChecked?: boolean
+  checked?: boolean
+  disabled?: boolean
+  onChange?: (boolean) => void
+  style?: React.CSSProperties
+  checkedChildren?: ReactNode
+  unCheckedChildren?: ReactNode
+  size?: 'small'
+  loading?: boolean
 }
 
 interface SwitchState {
-  checked: boolean;
-  disabled: boolean;
+  checked: boolean
+  disabled: boolean
 }
 
 const switchClass = {
-  small: ' wk-switch-small',
-  default: "",
-  "": ""
+  'small': ' wk-switch-small',
+  'default': '',
+  '': ''
 }
 
 export default class Switch extends React.Component<SwitchProps, SwitchState> {
   static winkeyName = 'switch'
   static defaultProps = {
-    size: ""
+    size: ''
   }
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       checked: false,
@@ -41,7 +41,7 @@ export default class Switch extends React.Component<SwitchProps, SwitchState> {
   }
 
   componentDidMount() {
-    const { checked, defaultChecked, disabled, loading } = this.props;
+    const { checked, defaultChecked, disabled, loading } = this.props
 
     this.setState({
       checked: checked || defaultChecked,
@@ -50,7 +50,7 @@ export default class Switch extends React.Component<SwitchProps, SwitchState> {
   }
 
   UNSAFE_componentWillReceiveProps(next) {
-    const { disabled, checked } = next;
+    const { disabled, checked } = next
 
     if (disabled !== undefined) {
       this.setState({
@@ -66,13 +66,13 @@ export default class Switch extends React.Component<SwitchProps, SwitchState> {
   }
 
   handleClick = () => {
-    const { disabled, onChange, loading } = this.props;
-    
+    const { disabled, onChange, loading } = this.props
+
     if (!disabled && !loading) {
       if (onChange) {
         onChange(!this.state.checked)
       }
-  
+
       this.setState({
         checked: !this.state.checked
       })
@@ -80,39 +80,35 @@ export default class Switch extends React.Component<SwitchProps, SwitchState> {
   }
 
   initSwitch = () => {
-    const { style, checkedChildren, unCheckedChildren, size, loading } = this.props;
-    const { checked, disabled } = this.state;
+    const { style, checkedChildren, unCheckedChildren, size, loading } = this.props
+    const { checked, disabled } = this.state
 
     return (
-      <button 
-        type="button"
-        role="switch"
+      <button
+        type='button'
+        role='switch'
         className={
-          "wk-switch" +
-          (checked ? " wk-switch-checked" : "") +
-          (disabled ? " wk-switch-disabled" : "") +
-          (switchClass[size] ? switchClass[size] : "")
+          'wk-switch' +
+          (checked ? ' wk-switch-checked' : '') +
+          (disabled ? ' wk-switch-disabled' : '') +
+          (switchClass[size] ? switchClass[size] : '')
         }
         onClick={this.handleClick}
         style={style}
       >
-        <div className="wk-switch-handle">
-          {
-            loading && <span className="wk-switch-loading-icon"><i className="iconfont wk-icon-loading-line-round"/></span>
-          }
+        <div className='wk-switch-handle'>
+          {loading && (
+            <span className='wk-switch-loading-icon'>
+              <i className='iconfont wk-icon-loading-line-round' />
+            </span>
+          )}
         </div>
-        <span className="wk-switch-inner">
-          {checked ? checkedChildren : unCheckedChildren}
-        </span>
+        <span className='wk-switch-inner'>{checked ? checkedChildren : unCheckedChildren}</span>
       </button>
     )
   }
 
   render() {
-    return (
-      <>
-        {this.initSwitch()}
-      </>
-    )
+    return <>{this.initSwitch()}</>
   }
 }

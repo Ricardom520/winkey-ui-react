@@ -1,89 +1,89 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode } from 'react'
 
-import Option from './Option';
-import SelectBox from './SelectBox';
-import "./index.less";
+import Option from './Option'
+import SelectBox from './SelectBox'
+import './index.less'
 
 interface SelectOptions {
-  label: string;
-  value: string | number;
+  label: string
+  value: string | number
 }
 
 interface SelectProps {
-  mode?: "multiple";
-  defaultValue?: string | number | string[] | number[];
-  value?: string | number;
-  style?: React.CSSProperties;
-  options?: SelectOptions[];
-  onChange?: (value) => void;
-  onFocus?: () => void;
-  onBlur?: () => void;
-  onSearch?: (val) => void;
-  onClear?: () => void;
-  filterOption?: (input, option) => void;
-  disabled?: boolean;
-  loading?: boolean;
-  allowClear?: boolean;
-  children?: ReactNode;
-  placeholder?: string;
-  showSearch?: boolean;
-  optionFilterProp?: "children";
-  size?: "small" | "large";
-  bordered?: boolean;
-  className?: string;
-  dropdownClassName?: string;
-  dropdownStyle?: React.CSSProperties;
+  mode?: 'multiple'
+  defaultValue?: string | number | string[] | number[]
+  value?: string | number
+  style?: React.CSSProperties
+  options?: SelectOptions[]
+  onChange?: (value) => void
+  onFocus?: () => void
+  onBlur?: () => void
+  onSearch?: (val) => void
+  onClear?: () => void
+  filterOption?: (input, option) => void
+  disabled?: boolean
+  loading?: boolean
+  allowClear?: boolean
+  children?: ReactNode
+  placeholder?: string
+  showSearch?: boolean
+  optionFilterProp?: 'children'
+  size?: 'small' | 'large'
+  bordered?: boolean
+  className?: string
+  dropdownClassName?: string
+  dropdownStyle?: React.CSSProperties
   open?: boolean
 }
 
 interface SelectState {
-  children: any;
-  focus: boolean;
-  open: boolean;
-  offsetTop: number;
-  offsetLeft: number;
-  width: number,
-  height: number,
-  value: string | number | string[] | number[];
-  label: string | string[];
-  searchValue: string;
-  firstFlag: boolean;
+  children: any
+  focus: boolean
+  open: boolean
+  offsetTop: number
+  offsetLeft: number
+  width: number
+  height: number
+  value: string | number | string[] | number[]
+  label: string | string[]
+  searchValue: string
+  firstFlag: boolean
 }
 
 const selectClass = {
-  multiple: " wk-select-multiple",
-  single: " wk-select-single",
-  large: " wk-select-lg",
-  small: " wk-select-sm",
-  default: "",
-  "": ""
+  'multiple': ' wk-select-multiple',
+  'single': ' wk-select-single',
+  'large': ' wk-select-lg',
+  'small': ' wk-select-sm',
+  'default': '',
+  '': ''
 }
 
 const whiteList = {
-  "wk-select-item-option-content": 1,
-  "iconfont wk-icon-close": 1,
-  "wk-select-selection-overflow-item": 1, 
-  "wk-select-selection-overflow": 1,
-  "wk-select-item wk-select-item-option": 1,
-  "iconfont wk-icon-hock": 1,
-  "wk-select-item-option-state": 1,
-  "wk-select-item wk-select-item-option wk-select-item-checked": 1
+  'wk-select-item-option-content': 1,
+  'iconfont wk-icon-close': 1,
+  'wk-select-selection-overflow-item': 1,
+  'wk-select-selection-overflow': 1,
+  'wk-select-item wk-select-item-option': 1,
+  'iconfont wk-icon-hock': 1,
+  'wk-select-item-option-state': 1,
+  'wk-select-item wk-select-item-option wk-select-item-checked': 1
 }
 
 export default class Select extends React.Component<SelectProps, SelectState> {
-  private wkSelect;
+  private wkSelect
   static winkeyName = 'select'
-  static Option = Option;
+  static Option = Option
 
   static defaultProps = {
-    placeholder: "请选择",
-    mode: "single",
+    placeholder: '请选择',
+    mode: 'single',
     bordered: true,
-    size: ""
+    size: ''
   }
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       focus: false,
@@ -93,18 +93,18 @@ export default class Select extends React.Component<SelectProps, SelectState> {
       width: 0,
       height: 0,
       value: '',
-      label: "",
-      searchValue: "",
+      label: '',
+      searchValue: '',
       children: undefined,
-      firstFlag: true,
+      firstFlag: true
     }
 
-    this.wkSelect = React.createRef();
+    this.wkSelect = React.createRef()
   }
 
   componentDidMount() {
-    const { value, defaultValue, children, open } = this.props;
-    
+    const { value, defaultValue, children, open } = this.props
+
     this.setState({
       value: value || defaultValue || '',
       children: children,
@@ -115,30 +115,32 @@ export default class Select extends React.Component<SelectProps, SelectState> {
   }
 
   UNSAFE_componentWillUpdate(_, nextState) {
-    const { open } = nextState;
+    const { open } = nextState
 
     if (open) {
-      document.addEventListener('click', (e: any) => {
-        if (!whiteList[e.target.className]) {
-          this.setState({
-            open: false,
-            focus: false
-          })
-        }
-      }, true)
+      document.addEventListener(
+        'click',
+        (e: any) => {
+          if (!whiteList[e.target.className]) {
+            this.setState({
+              open: false,
+              focus: false
+            })
+          }
+        },
+        true
+      )
     } else {
-      document.removeEventListener('click', () => {
-
-      }, false)
+      document.removeEventListener('click', () => {}, false)
     }
   }
 
   UNSAFE_componentWillReceiveProps(next) {
-    const { value } = next;
+    const { value } = next
 
     if (value === undefined) {
       this.setState({
-        searchValue: "",
+        searchValue: '',
         value: '',
         label: ''
       })
@@ -152,29 +154,37 @@ export default class Select extends React.Component<SelectProps, SelectState> {
   }
 
   initLabelAndValue = (props) => {
-    const { value, defaultValue, children, options } = props;
-    
-    if ((children || options) && (value || defaultValue)) {
+    const { value, defaultValue, children, options } = props
+
+    if ((children || options) && (value !== undefined || defaultValue !== undefined)) {
       const toArrayChildren = options || Array.prototype.slice.call(children)
 
-      if ((typeof value !== 'object') && (typeof defaultValue !== 'object')) {
-        toArrayChildren.forEach(i => {
-          if ((i.value || i.props.value) === (value || defaultValue)) {
-            this.setState({
-              label: i.label || i.props.children
-            })
+      if (typeof value !== 'object' && typeof defaultValue !== 'object') {
+        toArrayChildren.forEach((i) => {
+          if (i.value !== undefined) {
+            if (i.value === (value || defaultValue)) {
+              this.setState({
+                label: i.label || i.props.children
+              })
+            }
+          } else if (i.props.value !== undefined) {
+            if (i.props.value === (value || defaultValue)) {
+              this.setState({
+                label: i.label || i.props.children
+              })
+            }
           }
         })
       } else {
-        const labels = [];
-        const values = [];
+        const labels = []
+        const values = []
 
-        toArrayChildren.forEach(i => {
-          (value || defaultValue).forEach(j => {
+        toArrayChildren.forEach((i) => {
+          ;(value || defaultValue).forEach((j) => {
             if ((i.value || i.props.value) === j) {
               labels.push(i.label || i.props.children)
               values.push(j)
-            }  
+            }
           })
         })
 
@@ -187,138 +197,156 @@ export default class Select extends React.Component<SelectProps, SelectState> {
   }
 
   initSelect = () => {
-    const { style, placeholder, disabled, loading, showSearch, allowClear, mode, size, bordered, className } = this.props;
-    const { focus, open, label, searchValue } = this.state;
+    const {
+      style,
+      placeholder,
+      disabled,
+      loading,
+      showSearch,
+      allowClear,
+      mode,
+      size,
+      bordered,
+      className
+    } = this.props
+    const { focus, open, label, searchValue } = this.state
 
     return (
       <div
         ref={this.wkSelect}
         className={
-          "wk-select" +
-          " wk-select-show-arrow" +
-          (focus ? " wk-select-focused" : "") +
-          (open ? " wk-select-open" : "") +
-          (disabled ? " wk-select-disabled" : "") +
+          'wk-select' +
+          ' wk-select-show-arrow' +
+          (focus ? ' wk-select-focused' : '') +
+          (open ? ' wk-select-open' : '') +
+          (disabled ? ' wk-select-disabled' : '') +
           selectClass[mode] +
           selectClass[size] +
-          (!bordered ? " wk-select-borderless" : "") +
-          (className? ` ${className}` : "")
+          (!bordered ? ' wk-select-borderless' : '') +
+          (className ? ` ${className}` : '')
         }
         onClick={this.handleClick}
         style={style}
       >
-        <div className="wk-select-selector">
-          {
-            mode === 'multiple' &&
-            <div className="wk-select-selection-overflow">
-              {
-                typeof label !== 'string' && label.length > 0 && label.map((i,n) => {
+        <div className='wk-select-selector'>
+          {mode === 'multiple' && (
+            <div className='wk-select-selection-overflow'>
+              {typeof label !== 'string' &&
+                label.length > 0 &&
+                label.map((i, n) => {
                   return (
-                    <div className="wk-select-selection-overflow-item" key={`${i}-${n}`} onClick={(e) => this.handleRemoveItem(e, n)}>
-                      <span className="wk-select-selection-item">
-                        <span className="wk-select-selection-item-content">{i}</span>
-                        <span className="wk-select-selection-item-remove">
-                          <i className="iconfont wk-icon-close" />
+                    <div
+                      className='wk-select-selection-overflow-item'
+                      key={`${i}-${n}`}
+                      onClick={(e) => this.handleRemoveItem(e, n)}
+                    >
+                      <span className='wk-select-selection-item'>
+                        <span className='wk-select-selection-item-content'>{i}</span>
+                        <span className='wk-select-selection-item-remove'>
+                          <i className='iconfont wk-icon-close' />
                         </span>
                       </span>
                     </div>
                   )
-                })
-              }
-              {
-                label.length === 0 &&
-                <span 
-                  className="wk-select-selection-item-placeholder"
-                >
-                  {placeholder}
-                </span>
-              }
-              <div className="wk-select-selection-overflow-item wk-select-selection-overflow-item-suffix" style={{opacity: 1}}>
-                <div className="wk-select-selection-search" style={{width: '4px'}}>
-                  <input 
-                    autoComplete="off" 
-                    type="search"
-                    className="wk-select-selection-search-input"
-                    style={{opacity: showSearch ? 1 : 0}}
+                })}
+              {label.length === 0 && (
+                <span className='wk-select-selection-item-placeholder'>{placeholder}</span>
+              )}
+              <div
+                className='wk-select-selection-overflow-item wk-select-selection-overflow-item-suffix'
+                style={{ opacity: 1 }}
+              >
+                <div className='wk-select-selection-search' style={{ width: '4px' }}>
+                  <input
+                    autoComplete='off'
+                    type='search'
+                    className='wk-select-selection-search-input'
+                    style={{ opacity: showSearch ? 1 : 0 }}
                     onBlur={this.handleBlur}
                     onFocus={this.handleFocus}
                     onChange={this.handleSearch}
                     value={searchValue}
                   />
-                  <span className="wk-select-selection-search-mirror" aria-hidden>&nbsp;</span>
+                  <span className='wk-select-selection-search-mirror' aria-hidden>
+                    &nbsp;
+                  </span>
                 </div>
               </div>
             </div>
-          }
-          {
-            mode !== "multiple" &&
+          )}
+          {mode !== 'multiple' && (
             <>
-              <span className="wk-select-selection-search">
-              <input 
-                autoComplete="off" 
-                type="search"
-                className="wk-select-selection-search-input"
-                style={{opacity: showSearch ? 1 : 0}}
-                onBlur={this.handleBlur}
-                onFocus={this.handleFocus}
-                onChange={this.handleSearch}
-                value={searchValue}
-              />
-            </span>
-            <span 
-              className={
-                "wk-select-selection-item" +
-                ((!searchValue && !label) ? " wk-select-selection-item-placeholder" : "")
-              } 
-            >
-              {!searchValue 
-                ? 
-              (label 
-                ? 
-              typeof label === 'string' 
-              ?
-              label
-              : label.map(i => {
-                return i + '、'
-              })
-              : placeholder) 
-              : ""}
-            </span>
+              <span className='wk-select-selection-search'>
+                <input
+                  autoComplete='off'
+                  type='search'
+                  className='wk-select-selection-search-input'
+                  style={{ opacity: showSearch ? 1 : 0 }}
+                  onBlur={this.handleBlur}
+                  onFocus={this.handleFocus}
+                  onChange={this.handleSearch}
+                  value={searchValue}
+                />
+              </span>
+              <span
+                className={
+                  'wk-select-selection-item' +
+                  (!searchValue && !label ? ' wk-select-selection-item-placeholder' : '')
+                }
+              >
+                {!searchValue
+                  ? label
+                    ? typeof label === 'string'
+                      ? label
+                      : label.map((i) => {
+                          return i + '、'
+                        })
+                    : placeholder
+                  : ''}
+              </span>
             </>
-          }
+          )}
         </div>
-        {
-          allowClear &&
-          <span className="wk-select-clear" style={{userSelect: 'none', opacity: label ? 1 : 0}} onClick={this.handleClear}>
-            <i className="iconfont wk-icon-close"/>
+        {allowClear && (
+          <span
+            className='wk-select-clear'
+            style={{ userSelect: 'none', opacity: label ? 1 : 0 }}
+            onClick={this.handleClear}
+          >
+            <i className='iconfont wk-icon-close' />
           </span>
-        }
-        {
-          !allowClear &&
-          <span className="wk-select-arrow" style={{userSelect: 'none'}}>
-            <span className="wk-select-arrow-icon">
-              {
-                loading && <i className="iconfont wk-icon-loading-line-round wk-select-loading-icon"/>
-              }
-              {
-                !loading && !showSearch && <i className="iconfont wk-icon-arrow-right" style={{transform: 'rotate(90deg)'}}/>
-              }
-              {
-                showSearch && 
-                (open ?
-                <i className="iconfont wk-icon-search"/> :
-                <i className="iconfont wk-icon-arrow-right" style={{transform: 'rotate(90deg)'}}/>)
-              }
+        )}
+        {!allowClear && (
+          <span className='wk-select-arrow' style={{ userSelect: 'none' }}>
+            <span className='wk-select-arrow-icon'>
+              {loading && (
+                <i className='iconfont wk-icon-loading-line-round wk-select-loading-icon' />
+              )}
+              {!loading && !showSearch && (
+                <i
+                  className='iconfont wk-icon-arrow-right'
+                  style={{ transform: 'rotate(90deg)' }}
+                />
+              )}
+              {showSearch &&
+                (open ? (
+                  <i className='iconfont wk-icon-search' />
+                ) : (
+                  <i
+                    className='iconfont wk-icon-arrow-right'
+                    style={{ transform: 'rotate(90deg)' }}
+                  />
+                ))}
             </span>
-          </span> 
-        }
+          </span>
+        )}
       </div>
     )
   }
 
   handleClick = () => {
-    const { disabled } = this.props;
-    const wkSelect: any = this.wkSelect.current;
+    const { disabled } = this.props
+    const wkSelect: any = this.wkSelect.current
 
     this.setState({
       offsetLeft: wkSelect.getBoundingClientRect().left,
@@ -338,7 +366,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
 
   handleBlur = () => {
     this.setState({
-      focus: false,
+      focus: false
     })
 
     if (this.props.onBlur) {
@@ -347,21 +375,21 @@ export default class Select extends React.Component<SelectProps, SelectState> {
   }
 
   handleFocus = () => {
-    const { disabled } = this.props;
+    const { disabled } = this.props
 
     if (!disabled) {
       this.setState({
-        focus: true,
+        focus: true
       })
     }
 
     if (this.props.onFocus) {
-      this.props.onFocus();
+      this.props.onFocus()
     }
   }
 
   handleChange = (value, label, boolean) => {
-    const { onChange, mode } = this.props;
+    const { onChange, mode } = this.props
 
     if (mode !== 'multiple') {
       this.setState({
@@ -375,12 +403,12 @@ export default class Select extends React.Component<SelectProps, SelectState> {
       }
     } else {
       if (typeof this.state.value === 'object') {
-        let newValue = [];
-        let newLabel = [];
+        let newValue = []
+        let newLabel = []
         if (boolean) {
           // 添加
-          newValue = [...this.state.value, value];
-          newLabel = [...this.state.label, label];
+          newValue = [...this.state.value, value]
+          newLabel = [...this.state.label, label]
         } else {
           // 减少
           this.state.value.forEach((i, n) => {
@@ -408,23 +436,23 @@ export default class Select extends React.Component<SelectProps, SelectState> {
   }
 
   handleSearch = (e) => {
-    const { filterOption, onSearch, optionFilterProp, showSearch } = this.props;
-    const { children } = this.props;
+    const { filterOption, onSearch, optionFilterProp, showSearch } = this.props
+    const { children } = this.props
 
     if (!showSearch) {
-      return;
+      return
     }
 
-    let filterChildren;
+    let filterChildren
 
-    const value = e.target.value;
+    const value = e.target.value
 
     if (onSearch) {
       onSearch(value)
     }
 
     if (value) {
-      Array.prototype.slice.call(children).forEach(i => {
+      Array.prototype.slice.call(children).forEach((i) => {
         if (i.props.children.includes(value)) {
           if (filterOption) {
             if (optionFilterProp) {
@@ -432,7 +460,7 @@ export default class Select extends React.Component<SelectProps, SelectState> {
                 filterOption(value, i.props)
               } else {
                 filterOption(value, i)
-              } 
+              }
             }
           }
 
@@ -457,13 +485,13 @@ export default class Select extends React.Component<SelectProps, SelectState> {
   }
 
   handleRemoveItem = (e, index) => {
-    const { label, value } = this.state;
-    
+    const { label, value } = this.state
+
     if (typeof label === 'object') {
       label.splice(index, 1)
 
       this.setState({
-        label,
+        label
       })
     }
 
@@ -501,30 +529,38 @@ export default class Select extends React.Component<SelectProps, SelectState> {
   }
 
   render() {
-    const { mode, dropdownClassName, dropdownStyle, options } = this.props;
-    const { offsetLeft, offsetTop, width, value, open, height, children } = this.state;
+    const { mode, dropdownClassName, dropdownStyle, options } = this.props
+    const { offsetLeft, offsetTop, width, value, open, height, children } = this.state
 
     return (
       <>
         {this.initSelect()}
-        <SelectBox 
-          ref="selectBox"
+        <SelectBox
+          ref='selectBox'
           dropdownClassName={dropdownClassName}
           dropdownStyle={dropdownStyle}
-          top={offsetTop} 
+          top={offsetTop}
           left={offsetLeft}
-          width={width} 
-          onChange={this.handleChange} 
-          value={value} 
-          open={open} 
+          width={width}
+          onChange={this.handleChange}
+          value={value}
+          open={open}
           height={height}
           mode={mode}
         >
-          {children ? children : options && options.map((item: SelectOptions) => {
-              return <Option value={item.value} key={`${item.label}_${item.value}`}>{item.label}</Option>
-            })}
+          {children
+            ? children
+            : options &&
+              options.map((item: SelectOptions) => {
+                return (
+                  <Option value={item.value} key={`${item.label}_${item.value}`}>
+                    {item.label}
+                  </Option>
+                )
+              })}
         </SelectBox>
       </>
     )
   }
-}1
+}
+1

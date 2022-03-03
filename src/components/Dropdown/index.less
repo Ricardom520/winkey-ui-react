@@ -6,7 +6,7 @@
   font-size: 14px;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   position: absolute;
   top: -9999px;
   left: -9999px;
@@ -35,10 +35,10 @@
       position: relative;
       display: flex;
       align-items: center;
-      transition: all ease-in-out .3s;
+      transition: all ease-in-out 0.3s;
     }
     &-item:hover {
-      background-color: #F5F5F5;
+      background-color: #f5f5f5;
     }
     &-title-content {
       flex: auto;
@@ -46,7 +46,8 @@
   }
 }
 
-.wk-dropdown-menu-item, .wk-dropdown-menu-submenu-title {
+.wk-dropdown-menu-item,
+.wk-dropdown-menu-submenu-title {
   clear: both;
   margin: 0;
   padding: 5px 12px;
@@ -56,10 +57,11 @@
   line-height: 22px;
   white-space: nowrap;
   cursor: pointer;
-  transition: all .3s;
+  transition: all 0.3s;
 }
 
-.wk-dropdown-menu-item-disabled, .wk-dropdown-menu-submenu-title-disabled {
+.wk-dropdown-menu-item-disabled,
+.wk-dropdown-menu-submenu-title-disabled {
   color: #00000040;
   cursor: not-allowed;
 }
@@ -82,11 +84,13 @@
   background-color: #fff;
 }
 
-.wk-dropdown-menu-item-disabled a, .wk-dropdown-menu-submenu-title-disabled a {
+.wk-dropdown-menu-item-disabled a,
+.wk-dropdown-menu-submenu-title-disabled a {
   pointer-events: none;
 }
 
-.wk-dropdown-menu-item-divider, .wk-dropdown-menu-submenu-title-divider {
+.wk-dropdown-menu-item-divider,
+.wk-dropdown-menu-submenu-title-divider {
   height: 1px;
   margin: 4px 0;
   overflow: hidden;

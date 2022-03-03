@@ -1,21 +1,24 @@
-import React from 'react';
-import moment from 'moment';
+import React from 'react'
+import moment from 'moment'
 
 import { TimePickerProps } from './index'
-import PickerView from '../PickerView';
-import Input from '../Input';
-import Mask from '../Mask';
+import PickerView from '../PickerView'
+import Input from '../Input'
+import Mask from '../Mask'
 
 interface TimePickerMobileState {
-  datas: any[];
-  visible: boolean;
-  value: any[];
-  activeValue: string;
+  datas: any[]
+  visible: boolean
+  value: any[]
+  activeValue: string
 }
 
-export default class TimePickerMobile extends React.Component<TimePickerProps, TimePickerMobileState> {
+export default class TimePickerMobile extends React.Component<
+  TimePickerProps,
+  TimePickerMobileState
+> {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       datas: [],
@@ -26,10 +29,10 @@ export default class TimePickerMobile extends React.Component<TimePickerProps, T
   }
 
   componentDidMount() {
-    const { value, defaultValue, format } = this.props;
+    const { value, defaultValue, format } = this.props
 
     if (value || defaultValue) {
-      const time = moment((value || defaultValue)).format(format);
+      const time = moment(value || defaultValue).format(format)
 
       this.initValueString(time.split(':'))
 
@@ -38,13 +41,13 @@ export default class TimePickerMobile extends React.Component<TimePickerProps, T
       })
     }
 
-    this.initHour();
-    this.initMinute();
-    this.initSecond();
+    this.initHour()
+    this.initMinute()
+    this.initSecond()
   }
 
   initValueString = (data, toParent?) => {
-    let valueString = '';
+    let valueString = ''
 
     data.map((i, n) => {
       if (n === data.length - 1) {
@@ -64,57 +67,57 @@ export default class TimePickerMobile extends React.Component<TimePickerProps, T
   }
 
   initHour = () => {
-    const { format, hourStep } = this.props;
-    const hourItems = [];
-    const hourFormat = format.split(':');
+    const { format, hourStep } = this.props
+    const hourItems = []
+    const hourFormat = format.split(':')
 
     if (!hourFormat) {
-      return;
+      return
     }
 
     if (hourFormat.includes('HH')) {
       for (let i = 0; i < 24; i += hourStep) {
         hourItems.push({
           label: `${i}小时`,
-          value: i < 10 ? `0${i}` : `${i}`,
+          value: i < 10 ? `0${i}` : `${i}`
         })
       }
     } else if (hourFormat.includes('H')) {
       for (let i = 0; i < 24; i += hourStep) {
         hourItems.push({
           label: `${i}小时`,
-          value: `${i}`,
+          value: `${i}`
         })
       }
     } else if (hourFormat.includes('hh')) {
       for (let i = 0; i < 12; i += hourStep) {
         hourItems.push({
           label: `${i}小时`,
-          value: i < 10 ? `0${i}` : `${i}`,
+          value: i < 10 ? `0${i}` : `${i}`
         })
       }
     } else if (hourFormat.includes('h')) {
       for (let i = 0; i < 12; i += hourStep) {
         hourItems.push({
           label: `${i}小时`,
-          value: `${i}`,
+          value: `${i}`
         })
       }
     } else {
-      return;
+      return
     }
 
-    this.state.datas.push(hourItems);
+    this.state.datas.push(hourItems)
 
     this.setState({
-      datas: this.state.datas,
+      datas: this.state.datas
     })
   }
 
   initMinute = () => {
-    const { format, minuteStep } = this.props;
-    const minuteItems = [];
-    const minuteFormat = format.split(':');
+    const { format, minuteStep } = this.props
+    const minuteItems = []
+    const minuteFormat = format.split(':')
 
     if (minuteFormat.includes('mm')) {
       for (let i = 0; i < 60; i += minuteStep) {
@@ -131,10 +134,10 @@ export default class TimePickerMobile extends React.Component<TimePickerProps, T
         })
       }
     } else {
-      return;
+      return
     }
 
-    this.state.datas.push(minuteItems);
+    this.state.datas.push(minuteItems)
 
     this.setState({
       datas: this.state.datas
@@ -142,9 +145,9 @@ export default class TimePickerMobile extends React.Component<TimePickerProps, T
   }
 
   initSecond = () => {
-    const { format, secondStep } = this.props;
-    const secondItems = [];
-    const secondFormat = format.split(':');
+    const { format, secondStep } = this.props
+    const secondItems = []
+    const secondFormat = format.split(':')
 
     if (secondFormat.includes('ss')) {
       for (let i = 0; i < 60; i += secondStep) {
@@ -161,10 +164,10 @@ export default class TimePickerMobile extends React.Component<TimePickerProps, T
         })
       }
     } else {
-      return;
+      return
     }
 
-    this.state.datas.push(secondItems);
+    this.state.datas.push(secondItems)
 
     this.setState({
       datas: this.state.datas
@@ -178,9 +181,9 @@ export default class TimePickerMobile extends React.Component<TimePickerProps, T
   }
 
   onOk = () => {
-    const { value } = this.state;
-    
-    this.initValueString(value, true);
+    const { value } = this.state
+
+    this.initValueString(value, true)
 
     this.setState({
       visible: false
@@ -194,30 +197,40 @@ export default class TimePickerMobile extends React.Component<TimePickerProps, T
   }
 
   render() {
-    const { datas, visible, value, activeValue } = this.state;
-    const { placeholder, dismissText, title, okText } = this.props;
+    const { datas, visible, value, activeValue } = this.state
+    const { placeholder, dismissText, title, okText } = this.props
 
     return (
       <>
-        <Input 
+        <Input
           placeholder={placeholder}
           value={activeValue}
-          size="small"
-          textAlign="right"
-          readOnly 
-          isMobile 
-          onClick={()=> {
+          size='small'
+          textAlign='right'
+          readOnly
+          isMobile
+          onClick={() => {
             this.setState({
               visible: true
             })
-          }} 
+          }}
         />
-        <Mask visible={visible} kind="picker">
-          <div className="wk-picker-container">
-            <div className="wk-picker-header">
-              <div className="wk-picker-header-item wk-picker-header-item-left" onClick={this.onCancel}>{dismissText}</div>
-              <div className="wk-picker-header-item wk-picker-header-item-title">{title}</div>
-              <div className="wk-picker-header-item wk-picker-header-item-right" onClick={this.onOk}>{okText}</div>
+        <Mask visible={visible} kind='picker'>
+          <div className='wk-picker-container'>
+            <div className='wk-picker-header'>
+              <div
+                className='wk-picker-header-item wk-picker-header-item-left'
+                onClick={this.onCancel}
+              >
+                {dismissText}
+              </div>
+              <div className='wk-picker-header-item wk-picker-header-item-title'>{title}</div>
+              <div
+                className='wk-picker-header-item wk-picker-header-item-right'
+                onClick={this.onOk}
+              >
+                {okText}
+              </div>
             </div>
             <PickerView data={datas} value={value} onChange={this.handleChange} />
           </div>

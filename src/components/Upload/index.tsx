@@ -1,11 +1,7 @@
-import React, { Component, ReactElement } from 'react';
+import React, { Component, ReactElement } from 'react'
 
-import {
-  UploadProps,
-  UploadState,
-  UploadFile
-} from './interface';
-import './index.less';
+import { UploadProps, UploadState, UploadFile } from './interface'
+import './index.less'
 
 const processStatus = {
   done: 'success',
@@ -14,26 +10,26 @@ const processStatus = {
 }
 
 class Upload extends Component<UploadProps, UploadState> {
-  input: HTMLInputElement;
+  input: HTMLInputElement
 
   static defaultProps = {
     listType: 'text',
     className: '',
     name: 'file',
-    showUploadList: true,
+    showUploadList: true
   }
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       fileList: [],
-      processFileList: [],
+      processFileList: []
     }
   }
 
   componentDidMount() {
-    const { defaultFileList, fileList } = this.props;
+    const { defaultFileList, fileList } = this.props
 
     if (fileList) {
       this.setState({
@@ -47,40 +43,40 @@ class Upload extends Component<UploadProps, UploadState> {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { fileList } = nextProps;
+    const { fileList } = nextProps
 
     if (fileList) {
       this.setState({
-        fileList: [...fileList],
+        fileList: [...fileList]
       })
     }
   }
 
   uploadFile = () => {
-    const { beforeUpload } = this.props;
+    const { beforeUpload } = this.props
 
-    this.input.click();
+    this.input.click()
     this.input.onchange = (e: any) => {
-      const file = e.target.files[0];
+      const file = e.target.files[0]
 
       if (beforeUpload && beforeUpload(file)) {
-        this.sendFile(file);
+        this.sendFile(file)
       } else if (!beforeUpload) {
-        this.sendFile(file);
+        this.sendFile(file)
       }
-      
-      this.input.value = null;
+
+      this.input.value = null
     }
   }
 
   sendFile = (file) => {
-    const { onChange, action, headers, name } = this.props;
-    const { fileList, processFileList } = this.state;
-    const processFileIndex = processFileList.length;
-    const formData = new FormData();
-    formData.append(name, file);
-    
-    const xhr = new XMLHttpRequest();
+    const { onChange, action, headers, name } = this.props
+    const { fileList, processFileList } = this.state
+    const processFileIndex = processFileList.length
+    const formData = new FormData()
+    formData.append(name, file)
+
+    const xhr = new XMLHttpRequest()
 
     const files: UploadFile = {
       status: 'uploading',
@@ -91,10 +87,10 @@ class Upload extends Component<UploadProps, UploadState> {
       type: file.type,
       webkitRelativePath: file.webkitRelativePath,
       originFileObj: file,
-      percent: 0,
-    };
+      percent: 0
+    }
 
-    processFileList[processFileIndex] = files;
+    processFileList[processFileIndex] = files
 
     this.setState({
       processFileList
@@ -103,7 +99,7 @@ class Upload extends Component<UploadProps, UploadState> {
     xhr.open('post', action)
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
-        const response = JSON.parse(xhr.response);
+        const response = JSON.parse(xhr.response)
         const files: any = {
           status: xhr.status === 200 ? 'done' : 'error',
           lastModified: file.lastModified,
@@ -114,20 +110,20 @@ class Upload extends Component<UploadProps, UploadState> {
           webkitRelativePath: file.webkitRelativePath,
           originFileObj: file,
           response,
-          url: response.url,
-        };
+          url: response.url
+        }
 
         if (xhr.status === 200) {
-          fileList.push(files);
-          processFileList.splice(processFileIndex, 1);
+          fileList.push(files)
+          processFileList.splice(processFileIndex, 1)
 
           this.setState({
             fileList,
             processFileList
           })
         } else {
-          processFileList[processFileIndex] = files;
-          
+          processFileList[processFileIndex] = files
+
           this.setState({
             processFileList
           })
@@ -136,7 +132,7 @@ class Upload extends Component<UploadProps, UploadState> {
         if (onChange) {
           onChange({
             file: files,
-            fileList,
+            fileList
           })
         }
       }
@@ -152,14 +148,14 @@ class Upload extends Component<UploadProps, UploadState> {
           size: file.size,
           type: file.type,
           webkitRelativePath: file.webkitRelativePath,
-          percent: event.loaded / event.total * 100,
-          originFileObj: file,
-        };
+          percent: (event.loaded / event.total) * 100,
+          originFileObj: file
+        }
 
         if (onChange) {
           onChange({
             file: files,
-            fileList,
+            fileList
           })
         }
 
@@ -178,20 +174,20 @@ class Upload extends Component<UploadProps, UploadState> {
     if (onChange) {
       onChange({
         file: files,
-        fileList,
+        fileList
       })
     }
 
-    xhr.send(formData);
+    xhr.send(formData)
   }
 
   handleDeleteFile = (index) => {
-    const { fileList } = this.state;
-    const { onRemove, onChange } = this.props;
-    const file: any = fileList.splice(index, 1);
+    const { fileList } = this.state
+    const { onRemove, onChange } = this.props
+    const file: any = fileList.splice(index, 1)
 
     if (onRemove) {
-      onRemove(file[0], index);
+      onRemove(file[0], index)
     }
 
     this.setState({
@@ -200,140 +196,121 @@ class Upload extends Component<UploadProps, UploadState> {
   }
 
   handlePreview = (file) => {
-    const { onPreview } = this.props;
-  
+    const { onPreview } = this.props
+
     if (onPreview) {
-      onPreview(file);
+      onPreview(file)
     }
   }
 
   render() {
-    const { children, listType, className, showUploadList, onPreview } = this.props;
-    const { fileList, processFileList } = this.state;
+    const { children, listType, className, showUploadList, onPreview } = this.props
+    const { fileList, processFileList } = this.state
 
     return (
       <>
-        {
-          listType === 'text' &&
+        {listType === 'text' && (
           <>
-            <div 
-              className={
-                'wk-upload' +
-                ' wk-upload-select wk-upload-select-text'
-              }
-            >
+            <div className={'wk-upload' + ' wk-upload-select wk-upload-select-text'}>
               <span role='button' className='wk-upload' tabIndex={0} onClick={this.uploadFile}>
-                <input ref={input=>this.input = input} accept='' type='file' style={{display: 'none'}} />
-                {
-                  children && React.Children.map(children, (child: ReactElement) => {
-                    return React.cloneElement(child, {
-                      
-                    })
-                  })
-                }
+                <input
+                  ref={(input) => (this.input = input)}
+                  accept=''
+                  type='file'
+                  style={{ display: 'none' }}
+                />
+                {children &&
+                  React.Children.map(children, (child: ReactElement) => {
+                    return React.cloneElement(child, {})
+                  })}
               </span>
             </div>
-            {
-              showUploadList && (fileList.length > 0 || processFileList.length > 0) &&
-              <div
-                className='wk-upload-list wk-upload-list-text'
-              >
-                <div
-                  className='wk-upload-list-text-container'
-                >
-                  {
-                    processFileList.length > 0 &&
+            {showUploadList && (fileList.length > 0 || processFileList.length > 0) && (
+              <div className='wk-upload-list wk-upload-list-text'>
+                <div className='wk-upload-list-text-container'>
+                  {processFileList.length > 0 &&
                     processFileList.map((i: UploadFile) => {
                       return (
                         <>
                           <div
                             className={
-                            'wk-upload-list-item wk-upload-list-item-list-type-text' +
-                            ` wk-upload-list-item-upload` 
-                          }>
-                            <div
-                              className={
-                                'wk-upload-list-item-info'
-                              }
-                            >
+                              'wk-upload-list-item wk-upload-list-item-list-type-text' +
+                              ` wk-upload-list-item-upload`
+                            }
+                          >
+                            <div className={'wk-upload-list-item-info'}>
                               <span className='wk-upload-span'>
                                 <div className='wk-upload-text-icon'>
-                                  <i className='iconfont wk-icon-link'/>
+                                  <i className='iconfont wk-icon-link' />
                                 </div>
                                 <span className='wk-upload-list-item-name'>{i.name}</span>
                               </span>
                             </div>
                             <div className='wk-upload-list-item-progress'>
-                              <div className={
-                                'wk-progress wk-progress-line wk-progress-default' +
-                                ` wk-progress-status-${processStatus[i.status]}`
-                              }>
+                              <div
+                                className={
+                                  'wk-progress wk-progress-line wk-progress-default' +
+                                  ` wk-progress-status-${processStatus[i.status]}`
+                                }
+                              >
                                 <div className='wk-progress-outer'>
                                   <div className='wk-progress-inner'>
-                                    <div className='wk-progress-bg' style={{width: `${i.percent}%`, height: '2px'}}/>
+                                    <div
+                                      className='wk-progress-bg'
+                                      style={{
+                                        width: `${i.percent}%`,
+                                        height: '2px'
+                                      }}
+                                    />
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>       
+                          </div>
                         </>
                       )
-                    })
-                  }
-                  {
-                    fileList.map(((i: UploadFile, n: number) => {
-                      return (
-                        <div 
-                          key={`${i.name}-${n}`}
-                          className={
-                            'wk-upload-list-item wk-upload-list-item-list-type-text' +
-                            ` wk-upload-list-item-${i.status}` 
-                          }>
-                          <div
-                            className={
-                              'wk-upload-list-item-info'
-                            }
-                          >
-                            <span className='wk-upload-span'>
-                              <div className='wk-upload-text-icon'>
-                                <i className='iconfont wk-icon-link'/>
-                              </div>
-                              {
-                                i.url &&
-                                <a target='_blank' href={i.url} className='wk-upload-list-item-name'>{i.name}</a>
-                              }
-                              {
-                                !i.url &&
-                                <span className='wk-upload-list-item-name'>{i.name}</span>
-                              }
-                              <span className='wk-upload-list-item-card-actions' onClick={() => this.handleDeleteFile(n)}>
-                                <i className='iconfont wk-icon-dustbin'/>
-                              </span>
+                    })}
+                  {fileList.map((i: UploadFile, n: number) => {
+                    return (
+                      <div
+                        key={`${i.name}-${n}`}
+                        className={
+                          'wk-upload-list-item wk-upload-list-item-list-type-text' +
+                          ` wk-upload-list-item-${i.status}`
+                        }
+                      >
+                        <div className={'wk-upload-list-item-info'}>
+                          <span className='wk-upload-span'>
+                            <div className='wk-upload-text-icon'>
+                              <i className='iconfont wk-icon-link' />
+                            </div>
+                            {i.url && (
+                              <a target='_blank' href={i.url} className='wk-upload-list-item-name'>
+                                {i.name}
+                              </a>
+                            )}
+                            {!i.url && <span className='wk-upload-list-item-name'>{i.name}</span>}
+                            <span
+                              className='wk-upload-list-item-card-actions'
+                              onClick={() => this.handleDeleteFile(n)}
+                            >
+                              <i className='iconfont wk-icon-dustbin' />
                             </span>
-                          </div>
+                          </span>
                         </div>
-                      )
-                    }))
-                  }
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
-            }
+            )}
           </>
-        }
-        {
-          listType === 'picture-card' &&
-          <span
-            className={
-              `wk-upload-picture-wrapper ${className}`
-            }
-          >
-            <div
-              className={
-                'wk-upload-list wk-upload-list-picture-card'
-              }
-            >
-              {
-                showUploadList && fileList.map((i: UploadFile, n: number) => {
+        )}
+        {listType === 'picture-card' && (
+          <span className={`wk-upload-picture-wrapper ${className}`}>
+            <div className={'wk-upload-list wk-upload-list-picture-card'}>
+              {showUploadList &&
+                fileList.map((i: UploadFile, n: number) => {
                   return (
                     <div key={`${i.name}-${n}`} className='wk-upload-list-picture-card-container'>
                       <div
@@ -345,55 +322,68 @@ class Upload extends Component<UploadProps, UploadState> {
                       >
                         <div className='wk-upload-list-item-info'>
                           <span className='wk-upload-span'>
-                            {
-                              i.url && i.status === 'done' &&
-                              <a href={i.url} target='_blank' className='wk-upload-list-item-thumbnail'>
+                            {i.url && i.status === 'done' && (
+                              <a
+                                href={i.url}
+                                target='_blank'
+                                className='wk-upload-list-item-thumbnail'
+                              >
                                 <img src={i.url} className='wk-upload-list-item-image' />
                               </a>
-                            }
-                            {
-                              i.status === 'uploading' &&
-                              <div className='wk-upload-list-item-thumbnail'>
-                                文件上传中
-                              </div> 
-                            }
-                            {
-                              !i.url &&
+                            )}
+                            {i.status === 'uploading' && (
+                              <div className='wk-upload-list-item-thumbnail'>文件上传中</div>
+                            )}
+                            {!i.url && (
                               <div className='wk-upload-list-item-thumbnail wk-upload-list-item-file'>
-                                <i className='iconfont wk-icon-picture' style={{fontSize: '20px'}}/>
+                                <i
+                                  className='iconfont wk-icon-picture'
+                                  style={{ fontSize: '20px' }}
+                                />
                                 <span className='wk-upload-list-item-name'>image.png</span>
-                              </div> 
-                            }
+                              </div>
+                            )}
                           </span>
                         </div>
-                        {
-                          i.status === 'uploading' &&
+                        {i.status === 'uploading' && (
                           <div className='wk-upload-list-item-progress'>
                             <div className='wk-progress wk-progress-line wk-progress-status-normal wk-progress-default'>
                               <div className='wk-progress-outer'>
                                 <div className='wk-progress-inner'>
-                                  <div className='wk-progress-bg' style={{width: `${i.percent}%`, height: '2px'}} />
+                                  <div
+                                    className='wk-progress-bg'
+                                    style={{
+                                      width: `${i.percent}%`,
+                                      height: '2px'
+                                    }}
+                                  />
                                 </div>
                               </div>
                             </div>
                           </div>
-                        }
+                        )}
                         <span className='wk-upload-list-item-actions'>
-                          {
-                            onPreview && 
-                            <a href={i.url} target='_blank' rel='noopener noreferrer' onClick={() => this.handlePreview(i)}>
-                              <i className='iconfont wk-icon-open-eyes'/>
+                          {onPreview && (
+                            <a
+                              href={i.url}
+                              target='_blank'
+                              rel='noopener noreferrer'
+                              onClick={() => this.handlePreview(i)}
+                            >
+                              <i className='iconfont wk-icon-open-eyes' />
                             </a>
-                          }
-                          <i className='iconfont wk-icon-dustbin' onClick={() => this.handleDeleteFile(n)}/>
+                          )}
+                          <i
+                            className='iconfont wk-icon-dustbin'
+                            onClick={() => this.handleDeleteFile(n)}
+                          />
                         </span>
                       </div>
-                    </div>     
+                    </div>
                   )
-                })
-              }
-              {
-                showUploadList && processFileList.map((i: UploadFile, n: number) => {
+                })}
+              {showUploadList &&
+                processFileList.map((i: UploadFile, n: number) => {
                   return (
                     <div key={`${i.name}-${n}`} className='wk-upload-list-picture-card-container'>
                       <div
@@ -405,47 +395,49 @@ class Upload extends Component<UploadProps, UploadState> {
                       >
                         <div className='wk-upload-list-item-info'>
                           <span className='wk-upload-span'>
-                            {
-                              i.status === 'uploading' &&
-                              <div className='wk-upload-list-item-thumbnail'>
-                                文件上传中
-                              </div> 
-                            }
+                            {i.status === 'uploading' && (
+                              <div className='wk-upload-list-item-thumbnail'>文件上传中</div>
+                            )}
                           </span>
                         </div>
                         <div className='wk-upload-list-item-progress'>
                           <div className='wk-progress wk-progress-line wk-progress-status-normal wk-progress-default'>
                             <div className='wk-progress-outer'>
                               <div className='wk-progress-inner'>
-                                <div className='wk-progress-bg' style={{width: `${i.percent}%`, height: '2px'}} />
+                                <div
+                                  className='wk-progress-bg'
+                                  style={{
+                                    width: `${i.percent}%`,
+                                    height: '2px'
+                                  }}
+                                />
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>     
+                    </div>
                   )
-                })
-              }
-              {
-                children &&
-                <div
-                  className='wk-upload wk-upload-select wk-upload-select-picture-card'
-                >
+                })}
+              {children && (
+                <div className='wk-upload wk-upload-select wk-upload-select-picture-card'>
                   <span tabIndex={0} className='wk-upload' role='button' onClick={this.uploadFile}>
-                    <input ref={input=>this.input = input} type='file' accept='' style={{display: 'none'}} />
-                    {
-                      children
-                    }
+                    <input
+                      ref={(input) => (this.input = input)}
+                      type='file'
+                      accept=''
+                      style={{ display: 'none' }}
+                    />
+                    {children}
                   </span>
                 </div>
-              }
+              )}
             </div>
           </span>
-        }
+        )}
       </>
     )
   }
 }
 
-export default Upload;
+export default Upload

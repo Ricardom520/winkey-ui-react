@@ -1,20 +1,20 @@
-import React, { Component, ReactNode } from 'react';
-import ReactDOM from 'react-dom';
+import React, { Component, ReactNode } from 'react'
+import ReactDOM from 'react-dom'
 
-import './index.less';
+import './index.less'
 
 interface DropdownProps {
   overlay: ReactNode
   trigger?: ['click'] | ['hover']
-  overlayClassName?: string;
-  overlayStyle?: React.CSSProperties;
+  overlayClassName?: string
+  overlayStyle?: React.CSSProperties
 }
 
 interface DropdownState {
-  top: number;
-  left: number;
-  width: number;
-  open: boolean;
+  top: number
+  left: number
+  width: number
+  open: boolean
 }
 
 class Dropdown extends Component<DropdownProps, DropdownState> {
@@ -25,56 +25,50 @@ class Dropdown extends Component<DropdownProps, DropdownState> {
   }
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       top: -999,
       left: -999,
       width: 0,
-      open: false,
+      open: false
     }
   }
 
   componentDidMount() {
-    ReactDOM.unstable_renderSubtreeIntoContainer(
-      this,
-      this.retContent(),
-      this.retContainer(),
-    )
+    ReactDOM.unstable_renderSubtreeIntoContainer(this, this.retContent(), this.retContainer())
   }
 
   componentDidUpdate() {
-    ReactDOM.unstable_renderSubtreeIntoContainer(
-      this,
-      this.retContent(),
-      this.retContainer(),
-    )
+    ReactDOM.unstable_renderSubtreeIntoContainer(this, this.retContent(), this.retContainer())
   }
 
   UNSAFE_componentWillUpdate(_, nextState) {
-    const { open } = nextState;
-    const { trigger } = this.props;
+    const { open } = nextState
+    const { trigger } = this.props
 
     if (trigger[0] === 'click') {
       if (open) {
-        document.addEventListener('click', (e: any) => {
-          if (e.target.className.indexOf('wk-dropdown') === -1) {
-            this.setState({
-              open: false,
-            })
-          }
-        }, true)
+        document.addEventListener(
+          'click',
+          (e: any) => {
+            if (e.target.className.indexOf('wk-dropdown') === -1) {
+              this.setState({
+                open: false
+              })
+            }
+          },
+          true
+        )
       } else {
-        document.removeEventListener('click', () => {
-  
-        }, false)
+        document.removeEventListener('click', () => {}, false)
       }
     }
   }
 
   retContent() {
-    const { top, left, width, open, } = this.state;
-    const { overlay, overlayClassName, overlayStyle } = this.props;
+    const { top, left, width, open } = this.state
+    const { overlay, overlayClassName, overlayStyle } = this.props
 
     return (
       <div
@@ -85,41 +79,38 @@ class Dropdown extends Component<DropdownProps, DropdownState> {
           ...overlayStyle
         }}
         className={
-          'wk-dropdown' +
-          (overlayClassName || '') + ' ' +
-          (!open ? ' wk-dropdown-hidden' : '')
+          'wk-dropdown' + (overlayClassName || '') + ' ' + (!open ? ' wk-dropdown-hidden' : '')
         }
         onMouseLeave={this.handleOnMouseLeave}
       >
-        {
-          overlay && React.Children.map(overlay, (child: any, n: number) => {
+        {overlay &&
+          React.Children.map(overlay, (child: any, n: number) => {
             return React.cloneElement(child, {
               mode: 'vertical',
-              prefixClassName: 'wk-dropdown',
+              prefixClassName: 'wk-dropdown'
             })
-          })
-        }
+          })}
       </div>
     )
   }
 
   retContainer() {
     if (!this.poupNode) {
-      const popupNode = document.createElement('div');
-      popupNode.style.position = "absolute";
-      popupNode.style.top = "0px";
-      popupNode.style.left = "0px";
-      popupNode.style.width = "100%";
-      
-      this.poupNode = popupNode;
+      const popupNode = document.createElement('div')
+      popupNode.style.position = 'absolute'
+      popupNode.style.top = '0px'
+      popupNode.style.left = '0px'
+      popupNode.style.width = '100%'
+
+      this.poupNode = popupNode
       document.body.appendChild(popupNode)
     }
 
-    return this.poupNode;
+    return this.poupNode
   }
 
   handleClick = (e) => {
-    const { trigger } = this.props;
+    const { trigger } = this.props
 
     if (trigger[0] === 'click') {
       this.setState({
@@ -132,7 +123,7 @@ class Dropdown extends Component<DropdownProps, DropdownState> {
   }
 
   handleOnMouseEnter = (e) => {
-    const { trigger } = this.props;
+    const { trigger } = this.props
 
     if (trigger[0] === 'hover') {
       this.setState({
@@ -145,7 +136,7 @@ class Dropdown extends Component<DropdownProps, DropdownState> {
   }
 
   handleOnMouseLeave = () => {
-    const { trigger } = this.props;
+    const { trigger } = this.props
 
     if (trigger[0] === 'hover') {
       this.setState({
@@ -155,21 +146,20 @@ class Dropdown extends Component<DropdownProps, DropdownState> {
   }
 
   render() {
-    const { children } = this.props;
+    const { children } = this.props
 
     return (
       <>
-        {
-          children && React.Children.map(children, (child: any, n: number) => {
+        {children &&
+          React.Children.map(children, (child: any, n: number) => {
             return React.cloneElement(child, {
               onClick: this.handleClick,
-              onMouseEnter: this.handleOnMouseEnter,
+              onMouseEnter: this.handleOnMouseEnter
             })
-          })
-        }
+          })}
       </>
     )
   }
 }
 
-export default Dropdown;
+export default Dropdown

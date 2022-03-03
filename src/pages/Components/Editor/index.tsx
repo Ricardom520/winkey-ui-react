@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from 'react'
 
-import { Editor } from '@/components';
-import { HighlightCode } from '@/tool/func';
-import PageTitle from '../PageTitle';
-import IntroduceBox from '../IntroduceBox';
+import { Editor } from '@/components'
+import { HighlightCode } from '@/tool/func'
+import PageTitle from '../PageTitle'
+import IntroduceBox from '../IntroduceBox'
 
 const EditorPage: React.FC = () => {
   useEffect(() => {
@@ -15,12 +15,12 @@ const EditorPage: React.FC = () => {
       <PageTitle title='Editor富文本编译器' description='编译文本内容' />
 
       <IntroduceBox
-        title="基础使用"
-        description="富文本编译器基础使用"
+        title='基础使用'
+        description='富文本编译器基础使用'
         height={400}
         demo={
-          <div style={{paddingBottom: '20px'}}>
-            <Editor/>
+          <div style={{ paddingBottom: '20px' }}>
+            <Editor />
           </div>
         }
         // markdown={
@@ -31,4 +31,4 @@ const EditorPage: React.FC = () => {
   )
 }
 
-export default EditorPage;
+export default EditorPage

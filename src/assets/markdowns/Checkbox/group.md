@@ -1,14 +1,14 @@
 ```tsx
-import React from 'react';
-import { Checkbox } from 'winkey-ui-react';
+import React from 'react'
+import { Checkbox } from 'winkey-ui-react'
 
-const Demo:React.SFC = () => {
+const Demo: React.SFC = () => {
   const onChange = (checkedValues) => {
-    console.log('checked = ', checkedValues);
+    console.log('checked = ', checkedValues)
   }
-  
+
   return (
-    <div style={{marginBottom: '20px'}}>
+    <div style={{ marginBottom: '20px' }}>
       <Checkbox.Group options={plainOptions} defaultValue={['Apple']} onChange={onChange} />
       <br />
       <br />
@@ -25,5 +25,5 @@ const Demo:React.SFC = () => {
   )
 }
 
-export default Demo;
+export default Demo
 ```

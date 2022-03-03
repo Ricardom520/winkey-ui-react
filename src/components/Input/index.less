@@ -2,11 +2,12 @@
   position: relative;
   display: inline-block;
   outline: none;
-  color: rgba(0, 0, 0, .85);
+  color: rgba(0, 0, 0, 0.85);
   list-style: none;
   font-size: 14px;
   font-variant: tabular-nums;
-  font-family: "-apple-system", "BlinkMacSystemFont", "Roboto", "Helvetica Neue", "MIcrosoft YaHei", sans-serif;
+  font-family: '-apple-system', 'BlinkMacSystemFont', 'Roboto', 'Helvetica Neue', 'MIcrosoft YaHei',
+    sans-serif;
   line-height: 1.5715;
   width: 100%;
   min-width: 0;
@@ -17,7 +18,7 @@
   box-sizing: border-box;
   background-color: #fff;
   background-image: none;
-  transition: all .3s;
+  transition: all 0.3s;
   &-mobile {
     border: none;
   }
@@ -36,6 +37,44 @@
   &-right {
     text-align: right;
   }
+  &-affix-wrapper {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    padding: 4px 11px;
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 14px;
+    line-height: 1.5715;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    box-sizing: border-box;
+    transition: all 0.3s;
+    transition: all 0.3s;
+    display: inline-flex;
+    .wk-input-prefix {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      .wk-input-prefix-icon {
+        margin-right: 4px;
+      }
+    }
+    .wk-input {
+      outline: none;
+      padding: 0;
+      border: none;
+    }
+    .wk-input:focus {
+      border-color: none;
+      box-shadow: none;
+    }
+    &-focus {
+      border-color: #409eff;
+      box-shadow: 0 0 10px #d1e9ff;
+    }
+  }
   &-borderless {
     background-color: transparent;
     border: none;
@@ -47,14 +86,14 @@
   }
 }
 .wk-input::placeholder {
-  color:#BFBFBF;
+  color: #bfbfbf;
 }
 .wk-input:placeholder-shown {
   text-overflow: ellipsis;
 }
 .wk-input:focus {
   border-color: #409eff;
-  box-shadow: 0 0 10px #D1E9FF;
+  box-shadow: 0 0 10px #d1e9ff;
 }
 .wk-input-mobile:focus {
   border-color: none;
@@ -66,7 +105,7 @@ textarea.wk-input {
   min-height: 32px;
   line-height: 1.5715;
   vertical-align: bottom;
-  transition: all .3s, height 0s;
+  transition: all 0.3s, height 0s;
 }
 textarea.wk-input-mobile {
   border: none;
@@ -78,7 +117,8 @@ textarea.wk-input-mobile {
   width: 100%;
   text-align: start;
   vertical-align: top;
-  .wk-input-group-wrapper, .wk-input-group-addon {
+  .wk-input-group-wrapper,
+  .wk-input-group-addon {
     display: table-cell;
     width: 1px;
     white-space: nowrap;
@@ -87,10 +127,10 @@ textarea.wk-input-mobile {
   .wk-input-group {
     position: relative;
     display: table;
-    color: rgba(0, 0, 0, .85);
+    color: rgba(0, 0, 0, 0.85);
     font-size: 14px;
     font-variant: tabular-nums;
-    font-feature-settings: "tnum";
+    font-feature-settings: 'tnum';
     line-height: 1.5715;
     list-style: none;
     width: 100%;
@@ -101,14 +141,14 @@ textarea.wk-input-mobile {
     box-sizing: border-box;
     .wk-input-group-addon {
       position: relative;
-      color: rgba(0, 0, 0, .85);
+      color: rgba(0, 0, 0, 0.85);
       font-weight: 400;
       font-size: 14px;
       text-align: center;
       padding: 0 11px;
       border: 1px solid #d9d9d9;
       background-color: #fafafa;
-      transition: all .3s;
+      transition: all 0.3s;
     }
     .wk-input-group-addon:first-child {
       border-right: 0;
@@ -119,7 +159,7 @@ textarea.wk-input-mobile {
     .wk-input-affix-wrapper {
       position: relative;
       display: inline-flex;
-      color: rgba(0, 0, 0, .85);
+      color: rgba(0, 0, 0, 0.85);
       font-size: 14px;
       line-height: 1.5715;
       width: 100%;
@@ -129,12 +169,12 @@ textarea.wk-input-mobile {
       border-radius: 2px;
       background-color: #fff;
       background-image: none;
-      transition: all .3s;
+      transition: all 0.3s;
     }
     .wk-input-affix-wrapper::before {
       width: 0;
       visibility: hidden;
-      content: "\a0";
+      content: '\a0';
     }
     .wk-input-suffix {
       display: flex;
@@ -157,45 +197,6 @@ textarea.wk-input-mobile {
   }
 }
 
-.wk-input-affix-wrapper {
-  position: relative;
-  width: 100%;
-  min-width: 0;
-  padding: 4px 11px;
-  color: rgba(0,0,0,.85);
-  font-size: 14px;
-  line-height: 1.5715;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #d9d9d9;
-  border-radius: 2px;
-  box-sizing: border-box;
-  transition: all .3s;
-  transition: all .3s;
-  display: inline-flex;
-  .wk-input-prefix {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    .wk-input-prefix-icon {
-      margin-right: 4px;
-    }
-  }
-  .wk-input {
-    outline: none;
-    padding: 0;
-    border: none;
-  }
-  .wk-input:focus {
-    border-color: none;
-    box-shadow: none;
-  }
-  &-focus {
-    border-color: #409eff;
-    box-shadow: 0 0 10px #D1E9FF;
-  }
-}
-
 .wk-input-affix-wrapper-lg {
   padding: 6.5px 11px;
   font-size: 16px;
@@ -207,13 +208,13 @@ textarea.wk-input-mobile {
 
 .wk-input-textarea-show-count::after {
   display: block;
-  color: rgba(0,0,0,.45);
+  color: rgba(0, 0, 0, 0.45);
   text-align: right;
   content: attr(data-count);
 }
 
 .wk-input-affix-wrapper-disabled {
-  color: rgba(0,0,0,.25);
+  color: rgba(0, 0, 0, 0.25);
   background-color: #f5f5f5;
   cursor: not-allowed;
   opacity: 1;
@@ -223,7 +224,7 @@ textarea.wk-input-mobile {
 }
 
 .wk-input[disabled] {
-  color: rgba(0,0,0,.25);
+  color: rgba(0, 0, 0, 0.25);
   background-color: #f5f5f5;
   cursor: not-allowed;
   opacity: 1;
@@ -236,10 +237,11 @@ textarea.wk-input-mobile {
 
 .wk-input-affix-wrapper-textarea-focus {
   border-color: #409eff;
-  box-shadow: 0 0 10px #D1E9FF;
+  box-shadow: 0 0 10px #d1e9ff;
 }
 
-.wk-input-group>.wk-input:last-child, .wk-input-group-addon:last-child {
+.wk-input-group > .wk-input:last-child,
+.wk-input-group-addon:last-child {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }

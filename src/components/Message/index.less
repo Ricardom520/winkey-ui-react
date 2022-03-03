@@ -2,12 +2,12 @@
   position: fixed;
   top: 8px;
   left: 0;
-  color: rgba(0, 0, 0, .85);
+  color: rgba(0, 0, 0, 0.85);
   font-size: 14px;
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   width: 100%;
   margin: 0;
   padding: 0;
@@ -18,14 +18,16 @@
     position: relative;
     text-align: center;
     padding: 8px;
-    animation: showMessage .5s ease-in-out;
+    animation: showMessage 0.5s ease-in-out;
     &-content {
       display: inline-block;
       padding: 10px 16px;
       background: #fff;
       border-radius: 2px;
-      -webkit-box-shadow: 0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05);
-      box-shadow: 0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05);
+      -webkit-box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08),
+        0 9px 28px 8px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08),
+        0 9px 28px 8px rgba(0, 0, 0, 0.05);
       pointer-events: all;
     }
   }
@@ -38,21 +40,21 @@
     line-height: 0;
     text-align: center;
     text-transform: none;
-    vertical-align: -.125em;
+    vertical-align: -0.125em;
     text-rendering: optimizeLegibility;
     margin-right: 8px;
   }
   &-icon-info {
-    color: #1890FF;
+    color: #1890ff;
   }
   &-icon-warning {
-    color:#FAAD14;
+    color: #faad14;
   }
   &-icon-error {
-    color: #FF4D4F;
+    color: #ff4d4f;
   }
   &-icon-success {
-    color: #52C41A;
+    color: #52c41a;
   }
 }
 

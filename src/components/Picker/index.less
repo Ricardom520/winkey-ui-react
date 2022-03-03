@@ -4,11 +4,19 @@
   width: 100%;
   background-color: #fff;
   z-index: inherit;
-  animation: wk-picker-show .2s ease-in-out;
+  animation: wk-picker-show 0.2s ease-in-out;
   .wk-picker-header {
-    background-image: -webkit-linear-gradient(top,#e7e7e7,#e7e7e7,transparent,transparent);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(#e7e7e7),color-stop(#e7e7e7),color-stop(transparent),to(transparent));
-    background-image: linear-gradient(180deg,#e7e7e7,#e7e7e7,transparent,transparent);
+    background-image: -webkit-linear-gradient(top, #e7e7e7, #e7e7e7, transparent, transparent);
+    background-image: -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      from(#e7e7e7),
+      color-stop(#e7e7e7),
+      color-stop(transparent),
+      to(transparent)
+    );
+    background-image: linear-gradient(180deg, #e7e7e7, #e7e7e7, transparent, transparent);
     background-position: bottom;
     background-size: 100% 1px;
     background-repeat: no-repeat;
@@ -54,11 +62,11 @@
   }
 }
 
-@keyframes  wk-picker-show {
+@keyframes wk-picker-show {
   from {
-		transform: translate3d(0, 100%, 0)
-	}
-	to {
-		transform: translate3d(0, 0, 0);
-	}
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
 }

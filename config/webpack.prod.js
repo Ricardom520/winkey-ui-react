@@ -1,11 +1,11 @@
 'use strict'
 
-const { merge } = require('webpack-merge');
-const TerseWebpackPlugin = require('terser-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { merge } = require('webpack-merge')
+const TerseWebpackPlugin = require('terser-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
-const webpackBaseConfig = require('./webpack.base');
+const webpackBaseConfig = require('./webpack.base')
 
 module.exports = merge(webpackBaseConfig, {
   mode: 'production',
@@ -27,9 +27,9 @@ module.exports = merge(webpackBaseConfig, {
           ie8: false,
           keep_classnames: undefined,
           keep_fnames: false,
-          safari10: false,
-        },
-      }),
+          safari10: false
+        }
+      })
     ],
     chunkIds: 'named',
     moduleIds: 'deterministic',
@@ -61,7 +61,7 @@ module.exports = merge(webpackBaseConfig, {
       }
     },
     runtimeChunk: {
-      name: entrypoint => `runtime-${entrypoint.name}`
+      name: (entrypoint) => `runtime-${entrypoint.name}`
     }
   },
   plugins: [

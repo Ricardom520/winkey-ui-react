@@ -1,41 +1,34 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode } from 'react'
 
-import BreadcrumbItem from './BreadcrumbItem';
-import "./index.less";
+import BreadcrumbItem from './BreadcrumbItem'
+import './index.less'
 
 interface BreadcrumbProps {
   children?: any
-  separator?: ReactNode;
-  className?: string;
+  separator?: ReactNode
+  className?: string
 }
 
 export default class Breadcrumb extends React.Component<BreadcrumbProps> {
-  static Item = BreadcrumbItem;
+  static Item = BreadcrumbItem
 
   static defaultProps = {
-    separator: "/"
+    separator: '/'
   }
-  
+
   render() {
-    const { children, separator, className } = this.props;
+    const { children, separator, className } = this.props
 
     return (
-      <div className={
-        "wk-breadcrumb" +
-        (className ? ` ${className}` : "")
-      }>
-        {
-          children.length > 0 && React.Children.map(children, (child, index) => {
+      <div className={'wk-breadcrumb' + (className ? ` ${className}` : '')}>
+        {children.length > 0 &&
+          React.Children.map(children, (child, index) => {
             return React.cloneElement(child, {
               isLast: index === children.length - 1,
-              separator,
+              separator
             })
-          })
-        }
-        {
-          !children.length &&
-          children
-        }
+          })}
+        {!children.length && children}
       </div>
     )
   }

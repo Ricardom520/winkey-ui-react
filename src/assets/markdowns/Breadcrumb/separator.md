@@ -1,17 +1,17 @@
 ```tsx
-import React from 'react';
-import { Breadcrumb } from 'winkey-ui-react';
+import React from 'react'
+import { Breadcrumb } from 'winkey-ui-react'
 
 const Demo: React.SFC = () => {
   return (
-    <Breadcrumb separator=">">
+    <Breadcrumb separator='>'>
       <Breadcrumb.Item>Home</Breadcrumb.Item>
-      <Breadcrumb.Item href="">Application Center</Breadcrumb.Item>
-      <Breadcrumb.Item href="">Application List</Breadcrumb.Item>
+      <Breadcrumb.Item href=''>Application Center</Breadcrumb.Item>
+      <Breadcrumb.Item href=''>Application List</Breadcrumb.Item>
       <Breadcrumb.Item>An Application</Breadcrumb.Item>
     </Breadcrumb>
   )
 }
 
-export default Demo;
+export default Demo
 ```

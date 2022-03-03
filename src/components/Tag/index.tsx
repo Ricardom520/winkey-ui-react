@@ -1,54 +1,54 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode } from 'react'
 
-import CheckableTag from './CheckableTag';
-import "./index.less";
+import CheckableTag from './CheckableTag'
+import './index.less'
 
 interface TagProps {
-  children?: ReactNode;
-  closable?: boolean;
-  onClose?: (event) => void;
-  color?: string;
-  visible?: boolean;
-  style?: React.CSSProperties;
-  className?: string;
-  onClick?: () => void;
-  icon?: ReactNode;
+  children?: ReactNode
+  closable?: boolean
+  onClose?: (event) => void
+  color?: string
+  visible?: boolean
+  style?: React.CSSProperties
+  className?: string
+  onClick?: () => void
+  icon?: ReactNode
 }
 
 interface TagState {
-  visible: boolean;
+  visible: boolean
 }
 
 const tagClass = {
-  magenta: ' wk-tag-magenta',
-  red: ' wk-tag-red',
-  volcano: ' wk-tag-volcano',
-  orange: ' wk-tag-orange',
-  gold: ' wk-tag-gold',
-  lime: ' wk-tag-lime',
-  green: ' wk-tag-green',
-  cyan: ' wk-tag-cyan',
-  blue: ' wk-tag-blue',
-  geekblue: ' wk-tag-geekblue',
-  purple: ' wk-tag-purple',
-  success: ' wk-tag-success',
-  processing: ' wk-tag-processing',
-  error: ' wk-tag-error',
-  warning: ' wk-tag-warning',
-  default: "",
-  "": ""
+  'magenta': ' wk-tag-magenta',
+  'red': ' wk-tag-red',
+  'volcano': ' wk-tag-volcano',
+  'orange': ' wk-tag-orange',
+  'gold': ' wk-tag-gold',
+  'lime': ' wk-tag-lime',
+  'green': ' wk-tag-green',
+  'cyan': ' wk-tag-cyan',
+  'blue': ' wk-tag-blue',
+  'geekblue': ' wk-tag-geekblue',
+  'purple': ' wk-tag-purple',
+  'success': ' wk-tag-success',
+  'processing': ' wk-tag-processing',
+  'error': ' wk-tag-error',
+  'warning': ' wk-tag-warning',
+  'default': '',
+  '': ''
 }
 
 export default class Tag extends React.Component<TagProps, TagState> {
   static defaultProps = {
-    color: "",
-    className: ""
+    color: '',
+    className: ''
   }
 
   static CheckableTag = CheckableTag
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       visible: false
@@ -56,7 +56,7 @@ export default class Tag extends React.Component<TagProps, TagState> {
   }
 
   componentDidMount() {
-    const { visible } = this.props;
+    const { visible } = this.props
 
     this.setState({
       visible
@@ -64,8 +64,8 @@ export default class Tag extends React.Component<TagProps, TagState> {
   }
 
   UNSAFE_componentWillReceiveProps(next) {
-    const { visible } = next;
-    
+    const { visible } = next
+
     if (visible !== undefined) {
       this.setState({
         visible
@@ -74,7 +74,7 @@ export default class Tag extends React.Component<TagProps, TagState> {
   }
 
   handleClose = (e) => {
-    const { onClose } = this.props;
+    const { onClose } = this.props
 
     if (onClose) {
       this.props.onClose(e)
@@ -86,37 +86,37 @@ export default class Tag extends React.Component<TagProps, TagState> {
   }
 
   initTag = () => {
-    const { children, closable, color, style, className, onClick, icon } = this.props;
-    const { visible } = this.state;
-   
+    const { children, closable, color, style, className, onClick, icon } = this.props
+    const { visible } = this.state
+
     return (
-      <span 
+      <span
         className={
-          "wk-tag" +
-          (color && tagClass[color] ? tagClass[color] : "") +
-          (color && !tagClass[color] ? " wk-tag-has-color" : "") +
-          (visible !== undefined && !visible ? " wk-tag-hidden" : "") +
-          (className ? ` ${className}` : "")
+          'wk-tag' +
+          (color && tagClass[color] ? tagClass[color] : '') +
+          (color && !tagClass[color] ? ' wk-tag-has-color' : '') +
+          (visible !== undefined && !visible ? ' wk-tag-hidden' : '') +
+          (className ? ` ${className}` : '')
         }
-        style={!tagClass[color] ? {backgroundColor: color, ...style} : null}
+        style={!tagClass[color] ? { backgroundColor: color, ...style } : null}
         onClick={onClick}
       >
-        {icon && typeof icon === 'string' ? <i className={`iconfont ${icon}`} style={{marginRight: '5px'}}/> : icon}
+        {icon && typeof icon === 'string' ? (
+          <i className={`iconfont ${icon}`} style={{ marginRight: '5px' }} />
+        ) : (
+          icon
+        )}
         {children}
-        {
-          closable && <span className="wk-tag-close" onClick={this.handleClose}><i className="iconfont wk-icon-close" /></span>
-        }
+        {closable && (
+          <span className='wk-tag-close' onClick={this.handleClose}>
+            <i className='iconfont wk-icon-close' />
+          </span>
+        )}
       </span>
     )
   }
 
-  render () {
-    return (
-      <>
-        {
-          this.initTag()
-        }
-      </>
-    )
+  render() {
+    return <>{this.initTag()}</>
   }
 }

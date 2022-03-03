@@ -1,14 +1,14 @@
 'use strict'
 
-const path = require('path');
-const CaseSensitivePathsplugin = require('case-sensitive-paths-webpack-plugin');
-const WebpackBar = require('webpackbar');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { DefinePlugin } = require('webpack');
-const marked = require("marked");
-const renderer = new marked.Renderer();
+const path = require('path')
+const CaseSensitivePathsplugin = require('case-sensitive-paths-webpack-plugin')
+const WebpackBar = require('webpackbar')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { DefinePlugin } = require('webpack')
+const marked = require('marked')
+const renderer = new marked.Renderer()
 
-const getLessLoaderOptions = function({ cssModules = false }) {
+const getLessLoaderOptions = function ({ cssModules = false }) {
   const lessLoaderOption = [
     {
       loader: 'style-loader'
@@ -28,10 +28,10 @@ const getLessLoaderOptions = function({ cssModules = false }) {
     {
       loader: 'less-loader',
       options: {
-        sourceMap: true,
+        sourceMap: true
       }
     }
-  ];
+  ]
 
   return lessLoaderOption
 }
@@ -49,11 +49,11 @@ module.exports = {
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, '../src'),
+      '@': path.resolve(__dirname, '../src')
     },
     fallback: {
-      'crypto': require.resolve('crypto-browserify'),
-      'stream': require.resolve('stream-browserify')
+      crypto: require.resolve('crypto-browserify'),
+      stream: require.resolve('stream-browserify')
     },
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.less']
   },
@@ -81,7 +81,7 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
-            loader: 'babel-loader',
+            loader: 'babel-loader'
           },
           {
             loader: 'ts-loader'
@@ -107,7 +107,7 @@ module.exports = {
             options: {
               sourceMap: true
             }
-          },
+          }
           // {
           //   loader: 'postcss-loader',
           //   options: {
@@ -120,11 +120,11 @@ module.exports = {
         test: /\.less$/,
         include: path.resolve(__dirname, '../node_modules'),
         use: [
-          "style-loader",
+          'style-loader',
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
-              importLoaders: 2,
+              importLoaders: 2
             }
           },
           // {
@@ -140,7 +140,7 @@ module.exports = {
             options: {
               lessOptions: {
                 javascriptEnabled: true
-              },
+              }
             }
           }
         ] // 编译顺序从右到左
@@ -167,7 +167,7 @@ module.exports = {
           outputPath: 'images',
           context: path.resolve(__dirname, '../src'),
           name: '[path][name].[ext]',
-          esModule: false,
+          esModule: false
         }
       }
     ]

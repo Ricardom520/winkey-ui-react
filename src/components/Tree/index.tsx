@@ -19,11 +19,12 @@ class Tree extends Component<TreeProps, TreeState> {
   }
 
   componentDidMount() {
-    const { defaultCheckedKeys, checkedKeys, treeData, defaultExpandedKeys, expandedKeys } = this.props
+    const { defaultCheckedKeys, checkedKeys, treeData, defaultExpandedKeys, expandedKeys } =
+      this.props
 
     if (defaultCheckedKeys || checkedKeys) {
       this.setState({
-        checkedKeys: checkedKeys || defaultCheckedKeys,
+        checkedKeys: checkedKeys || defaultCheckedKeys
       })
     }
 
@@ -41,7 +42,7 @@ class Tree extends Component<TreeProps, TreeState> {
 
     if (defaultCheckedKeys || checkedKeys) {
       this.setState({
-        checkedKeys: checkedKeys || defaultCheckedKeys,
+        checkedKeys: checkedKeys || defaultCheckedKeys
       })
     }
 
@@ -56,13 +57,16 @@ class Tree extends Component<TreeProps, TreeState> {
 
   initTreeData = (treeData) => {
     if (treeData && treeData.length) {
-      this.setState({
-        treeData
-      }, () => {
-        treeData.forEach((item: TreeDataPrivateStruce) => {
-          this.deepTreeData(item)
-        })
-      })
+      this.setState(
+        {
+          treeData
+        },
+        () => {
+          treeData.forEach((item: TreeDataPrivateStruce) => {
+            this.deepTreeData(item)
+          })
+        }
+      )
     }
   }
 
@@ -86,7 +90,7 @@ class Tree extends Component<TreeProps, TreeState> {
         if (expandedKeys.includes(item.key)) {
           expandedNums++
         }
-  
+
         this.deepTreeData(item)
       })
 
@@ -111,7 +115,7 @@ class Tree extends Component<TreeProps, TreeState> {
   }
 
   handleClickSwitcher = (info: TreeDataPrivateStruce) => {
-    const { treeData }  = this.state
+    const { treeData } = this.state
     info.expanded = !info.expanded
 
     this.setState({
@@ -169,7 +173,7 @@ class Tree extends Component<TreeProps, TreeState> {
         data.children.forEach((item: TreeDataPrivateStruce) => {
           if (!item.disabled) {
             item.checked = data.checked
-            
+
             if (item.checked) {
               checkedKeys.push(item.key)
             } else {
@@ -208,92 +212,81 @@ class Tree extends Component<TreeProps, TreeState> {
     const { checkedKeys } = this.state
     const { checkable } = this.props
 
-    return (
-      arr.map((item: TreeDataPrivateStruce) => {
-        return (
-          <React.Fragment key={item.key}>
-            <div 
+    return arr.map((item: TreeDataPrivateStruce) => {
+      return (
+        <React.Fragment key={item.key}>
+          <div
+            className={
+              'wk-tree-treenode' +
+              ' wk-tree-treenode-switcher-open' +
+              ' wk-tree-treenode-leaf-last' +
+              (item.disabled ? ' wk-tree-treenode-disabled' : '') +
+              (item.children && item.children.length !== 0 ? '' : ' wk-tree-treenode-close')
+            }
+          >
+            <span className='wk-tree-indent'>
+              {new Array(index).fill(0).map((_, n: number) => {
+                return (
+                  <span
+                    key={`${item.key}_wk-tree-indent_${n}`}
+                    className={
+                      'wk-tree-indent-unit wk-tree-indent-unit-start' +
+                      (n === index - 1 ? ' wk-tree-indent-unit-end' : '')
+                    }
+                  />
+                )
+              })}
+            </span>
+            <span
               className={
-                'wk-tree-treenode' +
-                ' wk-tree-treenode-switcher-open' +
-                ' wk-tree-treenode-leaf-last' +
-                (item.disabled ? ' wk-tree-treenode-disabled' : '') +
-                (item.children && item.children.length !== 0 ? '' : ' wk-tree-treenode-close')
+                'wk-tree-switcher' +
+                (item.children && item.children.length !== 0 ? '' : ' wk-tree-switcher-noop') +
+                (item.expanded ? ' wk-tree-switcher_open' : '')
               }
+              onClick={() => this.handleClickSwitcher(item)}
             >
-              <span className='wk-tree-indent'>
-                {
-                  new Array(index).fill(0).map((_, n: number) => {
-                    return (
-                      <span
-                        key={`${item.key}_wk-tree-indent_${n}`}
-                        className={
-                          'wk-tree-indent-unit wk-tree-indent-unit-start' + 
-                          (n === index - 1 ? ' wk-tree-indent-unit-end' : '')
-                        }
-                      />
-                    )
-                  })
-                }
-              </span>
-              <span 
-                className={
-                  'wk-tree-switcher' +
-                  (item.children && item.children.length !== 0 ? '' : ' wk-tree-switcher-noop') +
-                  (item.expanded ? ' wk-tree-switcher_open' : '')
-                }
-                onClick={() => this.handleClickSwitcher(item)}
-              >
-                {
-                  item.children && item.children.length !== 0 && <i className='wk-tree-switcher-icon' />
-                }
-              </span>
-              {
-                checkable && 
-                <span 
-                  className={
-                    'wk-tree-checkbox' +
-                    (item.checked ? ' wk-tree-checkbox-checked' : '') +
-                    (item.indeterminate ? ' wk-tree-checkbox-indeterminate' : '') +
-                    (item.disabled || item.disableCheckbox ? ' wk-tree-checkbox-disabled' : '')
-                  }
-                  onClick={() => this.handleClickCheckbox(item)}
-                >
-                  <span className='wk-tree-checkbox-inner'></span>
-                </span>
-              }
+              {item.children && item.children.length !== 0 && (
+                <i className='wk-tree-switcher-icon' />
+              )}
+            </span>
+            {checkable && (
               <span
                 className={
-                  'wk-tree-node-content-wrapper' +
-                  ' wk-tree-node-content-wrapper-open'
+                  'wk-tree-checkbox' +
+                  (item.checked ? ' wk-tree-checkbox-checked' : '') +
+                  (item.indeterminate ? ' wk-tree-checkbox-indeterminate' : '') +
+                  (item.disabled || item.disableCheckbox ? ' wk-tree-checkbox-disabled' : '')
                 }
+                onClick={() => this.handleClickCheckbox(item)}
               >
-                <span>{item.title}</span>
+                <span className='wk-tree-checkbox-inner'></span>
               </span>
-            </div>
-            {
-              item.children && item.expanded &&
-              this.initTreeItem(item.children, index + 1, checkedKeys.includes(item.key) && !item.disabled)
-            }
-          </React.Fragment>
-        )
-      })
-    )
+            )}
+            <span className={'wk-tree-node-content-wrapper' + ' wk-tree-node-content-wrapper-open'}>
+              <span>{item.title}</span>
+            </span>
+          </div>
+          {item.children &&
+            item.expanded &&
+            this.initTreeItem(
+              item.children,
+              index + 1,
+              checkedKeys.includes(item.key) && !item.disabled
+            )}
+        </React.Fragment>
+      )
+    })
   }
 
   render() {
     const { treeData } = this.state
 
     return (
-      <div 
-        className={
-          'wk-tree'
-        }
-      >
+      <div className={'wk-tree'}>
         <div>
-          <input 
-            tabIndex={0} 
-            style={{ 
+          <input
+            tabIndex={0}
+            style={{
               display: 'flex',
               width: '0px',
               height: '0px',
@@ -320,7 +313,7 @@ class Tree extends Component<TreeProps, TreeState> {
             <div className='wk-tree-indent-unit'></div>
           </div>
         </div>
-        <div 
+        <div
           className='wk-tree-list'
           style={{
             position: 'relative'
@@ -328,7 +321,7 @@ class Tree extends Component<TreeProps, TreeState> {
         >
           <div className='wk-tree-list-holder'>
             <div>
-              <div 
+              <div
                 className='wk-tree-list-holder-inner'
                 style={{
                   display: 'flex',
@@ -342,7 +335,7 @@ class Tree extends Component<TreeProps, TreeState> {
         </div>
       </div>
     )
-  } 
+  }
 }
 
 export default Tree

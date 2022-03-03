@@ -1,9 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
 
-import 'highlight.js/styles/monokai-sublime.css';
+import 'highlight.js/styles/monokai-sublime.css'
 import './assets/icon/iconfont.css'
-import './index.css';
+import './index.css'
 
-ReactDOM.render(<App/>, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById('root'))

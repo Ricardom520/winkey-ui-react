@@ -44,23 +44,33 @@ const FormItemOptions: React.FC<FormItemOptionsProps> = (props) => {
   return (
     <div className='formItemOptions-box'>
       <ul className='formItemOptions-content'>
-        {
-          options.map((item: LabelValue, index: number) => {
-            return (
-              <li className='formItemOptions-item' key={`option_${index}`}>
-                <span className='formItemOptions-item__index'>{index + 1}</span>
-                <div className='formItemOptions-item__content'>
-                  <InputControl title='label' value={item.label} deleteabled={false} addabled={false} onConfrim={(val) => handleChange('label', index, val)} />
-                  <InputControl title='value' value={item.value} deleteabled={false} addabled={false} onConfrim={(val) => handleChange('value', index, val)}/>
-                </div>
-                {
-                  options.length !== 1 && <span className='iconfont wk-icon-dustbin' onClick={() => handleDelte(index)} />
-                }
-                <span className='iconfont wk-icon-add' onClick={() => handleAdd(index)} />
-              </li>
-            )
-          })
-        }
+        {options.map((item: LabelValue, index: number) => {
+          return (
+            <li className='formItemOptions-item' key={`option_${index}`}>
+              <span className='formItemOptions-item__index'>{index + 1}</span>
+              <div className='formItemOptions-item__content'>
+                <InputControl
+                  title='label'
+                  value={item.label}
+                  deleteabled={false}
+                  addabled={false}
+                  onConfrim={(val) => handleChange('label', index, val)}
+                />
+                <InputControl
+                  title='value'
+                  value={item.value}
+                  deleteabled={false}
+                  addabled={false}
+                  onConfrim={(val) => handleChange('value', index, val)}
+                />
+              </div>
+              {options.length !== 1 && (
+                <span className='iconfont wk-icon-dustbin' onClick={() => handleDelte(index)} />
+              )}
+              <span className='iconfont wk-icon-add' onClick={() => handleAdd(index)} />
+            </li>
+          )
+        })}
       </ul>
     </div>
   )

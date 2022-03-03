@@ -1,19 +1,19 @@
 ```tsx
-import React from 'react';
-import { Button, message, Space } from 'winkey-ui-react';
+import React from 'react'
+import { Button, message, Space } from 'winkey-ui-react'
 
 const Demo: React.SFC = () => {
   const success = () => {
-    message.success('This is a success message');
-  };
+    message.success('This is a success message')
+  }
 
   const error = () => {
-    message.error('This is an error message');
-  };
+    message.error('This is an error message')
+  }
 
   const warning = () => {
-    message.warning('This is a warning message');
-  };
+    message.warning('This is a warning message')
+  }
 
   return (
     <Space>
@@ -24,5 +24,5 @@ const Demo: React.SFC = () => {
   )
 }
 
-export default Demo;
+export default Demo
 ```
