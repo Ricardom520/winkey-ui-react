@@ -39,7 +39,14 @@ const devWebpackConfig = merge(webpackBaseConfig, {
       chunkModules: false,
       entryoptions: false
     },
-    historyApiFallback: true
+    historyApiFallback: true,
+    proxy: {
+      '/v1/': {
+        target: 'http://172.29.139.32:8090',
+        changeOrigin: true,
+        pathRewrite: { '^': '' }
+      }
+    }
   },
   plugins: [
     // ts检查插件

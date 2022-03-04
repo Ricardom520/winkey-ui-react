@@ -121,7 +121,7 @@ const Design: React.FC = observer(() => {
           backgroundColor: '#fff',
           children: [
             {
-              id: `placeholder_${suffix}_0`,
+              id: suffix ? `placeholder_${suffix}_0` : 'placeholder_0',
               type: 'placeholder'
             }
           ]
@@ -138,7 +138,7 @@ const Design: React.FC = observer(() => {
           content: '',
           children: [
             {
-              id: `placeholder_${suffix}_0`,
+              id: suffix ? `placeholder_${suffix}_0` : 'placeholder_0',
               type: 'placeholder'
             }
           ]

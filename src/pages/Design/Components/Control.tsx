@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite'
 import store from '@/stores'
 import { ElementStruct } from '@/stores/EditorMange'
 import { Card, Form, Input, Radio, Select, InputNumber, Button, Modal } from '@/components'
+import { fetchExportCodeFile } from '@/services/code'
 import TreeData from './TreeData'
 import FormItemOptions from './FormItemOptions'
 import { FormItemTypeOptionsFilter } from '../datas'
@@ -73,6 +74,10 @@ const Control: React.FC = observer(() => {
 
       deepSetData(_elementsObj, 1)
     }
+  }
+
+  const handleExport = () => {
+    fetchExportCodeFile({ code: JSON.stringify(_elementsObj)})
   }
 
   useEffect(() => {
@@ -332,7 +337,7 @@ const Control: React.FC = observer(() => {
           导出
         </Button>
       </div>
-      <Modal visible={modalShow} cancelText='取消' okText='确认'>
+      <Modal visible={modalShow} cancelText='取消' okText='确认' onOk={handleExport} onCancel={() => setModalShow(false)}>
         <Form labelCol={{ span: 4 }} wrapperCol={{ span: 16 }} style={{ paddingTop: '45px' }}>
           <Form.Item label='语言'>
             <Select
