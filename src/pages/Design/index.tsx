@@ -22,9 +22,10 @@ import {
   FormTml
 } from './Templates'
 import store from '@/stores'
-import ColorInput from './ColorInput'
 import { HandleNextNodeId, GetScrollY } from '@/tool/utils'
 import './index.less'
+
+let setElementLock = false
 
 type HTMLElementEventStyle = {
   offsetY: number
@@ -121,7 +122,7 @@ const Design: React.FC = observer(() => {
           backgroundColor: '#fff',
           children: [
             {
-              id: suffix ? `placeholder_${suffix}_0` : 'placeholder_0',
+              id: `placeholder_${suffix}_0`,
               type: 'placeholder'
             }
           ]
@@ -138,7 +139,7 @@ const Design: React.FC = observer(() => {
           content: '',
           children: [
             {
-              id: suffix ? `placeholder_${suffix}_0` : 'placeholder_0',
+              id: `placeholder_${suffix}_0`,
               type: 'placeholder'
             }
           ]
@@ -209,7 +210,7 @@ const Design: React.FC = observer(() => {
           wrapperCol: 6,
           row: 1,
           isSubmit: true,
-          submitAlign: 'flex-start',
+          submitAlign: 'left',
           formItems: [
             {
               title: '标题',
@@ -225,13 +226,17 @@ const Design: React.FC = observer(() => {
   }
 
   const setElement = (e: any, type: string) => {
+    if (setElementLock) return 
+
+    setElementLock = true
+
     const target: any = e.target
     const elementsObj_clone = toJS(localStore.editorMange.elements)
     let obj = null
 
     if (!elements) {
-      obj = filterDomType(type, `${type}_0`, 0, elementsObj_clone)
-      console.log(obj)
+      obj = filterDomType(type, `${type}_0`, 0, elementsObj_clone, '0')
+
       localStore.editorMange.setFocusElement(obj)
       localStore.editorMange.setElementsObj([obj])
     } else {
@@ -248,7 +253,7 @@ const Design: React.FC = observer(() => {
 
       const suffix = arrs.join('_')
       const id = `${type}_${suffix}`
-      const index = parseInt(arrs[arrs.length - 1])
+      const index = parseInt(arrs[arrs.length - 1]) 
       obj = filterDomType(type, id, index, elementsObj_clone, suffix)
 
       const deepTreeData = (tree: ElementStruct[], zIndex: number) => {
@@ -289,6 +294,8 @@ const Design: React.FC = observer(() => {
       target = CheckboxRef.current.children[0]
     } else if (type === 'form') {
       target = FormRef.current.children[0]
+    } else if (type === 'datepicker') {
+      target = DatePickerRef.current.children[0]
     }
 
     copyElement = target.cloneNode(true)
@@ -326,6 +333,8 @@ const Design: React.FC = observer(() => {
         setTimeout(function () {
           window.onmousemove = null
           window.onmouseup = null
+
+          setElementLock = false
 
           document.removeEventListener('mousemove', getLocation)
         }, 100)

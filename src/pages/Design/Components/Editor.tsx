@@ -44,8 +44,6 @@ interface ParentAttributes {
 const Editor: React.FC = observer((props) => {
   const localStore = useLocalStore(() => store)
   const { elements, focusElement } = localStore.editorMange
-  const [width, setWidth] = useState<number>(0)
-  const [height, setHeight] = useState<number>(0)
   const [elementsObjClone, setElementsObjClone] = useState<ElementStruct[]>()
 
   const handleFocusClick = (item: ElementStruct, e: any) => {
@@ -146,6 +144,7 @@ const Editor: React.FC = observer((props) => {
             backgroundColor: arr.backgroundColor
           }}
           key={arr.id}
+          onDoubleClick={(e) => handleFocusClick(arr, e)}
         >
           {arr.children &&
             arr.children.map((item: ElementStruct) => {
@@ -234,7 +233,7 @@ const Editor: React.FC = observer((props) => {
                         >
                           <div
                             className={
-                              focusElement.id === `${arr.id}_${index}` ? 'formItem-focus' : ''
+                              focusElement ? focusElement.id === `${arr.id}_${index}` ? 'formItem-focus' : '' : ''
                             }
                             onDoubleClick={(e) => handleFocusFormItemClick(e, item, arr.id, index)}
                           >
@@ -292,11 +291,6 @@ const Editor: React.FC = observer((props) => {
       localStore.editorMange.focusElement = null
     }
   }
-
-  useEffect(() => {
-    setWidth(document.getElementById('editorBox').clientWidth)
-    setHeight(document.getElementById('editorBox').clientHeight)
-  }, [])
 
   useEffect(() => {
     setElementsObjClone(toJS(elements))

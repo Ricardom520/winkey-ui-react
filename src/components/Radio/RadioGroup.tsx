@@ -85,11 +85,11 @@ export default class RadioGroup extends Component<RadioGroupProps, RadioGroupSta
         }
       })
     } else {
-      return datas.map((i: RadioGroupOptions) => {
+      return datas.map((i: RadioGroupOptions, n: number) => {
         if (optionType === 'button') {
           return (
             <Button
-              key={`${i.label}-${i.value}`}
+              key={`${i.label}-${i.value}-${n}`}
               checked={i.value === value}
               value={i.value}
               onChange={(e) => this.handleChange(e, i.value)}
@@ -101,7 +101,7 @@ export default class RadioGroup extends Component<RadioGroupProps, RadioGroupSta
         } else {
           return (
             <Radio
-              key={`${i.label}-${i.value}`}
+              key={`${i.label}-${i.value}-${n}`}
               onChange={(e) => this.handleChange(e, i.value)}
               defaultChecked={i.value === value}
               checked={i.value === value}

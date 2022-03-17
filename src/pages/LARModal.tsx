@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
-import { Modal, Input } from '../components'
+import { Modal, Input, message } from '../components'
+import { EncryptDes } from '@/tool/utils'
+import { fetchUserRegister } from '@/services/user'
 
 import './larModal.less'
+import { UserSturct } from '@/interface/user'
 
 interface LARModalProps {
   visible: boolean
@@ -17,9 +20,43 @@ const titleMap = {
 const LARModal: React.FC<LARModalProps> = (props) => {
   const { visible, onCancel, type } = props
   const [focusIndex, setFocusIndex] = useState<number | undefined>()
+  const [username, setUsername] = useState<string>('')
+  const [password1, setPassword1] = useState<string>('')
+  const [password2, setPassword2] = useState<string>('')
+  const [phone, setPhone] = useState<string>('')
 
   const handleCancel = () => {
     onCancel()
+  }
+
+  const handleSubmit = () => {
+    if (!username) {
+      message.info('用户名不能为空')
+      return 
+    }
+
+    if (!password1 || !password2) {
+      message.info('密码不能为空')
+      return
+    }
+
+    if (password1 !== password2) {
+      message.info('两次密码不一致')
+      return
+    }
+
+    if (!phone) {
+      message.info('手机号码不能为空')
+      return
+    }
+
+    const params: UserSturct = {
+      username,
+      password: EncryptDes(password1),
+      phone: parseInt(phone)
+    }
+
+    fetchUserRegister(params)
   }
 
   return (
@@ -32,6 +69,7 @@ const LARModal: React.FC<LARModalProps> = (props) => {
             <div className='larModal-item-input'>
               <Input
                 placeholder='Username'
+                onChange={e => setUsername(e.target.value)}
                 bordered={false}
                 onFocus={() => setFocusIndex(0)}
                 onBlur={() => setFocusIndex(undefined)}
@@ -45,6 +83,7 @@ const LARModal: React.FC<LARModalProps> = (props) => {
               <Input.Password
                 placeholder='Password'
                 bordered={false}
+                onChange={(e) => setPassword1(e.target.value)}
                 onFocus={() => setFocusIndex(1)}
                 onBlur={() => setFocusIndex(undefined)}
               />
@@ -59,6 +98,7 @@ const LARModal: React.FC<LARModalProps> = (props) => {
                   <Input.Password
                     placeholder='Confirm Password'
                     bordered={false}
+                    onChange={(e) => setPassword2(e.target.value)}
                     onFocus={() => setFocusIndex(2)}
                     onBlur={() => setFocusIndex(undefined)}
                   />
@@ -71,6 +111,7 @@ const LARModal: React.FC<LARModalProps> = (props) => {
                   <Input
                     placeholder='Phone'
                     bordered={false}
+                    onChange={(e) => setPhone(e.target.value)}
                     onFocus={() => setFocusIndex(3)}
                     onBlur={() => setFocusIndex(undefined)}
                   />
@@ -80,7 +121,7 @@ const LARModal: React.FC<LARModalProps> = (props) => {
             </>
           )}
           <div className='larModal-btn'>
-            <button>
+            <button onClick={handleSubmit}>
               <i className='iconfont wk-icon-back' />
             </button>
           </div>

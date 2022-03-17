@@ -1,3 +1,5 @@
+import cryptoJs from 'crypto-js'
+
 export const HandleNextNodeId = (index: number, nodes, way: boolean) => {
   for (let i = index; i < nodes.length; i++) {
     const old_id = nodes[i].id
@@ -11,4 +13,18 @@ export const HandleNextNodeId = (index: number, nodes, way: boolean) => {
 
 export const GetScrollY = () => {
   return document.documentElement.scrollTop || document.body.scrollTop
+}
+
+// DESC 对称加密
+export const EncryptDes = (message: string) => {
+  const keyHex = cryptoJs.enc.Utf8.parse('winkey_0')
+  const iv = cryptoJs.enc.Utf8.parse('winkey_0')
+
+  const encrypted = cryptoJs.DES.encrypt(message, keyHex, {
+    iv: iv,
+    mode: cryptoJs.mode.CBC,
+    padding: cryptoJs.pad.Pkcs7,
+  })
+
+  return encrypted.toString()
 }

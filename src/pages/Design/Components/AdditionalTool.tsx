@@ -1,8 +1,7 @@
 import React from 'react'
-import DegisnContext, { DegisnContextProps } from '../DegisnContext'
+import DegisnContext from '../DegisnContext'
 import { useLocalStore } from 'mobx-react'
 import { observer } from 'mobx-react-lite'
-import { autorun, toJS } from 'mobx'
 import store from '@/stores'
 import './index.less'
 

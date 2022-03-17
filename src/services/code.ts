@@ -8,6 +8,7 @@ export async function fetchExportCodeFile(params: {
 }) {
   return request('/v1/winkeyServer/code/exportCode', {
     method: 'POST',
-    data: params
+    data: params,
+    responseType: 'blob'
   })
 }

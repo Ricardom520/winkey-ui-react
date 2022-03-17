@@ -63,7 +63,7 @@ const Control: React.FC = observer(() => {
           obj[parseInt(paths[index]) * 2 + 1]['formItems'][paths[index + 1]][type] = val
 
           _focusElement[type] = val
-          console.log(_focusElement)
+ 
           localStore.editorMange.setElementsObj(_elementsObj)
           localStore.editorMange.setFocusElement(_focusElement)
           return
@@ -76,8 +76,20 @@ const Control: React.FC = observer(() => {
     }
   }
 
-  const handleExport = () => {
-    fetchExportCodeFile({ code: JSON.stringify(_elementsObj)})
+  const handleExport = async () => {
+    const res: any = await fetchExportCodeFile({ code: JSON.stringify(_elementsObj)})
+
+    const downloadElement = document.createElement('a')
+    downloadElement.href = window.URL.createObjectURL(res)
+    downloadElement.download = 'a.zip'
+    document.body.appendChild(downloadElement)
+    downloadElement.click()
+    document.body.removeChild(downloadElement)
+  }
+
+  const clearAll = () => {
+    localStore.editorMange.setElementsObj(null)
+    localStore.editorMange.setFocusElement(null)
   }
 
   useEffect(() => {
@@ -297,7 +309,8 @@ const Control: React.FC = observer(() => {
                 type='formItems'
                 inputWay='select'
                 data={toJS(focusElement.formItems)}
-                filterKey={['type']}
+                filterKey={['type', 'name']}
+                filterWay={['select', 'input']}
                 onChange={(val) => handleData(val, 'formItems')}
                 content={{
                   title: '标题',
@@ -333,6 +346,9 @@ const Control: React.FC = observer(() => {
         </Form>
       </Card>
       <div className='controls_btn'>
+        <Button style={{marginRight: '10px'}} onClick={clearAll}>
+          清空
+        </Button>
         <Button type='primary' onClick={() => setModalShow(true)}>
           导出
         </Button>
@@ -364,6 +380,9 @@ const Control: React.FC = observer(() => {
                 }
               ]}
             />
+          </Form.Item>
+          <Form.Item label='文件名称'>
+            <Input placeholder="请输入文件名称" />
           </Form.Item>
         </Form>
       </Modal>

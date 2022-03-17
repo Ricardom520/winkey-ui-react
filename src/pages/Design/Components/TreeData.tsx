@@ -22,10 +22,11 @@ interface TreeDataProps {
   }
   inputWay: 'input' | 'select'
   filterKey?: string[]
+  filterWay?: ('input' | 'select')[]
 }
 
 const TreeData: React.SFC<TreeDataProps> = observer((props) => {
-  const { type, content, inputWay, data, onChange, filterKey } = props
+  const { type, content, inputWay, data, onChange, filterKey, filterWay } = props
   const localStore = useLocalStore(() => store)
   const { focusElement } = localStore.editorMange
   const [treeData, setTreeData] = useState([])
@@ -56,7 +57,7 @@ const TreeData: React.SFC<TreeDataProps> = observer((props) => {
           children.push({
             title: (
               <InputControl
-                type={inputWay}
+                type={filterWay[filterKey.indexOf(_item)]}
                 onAdd={() => handleAddTreeData(n)}
                 onReduce={() => handleReduceTreeData(n)}
                 title={_item}
