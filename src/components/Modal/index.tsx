@@ -29,7 +29,7 @@ class Modal extends Component<ModalProps> {
   }
 
   render() {
-    const { visible, title, children, width, footer, okText, cancelText } = this.props
+    const { visible, title, children, width, footer, okText, cancelText, loading } = this.props
 
     return (
       <Mask kind='modal' visible={visible} onCancel={() => this.handleClickCancel()}>
@@ -55,7 +55,7 @@ class Modal extends Component<ModalProps> {
                 {!footer && (
                   <>
                     <Button onClick={this.handleClickCancel}>{cancelText}</Button>
-                    <Button type='primary' onClick={this.handleClickOk}>
+                    <Button type='primary' onClick={this.handleClickOk} loading={loading}>
                       {okText}
                     </Button>
                   </>

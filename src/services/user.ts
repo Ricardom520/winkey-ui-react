@@ -10,3 +10,13 @@ export function fetchUserRegister(params: UserSturct) {
     data: params,
   })
 }
+
+/**
+ * 用户登录
+ */
+export function fetchUserLogin(params: UserSturct) {
+  return request('/v1/winkeyServer/user/login', {
+    method: 'POST',
+    data: params,
+  })
+}

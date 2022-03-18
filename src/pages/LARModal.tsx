@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { Modal, Input, message } from '../components'
-import { EncryptDes } from '@/tool/utils'
-import { fetchUserRegister } from '@/services/user'
+import { EncryptDes, SetCookie } from '@/tool/utils'
+import { fetchUserLogin, fetchUserRegister } from '@/services/user'
+import { ResponseData } from '@/interface'
+import { UserResponseDataStruct, UserSturct } from '@/interface/user'
+import { JunglePhone } from '@/tool/regExps'
 
 import './larModal.less'
-import { UserSturct } from '@/interface/user'
 
 interface LARModalProps {
   visible: boolean
@@ -23,40 +25,79 @@ const LARModal: React.FC<LARModalProps> = (props) => {
   const [username, setUsername] = useState<string>('')
   const [password1, setPassword1] = useState<string>('')
   const [password2, setPassword2] = useState<string>('')
-  const [phone, setPhone] = useState<string>('')
+  const [phone, setPhone] = useState<string>(undefined)
 
   const handleCancel = () => {
     onCancel()
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!username) {
       message.info('用户名不能为空')
       return 
     }
 
-    if (!password1 || !password2) {
-      message.info('密码不能为空')
-      return
-    }
-
-    if (password1 !== password2) {
-      message.info('两次密码不一致')
-      return
-    }
-
-    if (!phone) {
-      message.info('手机号码不能为空')
-      return
-    }
-
     const params: UserSturct = {
       username,
       password: EncryptDes(password1),
-      phone: parseInt(phone)
+      phone
     }
 
-    fetchUserRegister(params)
+    if (type === 'register') {
+      if (!password1 || !password2) {
+        message.info('密码不能为空')
+        return
+      }
+  
+      if (password1 !== password2) {
+        message.info('两次密码不一致')
+        return
+      }
+  
+      if (!phone) {
+        message.info('手机号码不能为空')
+        return
+      }
+
+      if (!JunglePhone(phone)) {
+        message.info('手机格式错误')
+        return
+      }
+  
+      const res: ResponseData<UserResponseDataStruct> = await fetchUserRegister(params)
+  
+      if (res.code === 200 && res.data) {
+        message.success("注册成功")
+        SetCookie('winkey_username', res.data.username)
+        SetCookie('winkey_uid', res.data.uid)
+        SetCookie('winkey_token', res.data.token)
+  
+        setTimeout(() => {
+          location.reload()
+        }, 300)
+      } else {
+        message.error(res.msg)
+      }
+    } else {
+      if (!password1) {
+        message.info('密码不能为空')
+        return
+      }
+
+      const res: ResponseData<UserResponseDataStruct> = await fetchUserLogin(params)
+
+      if (res.code === 200 && res.data) {
+        SetCookie('winkey_username', res.data.username)
+        SetCookie('winkey_uid', res.data.uid)
+        SetCookie('winkey_token', res.data.token)
+
+        setTimeout(() => {
+          location.reload()
+        }, 300)
+      } else {
+        message.error(res.msg)
+      }
+    }
   }
 
   return (

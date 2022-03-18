@@ -1,5 +1,11 @@
 export interface UserSturct {
   username: string
   password: string
-  phone: number
+  phone?: string
+}
+
+export interface UserResponseDataStruct {
+  username: string
+  uid: string
+  token: string
 }

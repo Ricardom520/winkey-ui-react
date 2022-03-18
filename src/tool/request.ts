@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { GetCookie } from './utils'
 
 const service = axios.create({
   baseURL: '/',
@@ -9,6 +10,12 @@ const service = axios.create({
 // 设置请求拦截器
 service.interceptors.request.use(
   (req) => {
+    const token = GetCookie('winkey_token')
+
+    if (token) {
+      req.headers.token = token
+    }
+
     return req
   },
   function (error) {

@@ -11,4 +11,5 @@ export interface ModalProps {
   cancelText?: string
   className?: string
   style?: CSSProperties
+  loading?: boolean
 }

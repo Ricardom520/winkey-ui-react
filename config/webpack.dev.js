@@ -45,6 +45,11 @@ const devWebpackConfig = merge(webpackBaseConfig, {
         target: 'http://172.29.139.32:8090',
         changeOrigin: true,
         pathRewrite: { '^': '' }
+      },
+      '/sys/v1/': {
+        target: 'http://172.29.139.32:8090',
+        changeOrigin: true,
+        pathRewrite: { '^': '' }
       }
     }
   },

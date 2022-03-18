@@ -6,7 +6,7 @@ import request from '@/tool/request'
 export async function fetchExportCodeFile(params: {
   code: string
 }) {
-  return request('/v1/winkeyServer/code/exportCode', {
+  return request('/sys/v1/winkeyServer/code/exportCode', {
     method: 'POST',
     data: params,
     responseType: 'blob'

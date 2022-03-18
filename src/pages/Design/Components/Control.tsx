@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite'
 
 import store from '@/stores'
 import { ElementStruct } from '@/stores/EditorMange'
-import { Card, Form, Input, Radio, Select, InputNumber, Button, Modal } from '@/components'
+import { Card, Form, Input, Radio, Select, InputNumber, Button, Modal, message } from '@/components'
 import { fetchExportCodeFile } from '@/services/code'
 import TreeData from './TreeData'
 import FormItemOptions from './FormItemOptions'
@@ -21,6 +21,7 @@ const Control: React.FC = observer(() => {
   const { elements, focusElement } = localStore.editorMange
   const [_elementsObj, setElementsObj] = useState<ElementStruct[]>()
   const [modalShow, setModalShow] = useState<boolean>(false)
+  const [exportLoading, setExportLoading] = useState<boolean>(false)
 
   const handleChangeHasBorder = (val) => {
     focusElement.hasBorder = val
@@ -77,6 +78,7 @@ const Control: React.FC = observer(() => {
   }
 
   const handleExport = async () => {
+    setExportLoading(true)
     const res: any = await fetchExportCodeFile({ code: JSON.stringify(_elementsObj)})
 
     const downloadElement = document.createElement('a')
@@ -85,6 +87,7 @@ const Control: React.FC = observer(() => {
     document.body.appendChild(downloadElement)
     downloadElement.click()
     document.body.removeChild(downloadElement)
+    setExportLoading(false)
   }
 
   const clearAll = () => {
@@ -353,7 +356,7 @@ const Control: React.FC = observer(() => {
           导出
         </Button>
       </div>
-      <Modal visible={modalShow} cancelText='取消' okText='确认' onOk={handleExport} onCancel={() => setModalShow(false)}>
+      <Modal loading={exportLoading} visible={modalShow} cancelText='取消' okText='确认' onOk={handleExport} onCancel={() => setModalShow(false)}>
         <Form labelCol={{ span: 4 }} wrapperCol={{ span: 16 }} style={{ paddingTop: '45px' }}>
           <Form.Item label='语言'>
             <Select

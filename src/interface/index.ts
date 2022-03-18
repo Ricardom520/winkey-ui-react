@@ -1,4 +1,5 @@
 import React from 'react'
+import { AxiosResponse } from 'axios'
 import { RouteComponentProps } from 'react-router-dom'
 
 // 路由页面组件
@@ -27,3 +28,10 @@ export interface IUIEvent<P = HTMLDivElement> extends React.UIEvent<P> {}
 
 // 加载事件
 export interface ISyntheticEvent<P = HTMLImageElement> extends React.SyntheticEvent<P> {}
+
+// axios Res
+export interface ResponseData<T = any> extends AxiosResponse {
+  code?: number
+  msg?: string
+  data: T
+}

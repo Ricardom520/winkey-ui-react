@@ -1,4 +1,5 @@
 import cryptoJs from 'crypto-js'
+import Cookies from 'js-cookie'
 
 export const HandleNextNodeId = (index: number, nodes, way: boolean) => {
   for (let i = index; i < nodes.length; i++) {
@@ -27,4 +28,14 @@ export const EncryptDes = (message: string) => {
   })
 
   return encrypted.toString()
+}
+
+// 存cookie
+export const SetCookie = (key, value) => {
+  Cookies.set(key, value)
+}
+
+// 取cookie
+export const GetCookie = (key) => {
+  return Cookies.get(key)
 }
