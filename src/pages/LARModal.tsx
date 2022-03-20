@@ -53,6 +53,16 @@ const LARModal: React.FC<LARModalProps> = (props) => {
         message.info('两次密码不一致')
         return
       }
+
+      if (password1.length < 6) {
+        message.info('密码过短，请重写')
+        return
+      }
+
+      if (password1.length > 12) {
+        message.info('密码过长，请重写')
+        return
+      }
   
       if (!phone) {
         message.info('手机号码不能为空')
@@ -122,7 +132,7 @@ const LARModal: React.FC<LARModalProps> = (props) => {
             <i className='iconfont wk-icon-password' />
             <div className='larModal-item-input'>
               <Input.Password
-                placeholder='Password'
+                placeholder={type === 'login' ? 'Password' : 'Password (6-12)'}
                 bordered={false}
                 onChange={(e) => setPassword1(e.target.value)}
                 onFocus={() => setFocusIndex(1)}

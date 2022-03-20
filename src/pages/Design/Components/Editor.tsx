@@ -139,7 +139,7 @@ const Editor: React.FC = observer((props) => {
           className={focusElement ? (focusElement.id === arr.id ? 'focusElement' : '') : ''}
           style={{
             minWidth: arr.minWidth,
-            minHeight: arr.minHeight,
+            minHeight: arr.minHeight + 'px',
             padding: '20px 40px 20px 40px',
             backgroundColor: arr.backgroundColor
           }}

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { GetCookie } from '@/tool/utils'
+import { GetCookie, SetCookie } from '@/tool/utils'
 import Logo from '@/assets/images/logo.png'
 import Search from '@/assets/icons/search.svg'
 import defaultAvatar from '@/assets/images/default_avatar.png'
+import { Dropdown } from '@/components'
 import ListsMenus from './ListsMenus'
 import LARModal from './LARModal'
 
@@ -12,6 +13,14 @@ import './index.less'
 const Header: React.SFC = () => {
   const [activeType, setActiveType] = useState<'login' | 'register' | ''>('')
   const [username, setUsername] = useState<string>('')
+
+  const handleLoginOut = () => {
+    SetCookie('winkey_username', '')
+    SetCookie('winkey_uid', '')
+    SetCookie('winkey_token', '')
+
+    location.reload()
+  }
 
   useEffect(() => {
     setUsername(GetCookie('winkey_username'))
@@ -60,7 +69,15 @@ const Header: React.SFC = () => {
             }
             {
               username &&
-              <img src={defaultAvatar} className='user_avatar' />
+              <Dropdown overlay={<div className='login_out'>
+                <ul>
+                  <li>
+                    <button onClick={handleLoginOut}>退出</button>
+                  </li>
+                </ul>
+              </div>}>
+                <img src={defaultAvatar} className='user_avatar' />
+              </Dropdown>
             }
           </div>
         </div>

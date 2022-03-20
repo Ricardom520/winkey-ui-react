@@ -2,16 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { toJS } from 'mobx'
 import { useLocalStore } from 'mobx-react'
 import { observer } from 'mobx-react-lite'
+import { SketchPicker } from 'react-color'
 
 import store from '@/stores'
 import { ElementStruct } from '@/stores/EditorMange'
-import { Card, Form, Input, Radio, Select, InputNumber, Button, Modal, message } from '@/components'
+import { Card, Form, Input, Radio, Select, InputNumber, Button, Modal, Dropdown } from '@/components'
 import { fetchExportCodeFile } from '@/services/code'
 import TreeData from './TreeData'
 import FormItemOptions from './FormItemOptions'
 import { FormItemTypeOptionsFilter } from '../datas'
 
-const layout = {
+const layout = { 
   labelCol: { span: 6 },
   wrapperCol: { span: 18 }
 }
@@ -32,15 +33,16 @@ const Control: React.FC = observer(() => {
     const keyPath = _focusElement.id
     const paths = keyPath.split('_')
 
-    if (paths.length === 1) {
+    if (paths.length === 2) {
+      _focusElement[type] = val
+      _elementsObj[0][type] = val
     } else {
       const deepSetData = (obj, index) => {
         if (index === paths.length - 1) {
           obj[parseInt(paths[index]) * 2 + 1][type] = val
 
           _focusElement[type] = val
-          localStore.editorMange.setElementsObj(_elementsObj)
-          localStore.editorMange.setFocusElement(_focusElement)
+          
           return
         }
 
@@ -49,6 +51,8 @@ const Control: React.FC = observer(() => {
 
       deepSetData(_elementsObj, 1)
     }
+    localStore.editorMange.setElementsObj(_elementsObj)
+    localStore.editorMange.setFocusElement(_focusElement)
   }
 
   const handleFormItemData = (val: any, type: string) => {
@@ -121,13 +125,21 @@ const Control: React.FC = observer(() => {
               />
             </Form.Item>
           )}
+          {focusElement.minHeight !== undefined && (
+            <Form.Item label='最小高度'>
+              <Input
+                placeholder='请输入最小高度'
+                value={focusElement.minHeight || 'auto'}
+                addonAfter='PX'
+                onChange={(e) => handleData(e.target.value, 'minHeight')}
+              />
+            </Form.Item>
+          )}
           {focusElement.color && (
             <Form.Item label='字体颜色'>
-              <Input
-                placeholder='请输入字体颜色'
-                value={focusElement.color || '#000'}
-                onChange={(e) => handleData(e, 'color')}
-              />
+              <Dropdown overlay={<SketchPicker color={focusElement.color || '#000'} onChange={(e) => handleData(e.hex, 'color')} />} trigger={['click']}>
+                <Input placeholder='请输入字体颜色' value={focusElement.color || '#000'} />
+              </Dropdown>
             </Form.Item>
           )}
           {focusElement.fontSize && (
@@ -149,7 +161,9 @@ const Control: React.FC = observer(() => {
           )}
           {focusElement.backgroundColor && (
             <Form.Item label='背景色'>
-              <Input placeholder='请输入宽度' value={focusElement.backgroundColor || '#fff'} />
+              <Dropdown overlay={<SketchPicker color={focusElement.backgroundColor || '#fff'} onChange={(e) => handleData(e.hex, 'backgroundColor')} />} trigger={['click']}>
+                <Input placeholder='请输入背景色' value={focusElement.backgroundColor || '#fff'} />
+              </Dropdown>
             </Form.Item>
           )}
           {focusElement.padding !== undefined && (

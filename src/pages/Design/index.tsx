@@ -117,9 +117,10 @@ const Design: React.FC = observer(() => {
           id: id,
           type,
           minWidth: '100%',
-          minHeight: '380px',
+          minHeight: '380',
           padding: '20px 40px 20px 40px',
           backgroundColor: '#fff',
+          color: '#000',
           children: [
             {
               id: `placeholder_${suffix}_0`,
