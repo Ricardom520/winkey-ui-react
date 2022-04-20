@@ -325,7 +325,7 @@ export default class FormItem extends React.Component<FormItemProps, FormItemSta
         <Input
           value={
             formValues[name] === undefined
-              ? kid.props.value || kid.props.defaultValue
+              ? kid.props.value || kid.props.defaultValue || ''
               : formValues[name]
           }
           {...kid.props}

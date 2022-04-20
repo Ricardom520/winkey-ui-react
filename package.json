@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack serve --config ./config/webpack.dev.js",
-    "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.prod.js",
+    "build": "cross-env NODE_ENV=production --max_old_space_size=8000 webpack --config ./config/webpack.prod.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "eslint": "eslint --ext=jsx,ts,tsx ./",
     "eslint:fix": "eslint --fix --ext=jsx,ts,tsx ./",

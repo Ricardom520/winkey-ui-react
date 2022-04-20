@@ -87,7 +87,6 @@ class Dropdown extends Component<DropdownProps, DropdownState> {
           React.Children.map(overlay, (child: any, n: number) => {
             return React.cloneElement(child, {
               mode: 'vertical',
-              prefixClassName: 'wk-dropdown'
             })
           })}
       </div>

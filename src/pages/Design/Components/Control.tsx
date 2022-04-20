@@ -6,11 +6,12 @@ import { SketchPicker } from 'react-color'
 
 import store from '@/stores'
 import { ElementStruct } from '@/stores/EditorMange'
-import { Card, Form, Input, Radio, Select, InputNumber, Button, Modal, Dropdown } from '@/components'
-import { fetchExportCodeFile } from '@/services/code'
+import { Card, Form, Input, Radio, Select, InputNumber, Button, Modal, Dropdown, message } from '@/components'
+import { fetchExportCodeFile, fetchSaveCode } from '@/services/code'
 import TreeData from './TreeData'
 import FormItemOptions from './FormItemOptions'
 import { FormItemTypeOptionsFilter } from '../datas'
+import { JungleChinese } from '@/tool/regExps'
 
 const layout = { 
   labelCol: { span: 6 },
@@ -18,11 +19,13 @@ const layout = {
 }
 
 const Control: React.FC = observer(() => {
+  const [modalForm] = Form.useForm()
   const localStore = useLocalStore(() => store)
   const { elements, focusElement } = localStore.editorMange
   const [_elementsObj, setElementsObj] = useState<ElementStruct[]>()
   const [modalShow, setModalShow] = useState<boolean>(false)
   const [exportLoading, setExportLoading] = useState<boolean>(false)
+  const [timer, setTimer] = useState<any>(null)
 
   const handleChangeHasBorder = (val) => {
     focusElement.hasBorder = val
@@ -82,12 +85,24 @@ const Control: React.FC = observer(() => {
   }
 
   const handleExport = async () => {
+    const filename = modalForm.getFieldValue('filename')
+
+    if (!filename) {
+      message.warning('文件名称不能为空')
+      return
+    }
+
+    if (!JungleChinese(filename)) {
+      message.warning('文件名称不能含有中文')
+      return
+    }
+
     setExportLoading(true)
-    const res: any = await fetchExportCodeFile({ code: JSON.stringify(_elementsObj)})
+    const res: any = await fetchExportCodeFile({ code: JSON.stringify(_elementsObj), filename })
 
     const downloadElement = document.createElement('a')
     downloadElement.href = window.URL.createObjectURL(res)
-    downloadElement.download = 'a.zip'
+    downloadElement.download = `${filename}.zip`
     document.body.appendChild(downloadElement)
     downloadElement.click()
     document.body.removeChild(downloadElement)
@@ -101,6 +116,21 @@ const Control: React.FC = observer(() => {
 
   useEffect(() => {
     setElementsObj(toJS(elements))
+
+    if (timer) {
+      clearInterval(timer)
+      setTimer(null)
+    }
+
+    const _timer = setInterval(() => {
+      fetchSaveCode(JSON.stringify(_elementsObj))
+    }, 300000)
+
+    setTimer(_timer)
+
+    return () => {
+      clearInterval(timer)
+    }
   }, [elements])
 
   return (
@@ -207,7 +237,7 @@ const Control: React.FC = observer(() => {
               <Input
                 placeholder='请输入标题'
                 value={focusElement.title}
-                onChange={(e) => handleData(e, 'title')}
+                onChange={(e) => handleData(e.target.value, 'title')}
               />
             </Form.Item>
           )}
@@ -371,8 +401,8 @@ const Control: React.FC = observer(() => {
         </Button>
       </div>
       <Modal loading={exportLoading} visible={modalShow} cancelText='取消' okText='确认' onOk={handleExport} onCancel={() => setModalShow(false)}>
-        <Form labelCol={{ span: 4 }} wrapperCol={{ span: 16 }} style={{ paddingTop: '45px' }}>
-          <Form.Item label='语言'>
+        <Form labelCol={{ span: 4 }} wrapperCol={{ span: 16 }} style={{ paddingTop: '45px' }} form={modalForm}>
+          <Form.Item name='language' label='语言'>
             <Select
               defaultValue={0}
               options={[
@@ -383,7 +413,7 @@ const Control: React.FC = observer(() => {
               ]}
             />
           </Form.Item>
-          <Form.Item label='Js类型'>
+          <Form.Item name='js_type' label='Js类型'>
             <Select
               defaultValue={0}
               options={[
@@ -398,8 +428,8 @@ const Control: React.FC = observer(() => {
               ]}
             />
           </Form.Item>
-          <Form.Item label='文件名称'>
-            <Input placeholder="请输入文件名称" />
+          <Form.Item name='filename' label='文件名称'>
+            <Input placeholder="请输入文件名称(英文)" />
           </Form.Item>
         </Form>
       </Modal>

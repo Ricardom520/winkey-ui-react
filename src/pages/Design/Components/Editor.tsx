@@ -19,19 +19,15 @@ import {
   DatePicker,
   Row,
   Col,
-  Button
+  Button,
+  message
 } from '@/components'
 import EmptyPlaceholder from './EmplyPlaceholder'
 import { HandleNextNodeId } from '@/tool/utils'
 import { LabelValue } from './interface'
-
-const FormTypeMap = {
-  input: <Input />,
-  select: <Select />,
-  radio: <Radio />,
-  checkbox: <Checkbox />,
-  datepicker: <DatePicker />
-}
+import { fetchInitCode } from '@/services/code'
+import { ResponseData } from '@/interface'
+import { InitCodeStruct } from '@/interface/code'
 
 interface ParentAttributes {
   type: string
@@ -295,6 +291,16 @@ const Editor: React.FC = observer((props) => {
   useEffect(() => {
     setElementsObjClone(toJS(elements))
   }, [elements])
+
+  useEffect(() => {
+    fetchInitCode().then((res: ResponseData<InitCodeStruct>) => {
+      if (res.code === 200 && res.data) {
+        localStore.editorMange.setElementsObj(JSON.parse(res.data.code))
+      } else {
+        message.warning('初始化失败，请重试')
+      }
+    })
+  }, [])
 
   return (
     <div className='editorContainer'>
