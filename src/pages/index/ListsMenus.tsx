@@ -31,7 +31,7 @@ const ListsMenus: React.FC = () => {
   }, [])
 
   return (
-    <ul className='ListsMenus'>
+    <ul className='lists-menus'>
       {routes.map(
         (
           i: {

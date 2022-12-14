@@ -273,6 +273,7 @@
       "widows"
     ],    
     "no-empty-source": null,
+    "no-descending-specificity": null,
     "property-no-vendor-prefix": [true, {"ignoreProperties": ["background-clip"]}],
     "number-leading-zero": "never",
     "number-no-trailing-zeros": true,

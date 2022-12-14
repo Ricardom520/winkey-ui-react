@@ -163,7 +163,7 @@ const Index: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className='footerWrapper'>
+      <div className='footer-wrapper'>
         <div className='container'>
           <p>Love is Eternal😋</p>
           <p>Dedicated to every hardworking people</p>
