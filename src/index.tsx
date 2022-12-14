@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { useRoutes, HashRouter } from 'react-router-dom'
-import Index from '~/pages'
+import Index from '~/pages/index'
 
 import './index.scss'
 

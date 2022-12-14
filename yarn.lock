@@ -4249,10 +4249,10 @@ which@^2.0.1:
   dependencies:
     isexe "^2.0.0"
 
-winkey-init-config-vite@^1.1.4:
-  version "1.1.4"
-  resolved "https://registry.npmjs.org/winkey-init-config-vite/-/winkey-init-config-vite-1.1.4.tgz#e9bdb30ea3a804a6a8f93f72c835482fbade27ce"
-  integrity sha512-r2VBD5QkQP+A+f7te+DtFVo+06dw31vU0POe3yUX0ljJq9IZ7dxa+KgwX+A6hNjTAngYqYhuilCnPopMoX6A4w==
+winkey-init-config-vite@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.npmjs.org/winkey-init-config-vite/-/winkey-init-config-vite-1.1.5.tgz#9d5ede1d55370ce0f649e00d714a2bcc85b72704"
+  integrity sha512-kahmkmG/mHantOe18v3oUkf9RNyA7bScplvbeqR4Z100kuXzh5sJTzq1eH7kqGoR/pgR6UHd8RNsrcTuj/rzGA==
   dependencies:
     "@rollup/plugin-typescript" "8.3.0"
     "@vitejs/plugin-legacy" "1.8.2"

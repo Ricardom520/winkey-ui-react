@@ -21,6 +21,7 @@
     "lint:fix": "npm run lint -- --fix",
     "prettier:fix": "npm run prettier -- --write",
     "format": "npm run prettier:fix && npm run lint:fix",
+    "style": "stylelint \"src/**/*.(vue|scss|css|less)\" --fix",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
@@ -60,7 +61,7 @@
     "stylelint-order": "^5.0.0",
     "typescript": "^4.2.4",
     "vite": "^3.1.3",
-    "winkey-init-config-vite": "^1.1.4"
+    "winkey-init-config-vite": "^1.1.5"
   },
   "description": "",
   "main": "dist/winkey-ui-react.umd.cjs",
