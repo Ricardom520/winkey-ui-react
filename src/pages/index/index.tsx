@@ -1,16 +1,23 @@
-import React, { ReactNode, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import Logo from '~/assets/images/logo.png'
 import Component from '~/assets/images/component.png'
 import Guide from '~/assets/images/guide.png'
 import Resource from '~/assets/images/resource.png'
-import ListsMenus from './ListsMenus'
-import './index.less'
+import Header from '../components/header'
+import styles from './index.module.less'
+
+type CardItemStruct = {
+  id: number
+  url: string
+  imgUrl: string
+  title: string
+  description: string
+}
 
 const Index: React.FC = () => {
   const CanvasRef: React.LegacyRef<HTMLCanvasElement> = useRef(null)
-  const [cards] = useState<any[]>([
+  const [cards] = useState<CardItemStruct[]>([
     {
       id: 1,
       url: '/guide',
@@ -105,21 +112,12 @@ const Index: React.FC = () => {
   }, [])
 
   return (
-    <div className='index-container'>
-      <div className='header-wrapper'>
-        <header>
-          <div className='container'>
-            <Link to='/'>
-              <img src={Logo} alt='logo' className='logo' />
-            </Link>
-            <ListsMenus />
-          </div>
-        </header>
-      </div>
-      <div className='main-wrapper'>
+    <div className={styles['index-container']}>
+      <Header />
+      <div className={styles['main-wrapper']}>
         <div>
-          <div className='banner'>
-            <div className='banner-bg'>
+          <div className={styles['banner']}>
+            <div className={styles['banner-bg']}>
               <ul>
                 <li />
                 <li />
@@ -133,25 +131,25 @@ const Index: React.FC = () => {
                 <li />
               </ul>
             </div>
-            <div className='banner-desc'>
+            <div className={styles['banner-desc']}>
               <h1>Winkey UI</h1>
               <p>WinkeyUI, 为所欲为的基于Antd Design React的组件库</p>
               <p>企业级产品设计体系，创造高效愉悦的工作体验</p>
-              <p className='banner-btn'></p>
+              <p className={styles['banner-btn']}></p>
             </div>
           </div>
-          <div className='cards'>
+          <div className={styles['cards']}>
             <h2>设计语言与研发框架</h2>
             <ul>
               {cards.map((i) => {
                 return (
                   <li key={i.id}>
                     <Link to={i.url}>
-                      <div className='card'>
+                      <div className={styles['card']}>
                         <img src={i.imgUrl} alt='card' />
                         {i.title}
                         <p>{i.description}</p>
-                        <div className='btn'>
+                        <div className={styles['btn']}>
                           <span>查看详情</span>
                         </div>
                       </div>
@@ -163,8 +161,8 @@ const Index: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className='footer-wrapper'>
-        <div className='container'>
+      <div className={styles['footer-wrapper']}>
+        <div className={styles['container']}>
           <p>Love is Eternal😋</p>
           <p>Dedicated to every hardworking people</p>
         </div>

@@ -8,9 +8,9 @@ const Demo: React.SFC = () = > {
   return (
     <div>
       <div className='button-demo-items'>
-        <Button onClick={()=>setSize('large')} className={size === 'large' ? 'sizeActive' : ''}>Large</Button>
-        <Button onClick={()=>setSize('')} className={size === '' ? 'sizeActive' : ''}>Default</Button>
-        <Button onClick={()=>setSize('small')} className={size === 'small' ? 'sizeActive' : ''}>Small</Button>
+        <Button onClick={()=>setSize('large')} className={size === 'large' ? 'size-active' : ''}>Large</Button>
+        <Button onClick={()=>setSize('')} className={size === '' ? 'size-active' : ''}>Default</Button>
+        <Button onClick={()=>setSize('small')} className={size === 'small' ? 'size-active' : ''}>Small</Button>
       </div>
       <div className='button-demo-items'>
         <Button type='primary' size={size}>Primary</Button>

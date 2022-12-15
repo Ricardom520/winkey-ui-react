@@ -1,0 +1,114 @@
+.introduce-box-container {
+  margin-top: 20px;
+  margin-bottom: 30px;
+
+  .description,
+  .title {
+    padding: 18px 0;
+    color: #5e6d82;
+  }
+
+  .title {
+    padding: 0;
+    font-size: 22px;
+    color: #333;
+  }
+
+  .container {
+    border: 1px solid #ebebeb;
+    border-radius: 5px;
+
+    .code {
+      transition: all ease-in-out .5s;
+    }
+
+    .showline {
+      height: 40px;
+      border-top: 1px solid #ebebeb;
+      line-height: 40px;
+      text-align: center;
+      transition: all ease-in-out .5s;
+
+      p {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        padding: 0;
+        color: #d4dde7;
+        transition: all ease-in-out .5s;
+
+        i {
+          position: absolute;
+          left: 50%;
+          width: 0;
+          height: 0;
+          margin-top: 5px;
+          margin-right: 10px;
+          border-top: 6px solid #ebebeb;
+          border-bottom: 6px solid transparent;
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+        }
+
+        i.active {
+          top: 25%;
+          transform: rotate(-180deg) translateY(3px);
+        }
+
+        .showline-title {
+          animation: fade ease-in-out 1s;
+        }
+      }
+    }
+
+    .showline:hover {
+      background: #f9fafc;
+      cursor: pointer;
+
+      p {
+        color: #489fff;
+
+        i {
+          left: 44%;
+          width: 0;
+          height: 0;
+          border-top-color: #489fff;
+          transition: all ease-out .5s;
+        }
+      }
+    }
+  }
+
+  .intro-table {
+    h3 {
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+
+      tr {
+        display: block;
+        padding: 15px 0;
+        border-bottom: 1px solid #dcdfe6;
+      }
+
+      th {
+        display: inline-block;
+        font-weight: 400;
+        font-size: 16px;
+        text-align: left;
+        color: #909399;
+      }
+
+      td {
+        display: inline-block;
+        font-size: 14px;
+        word-wrap: break-word;
+        color: #606266;
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import './index.less'
+import styles from './index.module.less'
 
 const routes = [
   {
@@ -31,7 +31,7 @@ const ListsMenus: React.FC = () => {
   }, [])
 
   return (
-    <ul className='lists-menus'>
+    <ul className={styles['lists-menus']}>
       {routes.map(
         (
           i: {
@@ -41,7 +41,7 @@ const ListsMenus: React.FC = () => {
           index: number
         ) => {
           return (
-            <li className={actIndex === index ? 'active' : ''} key={i.title}>
+            <li className={actIndex === index ? styles['active'] : ''} key={i.title}>
               <Link to={i.url}>{i.title}</Link>
             </li>
           )

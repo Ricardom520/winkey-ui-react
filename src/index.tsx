@@ -1,28 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { useRoutes, HashRouter } from 'react-router-dom'
-import Index from '~/pages/index'
-
-import './index.scss'
-
-const routes = [
-  {
-    path: '/',
-    name: '主页',
-    element: <Index />
-  }
-]
-
-const Router = () => {
-  const elm = useRoutes(routes)
-
-  return elm
-}
+import { HashRouter } from 'react-router-dom'
+import { routes } from './routes'
+import { Router } from '~/pages/router'
+import 'highlight.js/styles/monokai-sublime.css'
+import '~/styles/base.less'
+import './index.less'
 
 const root = ReactDOM.createRoot(document.getElementById('app') as HTMLElement)
 
 root.render(
   <HashRouter>
-    <Router />
+    <Router routes={routes} />
   </HashRouter>
 )

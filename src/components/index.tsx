@@ -1,3 +1,4 @@
-import Demo from './Demo'
+import Button from './Button'
+import '../styles/base.less'
 
-export { Demo }
+export { Button }

@@ -1,0 +1,268 @@
+@import "../../styles/normal.less";
+
+.wk-btn {
+  position: relative;
+  display: inline-block;
+  height: 32px;
+  padding: 4px 15px;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  outline: none;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5715;
+  text-align: center;
+  text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
+  white-space: nowrap;
+  color: rgb(0 0 0 / 85%);
+  background-image: none;
+  background-color: #fff;
+  box-shadow: 0 2px 0 rgb(0 0 0 / 4.5%);
+  transition: all .3s ease-in-out;
+  touch-action: manipulation;
+  user-select: none;
+
+  span {
+    display: inline-block;
+
+    i {
+      margin-right: 5px;
+    }
+  }
+
+  &-animation {
+    line-height: 1.4;
+  }
+
+  &-icon-only {
+    width: 32px;
+    height: 32px;
+    padding: 2.4px 0;
+    font-size: 16px;
+    vertical-align: -1px;
+
+    i {
+      margin-right: 0 !important;
+    }
+  }
+
+  &-block {
+    width: 100%;
+  }
+
+  &-lg {
+    height: 40px;
+    padding: 6.4px 15px;
+    border-radius: 2px;
+    font-size: 16px;
+  }
+
+  &-sm {
+    height: 26px;
+    padding: 0 10px;
+    border-radius: 2px;
+    font-size: 12px;
+  }
+
+  &-background-ghost {
+    border-color: #fff;
+    color: #fff;
+    background: transparent !important;
+  }
+}
+
+.wk-btn:hover {
+  border: 1px solid #409eff;
+  color: #409eff;
+  cursor: pointer;
+}
+
+.wk-btn:active {
+  border: 1px solid #c6e2ff;
+  color: #409eff;
+  background: #ebf4fe;
+}
+
+/** primary状态 */
+.wk-btn-primary {
+  border-color: @primaryColor;
+  color: #fff;
+  background: @primaryColor;
+}
+
+.wk-btn-primary:hover {
+  border-color: #81bdfc;
+  color: #fff;
+  background: @primaryHoverColor;
+}
+
+/** dashed状态 */
+.wk-btn-dashed {
+  border-style: dashed;
+  border-color: #d9d9d9;
+  color: rgb(0 0 0 / 85%);
+  background-color: #fff;
+}
+
+.wk-btn-dashed:hover {
+  border-style: dashed;
+  border-color: @primaryHoverColor;
+}
+
+/** text状态 */
+.wk-btn-text {
+  border: none;
+  border-color: transparent;
+  color: rgb(0 0 0 / 85%);
+  background: 0 0;
+  box-shadow: none;
+}
+
+.wk-btn-text:hover {
+  border: none;
+  color: rgb(0 0 0 / 85%);
+  background-color: #fafafa;
+}
+
+/** link状态 */
+.wk-btn-link {
+  border: none;
+  border-color: transparent;
+  color: @primaryColor;
+  background: 0 0;
+  box-shadow: none;
+}
+
+.wk-btn-link:hover {
+  border: none;
+}
+
+/** circle状态 */
+.wk-btn-circle {
+  min-width: 32px;
+  padding-right: 0;
+  padding-left: 0;
+  border-radius: 50%;
+  text-align: center;
+}
+
+/** danger状态 */
+.wk-btn-dangerous {
+  border-color: #ff4d4f;
+  color: #ff4d4f;
+  background: #fff;
+}
+
+.wk-btn-dangerous.wk-btn-primary {
+  border-color: #ff4d4f;
+  text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
+  color: #fff;
+  background: #ff4d4f;
+  box-shadow: 0 2px 0 rgb(0 0 0 / 4.5%);
+}
+
+.wk-btn-dangerous.wk-btn-primary:hover {
+  border-color: #ff7875;
+  background: #ff7875;
+}
+
+.wk-btn-dangerous.wk-btn-dashed:hover {
+  border-color: #ff4d4f;
+  color: #ff7875;
+}
+
+.wk-btn-dangerous.wk-btn-text {
+  background: transparent;
+}
+
+.wk-btn-dangerous.wk-btn-text:hover {
+  border-color: none;
+  color: #ff7875;
+  background-color: #fafafa;
+}
+
+.wk-btn-dangerous.wk-btn-link {
+  background: transparent;
+}
+
+.wk-btn-dangerous.wk-btn-link:hover {
+  border-color: none;
+  color: #ff7875;
+}
+
+/** disabled 状态 */
+.wk-btn[disabled],
+.wk-btn-primary[disabled] {
+  border-color: #d9d9d9;
+  text-shadow: none;
+  color: rgb(0 0 0 / 25%);
+  background: #f5f5f5;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.wk-btn-text[disabled],
+.wk-btn-link[disabled] {
+  border-color: transparent;
+  text-shadow: none;
+  color: rgb(0 0 0 / 25%);
+  background: 0 0;
+  box-shadow: none;
+}
+
+.wk-btn-dangerous.wk-btn-link[disabled],
+.wk-btn-dangerous.wk-btn-link[disabled]:active,
+.wk-btn-dangerous.wk-btn-link[disabled]:focus,
+.wk-btn-dangerous.wk-btn-link[disabled]:hover {
+  border-color: transparent;
+  text-shadow: none;
+  color: rgb(0 0 0 / 25%);
+  background: 0 0;
+  box-shadow: none;
+}
+
+.wk-btn-dangerous.wk-btn-text[disabled],
+.wk-btn-dangerous.wk-btn-text[disabled]:active,
+.wk-btn-dangerous.wk-btn-text[disabled]:focus,
+.wk-btn-dangerous.wk-btn-text[disabled]:hover {
+  border-color: transparent;
+  text-shadow: none;
+  color: rgb(0 0 0 / 25%);
+  background: 0 0;
+  box-shadow: none;
+}
+
+/** Loading状态 */
+.wk-btn-loading {
+  border-color: #69b7ff;
+  background-color: #69b7ff;
+}
+
+.wk-btn-loading-icon {
+  display: inline-block;
+  margin-right: 8px;
+  line-height: 1.28;
+  transform: rotate(45deg);
+  animation: wk-btn-loading-rotate 1.5s linear infinite;
+
+  &-only {
+    margin-right: 0;
+  }
+}
+
+.wk-btn-background-ghost.wk-btn-primary {
+  border-color: @primaryColor;
+  text-shadow: none;
+  color: @primaryColor;
+  background-color: transparent;
+}
+
+@keyframes wk-btn-loading-rotate {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

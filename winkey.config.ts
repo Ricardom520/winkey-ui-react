@@ -1,4 +1,5 @@
 import { initWinkeyConfig, WinkeyProjectConfig } from 'winkey-init-config-vite'
+import { plugin, Mode } from 'vite-plugin-markdown'
 const pkg = require('./package.json')
 
 const PROJECT_NAME = pkg.name
@@ -23,7 +24,12 @@ const winkeyConfig: WinkeyProjectConfig = {
     port: 7107,
     cors: true
   },
-  winkeyTool: false
+  winkeyTool: false,
+  plugins: [
+    plugin({
+      mode: [Mode.HTML]
+    })
+  ]
 }
 
 export default initWinkeyConfig.bind(this, winkeyConfig)
