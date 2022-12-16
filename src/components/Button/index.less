@@ -5,7 +5,7 @@
   display: inline-block;
   height: 32px;
   padding: 4px 15px;
-  border: 1px solid #d9d9d9;
+  border: 1px solid @disabledColor;
   border-radius: 2px;
   outline: none;
   font-weight: 400;
@@ -16,7 +16,7 @@
   white-space: nowrap;
   color: rgb(0 0 0 / 85%);
   background-image: none;
-  background-color: #fff;
+  background-color: @baseBackgroundColor;
   box-shadow: 0 2px 0 rgb(0 0 0 / 4.5%);
   transition: all .3s ease-in-out;
   touch-action: manipulation;
@@ -65,48 +65,48 @@
   }
 
   &-background-ghost {
-    border-color: #fff;
-    color: #fff;
+    border-color: @baseBorderColor;
+    color: @baseColor;
     background: transparent !important;
   }
 }
 
 .wk-btn:hover {
-  border: 1px solid #409eff;
-  color: #409eff;
+  border: 1px solid @baseColor;
+  color: @baseColor;
   cursor: pointer;
 }
 
 .wk-btn:active {
   border: 1px solid #c6e2ff;
-  color: #409eff;
+  color: @baseColor;
   background: #ebf4fe;
 }
 
 /** primary状态 */
 .wk-btn-primary {
   border-color: @primaryColor;
-  color: #fff;
+  color: @primaryTextColor;
   background: @primaryColor;
 }
 
 .wk-btn-primary:hover {
-  border-color: #81bdfc;
-  color: #fff;
+  border-color: @primaryHoverBorderColor;
+  color: @primaryTextColor;
   background: @primaryHoverColor;
 }
 
 /** dashed状态 */
 .wk-btn-dashed {
   border-style: dashed;
-  border-color: #d9d9d9;
+  border-color: @dashedColor;
   color: rgb(0 0 0 / 85%);
-  background-color: #fff;
+  background-color: @dashedBackgroundColor;
 }
 
 .wk-btn-dashed:hover {
   border-style: dashed;
-  border-color: @primaryHoverColor;
+  border-color: @dashedHoverColor;
 }
 
 /** text状态 */
@@ -121,7 +121,7 @@
 .wk-btn-text:hover {
   border: none;
   color: rgb(0 0 0 / 85%);
-  background-color: #fafafa;
+  background-color: @baseHoverColor;
 }
 
 /** link状态 */
@@ -148,27 +148,27 @@
 
 /** danger状态 */
 .wk-btn-dangerous {
-  border-color: #ff4d4f;
-  color: #ff4d4f;
-  background: #fff;
+  border-color: @dangerousColor;
+  color: @dangerousColor;
+  background: @dangerousBackgroundColor;
 }
 
 .wk-btn-dangerous.wk-btn-primary {
-  border-color: #ff4d4f;
+  border-color: @dangerousColor;
   text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
-  color: #fff;
-  background: #ff4d4f;
+  color: @baseColor;
+  background: @dangerousColor;
   box-shadow: 0 2px 0 rgb(0 0 0 / 4.5%);
 }
 
 .wk-btn-dangerous.wk-btn-primary:hover {
-  border-color: #ff7875;
-  background: #ff7875;
+  border-color: @dangerousHoverColor;
+  background: @dangerousHoverColor;
 }
 
 .wk-btn-dangerous.wk-btn-dashed:hover {
-  border-color: #ff4d4f;
-  color: #ff7875;
+  border-color: @dangerousColor;
+  color: @dangerousHoverColor;
 }
 
 .wk-btn-dangerous.wk-btn-text {
@@ -177,8 +177,8 @@
 
 .wk-btn-dangerous.wk-btn-text:hover {
   border-color: none;
-  color: #ff7875;
-  background-color: #fafafa;
+  color: @dangerousHoverColor;
+  background-color: @baseHoverColor;
 }
 
 .wk-btn-dangerous.wk-btn-link {
@@ -187,13 +187,13 @@
 
 .wk-btn-dangerous.wk-btn-link:hover {
   border-color: none;
-  color: #ff7875;
+  color: @dangerousHoverColor;
 }
 
 /** disabled 状态 */
 .wk-btn[disabled],
 .wk-btn-primary[disabled] {
-  border-color: #d9d9d9;
+  border-color: @disabledColor;
   text-shadow: none;
   color: rgb(0 0 0 / 25%);
   background: #f5f5f5;
