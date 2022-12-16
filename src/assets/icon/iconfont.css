@@ -20,6 +20,10 @@
 }
 
 .wk-icon-delete::before {
+  content: "\e690";
+}
+
+.wk-icon-reduce::before {
   content: "\e702";
 }
 

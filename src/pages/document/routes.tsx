@@ -1,6 +1,7 @@
 import { Navigate } from 'react-router-dom'
 import { RoutesStruct } from '../router'
 import ButtonPage from './pages/button'
+import IconPage from './pages/icon'
 
 export const routes: RoutesStruct[] = [
   {
@@ -8,6 +9,12 @@ export const routes: RoutesStruct[] = [
     path: '/button',
     name: 'button文档',
     element: <ButtonPage />
+  },
+  {
+    index: true,
+    path: '/icon',
+    name: 'icon文档',
+    element: <IconPage />
   },
   {
     path: '*',

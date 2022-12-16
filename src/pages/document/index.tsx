@@ -46,7 +46,9 @@ const Document: React.FC = () => {
           </div>
         </div>
         <div className={styles['right']}>
-          <Router routes={routes} />
+          <div className={styles['content']}>
+            <Router routes={routes} />
+          </div>
         </div>
       </div>
     </div>
