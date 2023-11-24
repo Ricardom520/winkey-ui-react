@@ -1,20 +1,20 @@
 import React from 'react';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 
-import { IRoute } from '@/interface';
+// import { IRoute } from '@/interface';
 import Transition from '@/components/Transition';
 
-interface IProps extends IRoute {
-  transition?: boolean; // 开启跳转动画
-  page: {
-    [index: string]: any;
-  };
-  location: any;
-  history: any;
-}
+// interface IProps extends IRoute {
+//   transition?: boolean; // 开启跳转动画
+//   page: {
+//     [index: string]: any;
+//   };
+//   location: any;
+//   history: any;
+// }
 
 // 路由注册
-const Router: React.SFC<IProps> = ({ transition, page, location, history }) => {
+const Router: React.SFC<any> = ({ transition, page, location, history }) => {
   const key: string[] = Object.keys(page);
 
   const res = (
